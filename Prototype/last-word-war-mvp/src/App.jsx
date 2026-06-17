@@ -196,6 +196,37 @@ function App() {
 	}
 
 
+	async function startRoomGame() {
+		const { data, error } = await supabase
+			.from('rooms')
+			.select('*')
+			.eq('room_code', roomCode)
+			.single();
+
+		if (error || !data) {
+			console.error(error);
+			alert('Could not load room.');
+			return;
+		}
+
+		const updatedGameState = {
+			...data.game_state,
+			gamePhase: GAME_PHASES.ACTIVE,
+		};
+
+		const { error: updateError } = await supabase
+			.from('rooms')
+			.update({
+				game_state: updatedGameState,
+			})
+			.eq('room_code', roomCode);
+
+		if (updateError) {
+			console.error(updateError);
+			alert('Could not start game.');
+		}
+	}
+
 	useEffect(() => {
 		if (gamePhase !== GAME_PHASES.ACTIVE) {
 			return;
@@ -525,6 +556,19 @@ function App() {
 			</div>
 		)}
 
+
+		{roomCode &&
+				hasJoinedLobby &&
+				isHost &&
+				players.length >= 2 &&
+				gamePhase === GAME_PHASES.SETUP && (
+					<button
+					className="start-button"
+					onClick={startRoomGame}
+					>
+					Start Online Game
+					</button>
+				)}
 
 		<p className="subtitle">
 		A turn-based language, reasoning, and knowledge game.
