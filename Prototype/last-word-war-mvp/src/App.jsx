@@ -102,9 +102,21 @@ function App() {
 
 		const nextPlayer = (currentPlayerIndex + 1) % players.length;
 
+		if (
+			gamePhase === GAME_PHASES.FINAL_ROUND &&
+			nextPlayer === finalRoundStarterIndex
+		) {
+			determineWinner();
+			setTimeLeft(60);
+			setSentence('');
+			return;
+		}
+
 		setCurrentPlayerIndex(nextPlayer);
 		setTimeLeft(60);
 		setSentence('');
+
+
 	}
 
 
@@ -132,6 +144,23 @@ function App() {
 		}
 
 	}
+
+
+	function determineWinner() {
+		const highestScore = Math.max(...players.map((player) => player.score));
+
+		const topPlayers = players.filter(
+			(player) => player.score === highestScore
+		);
+
+		if (topPlayers.length === 1) {
+			setWinner(topPlayers[0]);
+			setGamePhase(GAME_PHASES.GAME_OVER);
+		} else {
+			alert('Tie detected. Sudden Death mode will be implemented next.');
+		}
+	}
+
 
 	return (
 		<main className="app-container">
