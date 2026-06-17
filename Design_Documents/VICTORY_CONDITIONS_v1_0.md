@@ -101,15 +101,15 @@ Example:
 Current Scores:
 
 * Victor = 10
-* Sarah = 8
-* Ahmed = 9
+* Sarah = 7
+* Oasis = 8
 
 Victor reaches the target score.
 
 The game continues until:
 
 * Sarah completes her turn.
-* Ahmed completes his turn.
+* Oasis completes her turn.
 
 Only then may the winner be determined.
 
@@ -124,8 +124,8 @@ Winner = Player with Highest Score
 Example:
 
 * Victor = 10
-* Sarah = 9
-* Ahmed = 8
+* Sarah = 7
+* Oasis = 9
 
 Winner:
 
@@ -150,12 +150,12 @@ All non-tied players are eliminated from contention.
 Example:
 
 * Victor = 10
-* Sarah = 10
-* Ahmed = 8
+* Oasis = 10
+* Sarah = 8
 
-Ahmed is eliminated.
+Sarah is eliminated.
 
-Victor and Sarah continue.
+Victor and Oasis continue.
 
 ---
 
@@ -187,8 +187,8 @@ Players:
 
 * Victor
 * Sarah
-* Ahmed
-* Grace
+* Oasis
+* Haywhy
 
 Scores:
 
