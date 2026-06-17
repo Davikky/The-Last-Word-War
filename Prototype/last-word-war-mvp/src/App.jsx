@@ -27,6 +27,9 @@ function App() {
 	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
 	const [roomCode, setRoomCode] = useState('');
 	const [isHost, setIsHost] = useState(false);
+	const [joinRoomCode, setJoinRoomCode] = useState('');
+	const [localPlayerName, setLocalPlayerName] = useState('');
+	const [hasJoinedLobby, setHasJoinedLobby] = useState(false);
 
 
 	function generateRoomCode() {
@@ -72,6 +75,88 @@ function App() {
 		setIsHost(true);
 
 		alert(`Room created: ${newRoomCode}`);
+	}
+
+
+	async function joinRoom() {
+		const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
+
+		if (normalizedRoomCode === '') {
+			alert('Please enter a room code.');
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('rooms')
+			.select('*')
+			.eq('room_code', normalizedRoomCode)
+			.single();
+
+		if (error || !data) {
+			console.error(error);
+			alert('Room not found.');
+			return;
+		}
+
+		setRoomCode(normalizedRoomCode);
+		setIsHost(false);
+
+		alert(`Joined room: ${normalizedRoomCode}`);
+	}
+
+
+	async function joinLobby() {
+		const trimmedName = localPlayerName.trim();
+
+		if (trimmedName === '') {
+			alert('Please enter your name.');
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('rooms')
+			.select('*')
+			.eq('room_code', roomCode)
+			.single();
+
+		if (error || !data) {
+			console.error(error);
+			alert('Room not found.');
+			return;
+		}
+
+		const existingGameState = data.game_state;
+
+		const existingPlayers = existingGameState.players || [];
+
+		const updatedPlayers = [
+			...existingPlayers,
+			{
+				name: trimmedName,
+				score: 0,
+			},
+		];
+
+		const updatedGameState = {
+			...existingGameState,
+			players: updatedPlayers,
+		};
+
+		const { error: updateError } = await supabase
+			.from('rooms')
+			.update({
+				game_state: updatedGameState,
+			})
+			.eq('room_code', roomCode);
+
+		if (updateError) {
+			console.error(updateError);
+			alert('Could not join lobby.');
+			return;
+		}
+
+		setPlayers(updatedPlayers);
+		setHasJoinedLobby(true);
 	}
 
 	useEffect(() => {
@@ -266,7 +351,7 @@ function App() {
 		if (topPlayers.length === 1) {
 			setWinner(topPlayers[0]);
 			setGamePhase(GAME_PHASES.GAME_OVER);
-	
+
 		} else {
 			const tiedPlayerNames = topPlayers.map((player) => player.name);
 
@@ -330,11 +415,39 @@ function App() {
 		Create Room
 		</button>
 
+		<div className="join-room-panel">
+		<input
+		type="text"
+		value={joinRoomCode}
+		onChange={(event) => setJoinRoomCode(event.target.value)}
+		placeholder="Enter room code"
+		/>
+
+		<button className="start-button" onClick={joinRoom}>
+		Join Room
+		</button>
+		</div>
 
 		{roomCode && (
 			<div className="status-box">
 			<p><strong>Room Code:</strong> {roomCode}</p>
 			<p>Share this code with another player.</p>
+			</div>
+		)}
+
+
+		{roomCode && !hasJoinedLobby && (
+			<div className="join-room-panel">
+			<input
+			type="text"
+			value={localPlayerName}
+			onChange={(event) => setLocalPlayerName(event.target.value)}
+			placeholder="Enter your player name"
+			/>
+
+			<button className="start-button" onClick={joinLobby}>
+			Enter Lobby
+			</button>
 			</div>
 		)}
 
