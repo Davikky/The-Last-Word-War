@@ -9,6 +9,7 @@ function App() {
 	const [currentWord, setCurrentWord] = useState('START');
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
+	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 
 	function addPlayer(event) {
 		event.preventDefault();
@@ -57,6 +58,8 @@ function App() {
 				extractedWord: lastWord,
 			},
 		]);
+
+		setLastSubmittedPlayerIndex(currentPlayerIndex);
 
 
 		setCurrentWord(lastWord);
@@ -134,15 +137,18 @@ function App() {
 			</button>
 			</form>
 
-			<div className="referee-buttons">
-			<button onClick={() => updateScore(currentPlayerIndex, 1)}>
-			Valid +1
-			</button>
 
-			<button onClick={() => updateScore(currentPlayerIndex, -2)}>
-			Invalid -2
-			</button>
-			</div>
+			{lastSubmittedPlayerIndex !== null && (
+				<div className="referee-buttons">
+				<button onClick={() => updateScore(lastSubmittedPlayerIndex, 1)}>
+				Valid +1
+				</button>
+
+				<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
+				Invalid -2
+				</button>
+				</div>
+			)}
 
 			</div>
 		)}
