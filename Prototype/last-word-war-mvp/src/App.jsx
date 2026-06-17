@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
+const GAME_PHASES = {
+	SETUP: 'SETUP',
+	ACTIVE: 'ACTIVE',
+	FINAL_ROUND: 'FINAL_ROUND',
+	SUDDEN_DEATH: 'SUDDEN_DEATH',
+	GAME_OVER: 'GAME_OVER',
+};
+
 function App() {
 	const [playerName, setPlayerName] = useState('');
 	const [players, setPlayers] = useState([]);
-	const [gamePhase, setGamePhase] = useState('SETUP');
+	const [gamePhase, setGamePhase] = useState(GAME_PHASES.SETUP);
 	const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 	const [currentWord, setCurrentWord] = useState('START');
 	const [sentence, setSentence] = useState('');
@@ -12,11 +20,12 @@ function App() {
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(60);
 	const [winner, setWinner] = useState(null);
+	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
 
 	useEffect(() => {
-		if (gamePhase !== 'ACTIVE') {
-  return;
-}
+		if (gamePhase !== GAME_PHASES.ACTIVE) {
+			return;
+		}
 
 		if (timeLeft <= 0) {
 			alert(`${players[currentPlayerIndex].name} timed out!`);
@@ -117,10 +126,11 @@ function App() {
 			(player) => player.score >= 10
 		);
 
-		if (winningPlayer) {
-			setWinner(winningPlayer);
-			setGamePhase('GAME_OVER');
+		if (winningPlayer && gamePhase === GAME_PHASES.ACTIVE) {
+			setGamePhase(GAME_PHASES.FINAL_ROUND);
+			setFinalRoundStarterIndex(playerIndex);
 		}
+
 	}
 
 	return (
@@ -142,8 +152,8 @@ function App() {
 		<button type="submit">Add Player</button>
 		</form>
 
-		{players.length >= 2 && gamePhase == 'SETUP' && (
-			<button className="start-button" onClick={() => setGamePhase('ACTIVE')}>
+		{players.length >= 2 && gamePhase === GAME_PHASES.SETUP && (
+			<button className="start-button" onClick={() => setGamePhase(GAME_PHASES.ACTIVE)}>
 			Start Game
 			</button>
 		)}
@@ -154,46 +164,52 @@ function App() {
 		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
 
-		{gamePhase == 'ACTIVE' && (
-			<div className="game-panel">
-			<h2>Game Started</h2>
+		{(gamePhase === GAME_PHASES.ACTIVE || 
+			gamePhase === GAME_PHASES.FINAL_ROUND) && (
+				<div className="game-panel">
 
-			<p><strong>Current Player:</strong> {players[currentPlayerIndex].name}</p>
-			<p><strong>Current Word:</strong> {currentWord}</p>
-			<p><strong>Time Remaining:</strong> {timeLeft} seconds</p>
+				<h2>
+				{gamePhase === GAME_PHASES.FINAL_ROUND
+					? 'Final Round'
+					: 'Game Started'}
+				</h2>
 
-			<form onSubmit={submitSentence}>
-			<input
-			type="text"
-			value={sentence}
-			onChange={(event) => setSentence(event.target.value)}
-			placeholder="Enter a sentence"
-			/>
+				<p><strong>Current Player:</strong> {players[currentPlayerIndex].name}</p>
+				<p><strong>Current Word:</strong> {currentWord}</p>
+				<p><strong>Time Remaining:</strong> {timeLeft} seconds</p>
 
-			<button type="submit">
-			Submit Sentence
-			</button>
-			</form>
+				<form onSubmit={submitSentence}>
+				<input
+				type="text"
+				value={sentence}
+				onChange={(event) => setSentence(event.target.value)}
+				placeholder="Enter a sentence"
+				/>
 
-			{lastSubmittedPlayerIndex !== null && (
-				<div className="referee-buttons">
-				<button onClick={() => updateScore(lastSubmittedPlayerIndex, -1)}>
-				Undo Point -1
+				<button type="submit">
+				Submit Sentence
 				</button>
+				</form>
 
-				<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
-				Penalty -2
-				</button>
+				{lastSubmittedPlayerIndex !== null && (
+					<div className="referee-buttons">
+					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -1)}>
+					Undo Point -1
+					</button>
+
+					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
+					Penalty -2
+					</button>
+					</div>
+				)}
+
+
+
 				</div>
 			)}
 
 
-
-			</div>
-		)}
-
-
-		{gamePhase == 'GAME_OVER' && winner && (
+		{gamePhase === GAME_PHASES.GAME_OVER && winner && (
 			<div className="winner-panel">
 			<h2>Game Over</h2>
 			<p><strong>Winner:</strong> {winner.name}</p>
