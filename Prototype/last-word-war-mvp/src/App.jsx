@@ -32,6 +32,16 @@ function App() {
 			return;
 		}
 
+		const firstWord = trimmedSentence
+			.split(/\s+/)[0]
+			.replace(/[^\w]/g, '')
+			.toUpperCase();
+
+		if (currentWord !== 'START' && firstWord !== currentWord) {
+			alert(`Sentence must begin with the current word: ${currentWord}`);
+			return;
+		}
+
 		const words = trimmedSentence.split(/\s+/);
 
 		const lastWord = words[words.length - 1]
