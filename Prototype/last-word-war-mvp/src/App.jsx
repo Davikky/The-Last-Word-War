@@ -67,6 +67,22 @@ function App() {
 		setSentence('');
 	}
 
+
+	function updateScore(playerIndex, change) {
+		const updatedPlayers = players.map((player, index) => {
+			if (index === playerIndex) {
+				return {
+					...player,
+					score: player.score + change,
+				};
+			}
+
+			return player;
+		});
+
+		setPlayers(updatedPlayers);
+	}
+
 	return (
 		<main className="app-container">
 		<section className="hero-card">
@@ -117,6 +133,17 @@ function App() {
 			Submit Sentence
 			</button>
 			</form>
+
+			<div className="referee-buttons">
+			<button onClick={() => updateScore(currentPlayerIndex, 1)}>
+			Valid +1
+			</button>
+
+			<button onClick={() => updateScore(currentPlayerIndex, -2)}>
+			Invalid -2
+			</button>
+			</div>
+
 			</div>
 		)}
 
