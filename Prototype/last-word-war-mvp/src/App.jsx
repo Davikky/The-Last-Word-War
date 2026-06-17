@@ -220,6 +220,43 @@ function App() {
 		return () => clearInterval(timer);
 	}, [gamePhase, timeLeft]);
 
+
+	useEffect(() => {
+		if (!roomCode) {
+			return;
+		}
+
+		const channel = supabase
+			.channel(`room-${roomCode}`)
+			.on(
+				'postgres_changes',
+				{
+					event: 'UPDATE',
+					schema: 'public',
+					table: 'rooms',
+					filter: `room_code=eq.${roomCode}`,
+				},
+				(payload) => {
+					const updatedRoom = payload.new;
+					const updatedGameState = updatedRoom.game_state;
+
+					setRoomData(updatedRoom);
+					setPlayers(updatedGameState.players || []);
+					setGamePhase(updatedGameState.gamePhase || GAME_PHASES.SETUP);
+					setCurrentPlayerIndex(updatedGameState.currentPlayerIndex || 0);
+					setCurrentWord(updatedGameState.currentWord || 'START');
+					setSentenceHistory(updatedGameState.sentenceHistory || []);
+					setWinner(updatedGameState.winner || null);
+				}
+			)
+			.subscribe();
+
+		return () => {
+			supabase.removeChannel(channel);
+		};
+	}, [roomCode]);
+
+
 	function addPlayer(event) {
 		event.preventDefault();
 
