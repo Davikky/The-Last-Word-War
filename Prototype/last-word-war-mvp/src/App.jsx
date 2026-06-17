@@ -21,6 +21,7 @@ function App() {
 	const [timeLeft, setTimeLeft] = useState(60);
 	const [winner, setWinner] = useState(null);
 	const [finalStandings, setFinalStandings] = useState([]);
+	const [suddenDeathPlayerNames, setSuddenDeathPlayerNames] = useState([]);
 	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
 	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
 
@@ -112,7 +113,15 @@ function App() {
 
 		setCurrentWord(lastWord);
 
-		const nextPlayer = (currentPlayerIndex + 1) % players.length;
+		let nextPlayer = (currentPlayerIndex + 1) % players.length;
+
+		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+			while (
+				!suddenDeathPlayerNames.includes(players[nextPlayer].name)
+			) {
+				nextPlayer = (nextPlayer + 1) % players.length;
+			}
+		}	
 
 		if (
 			gamePhase === GAME_PHASES.FINAL_ROUND &&
@@ -145,6 +154,11 @@ function App() {
 		});
 
 		setPlayers(updatedPlayers);
+
+		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+			checkSuddenDeathWinner(updatedPlayers);
+			return;
+		}
 
 		const winningPlayer = updatedPlayers.find(
 			(player) => player.score >= 10
@@ -203,8 +217,33 @@ function App() {
 		if (topPlayers.length === 1) {
 			setWinner(topPlayers[0]);
 			setGamePhase(GAME_PHASES.GAME_OVER);
+	
 		} else {
-			alert('Tie detected. Sudden Death mode will be implemented next.');
+			const tiedPlayerNames = topPlayers.map((player) => player.name);
+
+			setSuddenDeathPlayerNames(tiedPlayerNames);
+			setGamePhase(GAME_PHASES.SUDDEN_DEATH);
+			setWinner(null);
+		}
+	}
+
+
+	function checkSuddenDeathWinner(playerList) {
+		const activeSuddenDeathPlayers = playerList.filter((player) =>
+			suddenDeathPlayerNames.includes(player.name)
+		);
+
+		const sortedPlayers = [...activeSuddenDeathPlayers].sort(
+			(a, b) => b.score - a.score
+		);
+
+		const leader = sortedPlayers[0];
+		const secondPlace = sortedPlayers[1];
+
+		if (leader.score - secondPlace.score >= 2) {
+			setWinner(leader);
+			setFinalStandings(calculateStandings(playerList));
+			setGamePhase(GAME_PHASES.GAME_OVER);
 		}
 	}
 
@@ -226,6 +265,7 @@ function App() {
 		setSentence('');
 		setLastSubmittedPlayerIndex(null);
 		setFinalRoundStarterIndex(null);
+		setSuddenDeathPlayerNames([]);
 		setMatchStarterIndex(nextStarterIndex);
 		setGamePhase(GAME_PHASES.ACTIVE);
 	}
@@ -270,12 +310,16 @@ function App() {
 		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
 
-		{(gamePhase === GAME_PHASES.ACTIVE || 
-			gamePhase === GAME_PHASES.FINAL_ROUND) && (
+		{(gamePhase === GAME_PHASES.ACTIVE ||
+			gamePhase === GAME_PHASES.FINAL_ROUND ||
+			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
 				<div className="game-panel">
 
+
 				<h2>
-				{gamePhase === GAME_PHASES.FINAL_ROUND
+				{gamePhase === GAME_PHASES.SUDDEN_DEATH
+					? 'Sudden Death'
+					: gamePhase === GAME_PHASES.FINAL_ROUND
 					? 'Final Round'
 					: 'Game Started'}
 				</h2>
