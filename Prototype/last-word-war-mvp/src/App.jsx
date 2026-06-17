@@ -176,18 +176,19 @@ function App() {
 			</button>
 			</form>
 
-
 			{lastSubmittedPlayerIndex !== null && (
 				<div className="referee-buttons">
-				<button onClick={() => updateScore(lastSubmittedPlayerIndex, 1)}>
-				Valid +1
+				<button onClick={() => updateScore(lastSubmittedPlayerIndex, -1)}>
+				Undo Point -1
 				</button>
 
 				<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
-				Invalid -2
+				Penalty -2
 				</button>
 				</div>
 			)}
+
+
 
 			</div>
 		)}
