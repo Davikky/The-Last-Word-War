@@ -311,7 +311,7 @@ function App() {
 	}
 
 
-	function submitSentence(event) {
+	async function submitSentence(event) {
 		event.preventDefault();
 
 		const trimmedSentence = sentence.trim();
@@ -337,15 +337,77 @@ function App() {
 			.toUpperCase();
 
 		const currentPlayer = players[currentPlayerIndex];
-		setSentenceHistory([
+
+		if (!currentPlayer) {
+			return;
+		}
+
+		if (roomCode && hasJoinedLobby) {
+			if (currentPlayer.name !== localPlayerName.trim()) {
+				alert(`It is ${currentPlayer.name}'s turn.`);
+				return;
+			}
+
+			const updatedPlayers = players.map((player, index) => {
+				if (index === currentPlayerIndex) {
+					return {
+						...player,
+						score: player.score + 1,
+					};
+				}
+
+				return player;
+			});
+
+			const updatedSentenceHistory = [
+				...sentenceHistory,
+				{
+					player: currentPlayer.name,
+					sentence: trimmedSentence,
+					extractedWord: lastWord,
+				},
+			];
+
+			let nextPlayer = (currentPlayerIndex + 1) % players.length;
+
+			const updatedGameState = {
+				roomCode,
+				players: updatedPlayers,
+				gamePhase,
+				currentPlayerIndex: nextPlayer,
+				currentWord: lastWord,
+				sentenceHistory: updatedSentenceHistory,
+				winner,
+			};
+
+			const { error } = await supabase
+				.from('rooms')
+				.update({
+					game_state: updatedGameState,
+				})
+				.eq('room_code', roomCode);
+
+			if (error) {
+				console.error(error);
+				alert('Could not submit sentence.');
+				return;
+			}
+
+			setSentence('');
+			setTimeLeft(60);
+			return;
+		}
+
+		const updatedSentenceHistory = [
 			...sentenceHistory,
 			{
 				player: currentPlayer.name,
 				sentence: trimmedSentence,
 				extractedWord: lastWord,
 			},
-		]);
+		];
 
+		setSentenceHistory(updatedSentenceHistory);
 		setLastSubmittedPlayerIndex(currentPlayerIndex);
 
 		updateScore(currentPlayerIndex, 1);
@@ -355,12 +417,10 @@ function App() {
 		let nextPlayer = (currentPlayerIndex + 1) % players.length;
 
 		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-			while (
-				!suddenDeathPlayerNames.includes(players[nextPlayer].name)
-			) {
+			while (!suddenDeathPlayerNames.includes(players[nextPlayer].name)) {
 				nextPlayer = (nextPlayer + 1) % players.length;
 			}
-		}	
+		}
 
 		if (
 			gamePhase === GAME_PHASES.FINAL_ROUND &&
@@ -375,10 +435,7 @@ function App() {
 		setCurrentPlayerIndex(nextPlayer);
 		setTimeLeft(60);
 		setSentence('');
-
-
 	}
-
 
 	function updateScore(playerIndex, change) {
 		const updatedPlayers = players.map((player, index) => {
