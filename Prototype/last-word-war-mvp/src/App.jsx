@@ -4,20 +4,19 @@ import './App.css';
 function App() {
 	const [playerName, setPlayerName] = useState('');
 	const [players, setPlayers] = useState([]);
-	const [gameStarted, setGameStarted] = useState(false);
+	const [gamePhase, setGamePhase] = useState('SETUP');
 	const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 	const [currentWord, setCurrentWord] = useState('START');
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(60);
-	const [gameOver, setGameOver] = useState(false);
 	const [winner, setWinner] = useState(null);
 
 	useEffect(() => {
-		if (!gameStarted) {
-			return;
-		}
+		if (gamePhase !== 'ACTIVE') {
+  return;
+}
 
 		if (timeLeft <= 0) {
 			alert(`${players[currentPlayerIndex].name} timed out!`);
@@ -36,7 +35,7 @@ function App() {
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [gameStarted, timeLeft]);
+	}, [gamePhase, timeLeft]);
 
 	function addPlayer(event) {
 		event.preventDefault();
@@ -120,7 +119,7 @@ function App() {
 
 		if (winningPlayer) {
 			setWinner(winningPlayer);
-			setGameOver(true);
+			setGamePhase('GAME_OVER');
 		}
 	}
 
@@ -143,8 +142,8 @@ function App() {
 		<button type="submit">Add Player</button>
 		</form>
 
-		{players.length >= 2 && !gameStarted && (
-			<button className="start-button" onClick={() => setGameStarted(true)}>
+		{players.length >= 2 && gamePhase == 'SETUP' && (
+			<button className="start-button" onClick={() => setGamePhase('ACTIVE')}>
 			Start Game
 			</button>
 		)}
@@ -155,7 +154,7 @@ function App() {
 		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
 
-		{gameStarted && (
+		{gamePhase == 'ACTIVE' && (
 			<div className="game-panel">
 			<h2>Game Started</h2>
 
@@ -190,6 +189,15 @@ function App() {
 
 
 
+			</div>
+		)}
+
+
+		{gamePhase == 'GAME_OVER' && winner && (
+			<div className="winner-panel">
+			<h2>Game Over</h2>
+			<p><strong>Winner:</strong> {winner.name}</p>
+			<p><strong>Final Score:</strong> {winner.score}</p>
 			</div>
 		)}
 
