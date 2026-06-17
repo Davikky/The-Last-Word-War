@@ -30,6 +30,7 @@ function App() {
 	const [joinRoomCode, setJoinRoomCode] = useState('');
 	const [localPlayerName, setLocalPlayerName] = useState('');
 	const [hasJoinedLobby, setHasJoinedLobby] = useState(false);
+	const [roomData, setRoomData] = useState(null);
 
 
 	function generateRoomCode() {
@@ -74,6 +75,8 @@ function App() {
 		setRoomCode(newRoomCode);
 		setIsHost(true);
 
+		await loadRoom(newRoomCode);
+
 		alert(`Room created: ${newRoomCode}`);
 	}
 
@@ -100,6 +103,8 @@ function App() {
 
 		setRoomCode(normalizedRoomCode);
 		setIsHost(false);
+
+		await loadRoom(normalizedRoomCode);
 
 		alert(`Joined room: ${normalizedRoomCode}`);
 	}
@@ -157,7 +162,39 @@ function App() {
 
 		setPlayers(updatedPlayers);
 		setHasJoinedLobby(true);
+
+		await loadRoom(roomCode);
 	}
+
+
+	async function loadRoom(targetRoomCode = roomCode) {
+		if (!targetRoomCode) {
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('rooms')
+			.select('*')
+			.eq('room_code', targetRoomCode)
+			.single();
+
+		if (error || !data) {
+			console.error(error);
+			alert('Could not load room.');
+			return;
+		}
+
+		const gameState = data.game_state;
+
+		setRoomData(data);
+		setPlayers(gameState.players || []);
+		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
+		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
+		setCurrentWord(gameState.currentWord || 'START');
+		setSentenceHistory(gameState.sentenceHistory || []);
+		setWinner(gameState.winner || null);
+	}
+
 
 	useEffect(() => {
 		if (gamePhase !== GAME_PHASES.ACTIVE) {
