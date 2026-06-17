@@ -21,6 +21,7 @@ function App() {
 	const [timeLeft, setTimeLeft] = useState(60);
 	const [winner, setWinner] = useState(null);
 	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
+	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
 
 	useEffect(() => {
 		if (gamePhase !== GAME_PHASES.ACTIVE) {
@@ -162,6 +163,28 @@ function App() {
 	}
 
 
+	function resetMatch() {
+		const resetPlayers = players.map((player) => ({
+			...player,
+			score: 0,
+		}));
+
+		const nextStarterIndex = (matchStarterIndex + 1) % players.length;
+
+		setPlayers(resetPlayers);
+		setSentenceHistory([]);
+		setWinner(null);
+		setCurrentWord('START');
+		setCurrentPlayerIndex(nextStarterIndex);
+		setTimeLeft(60);
+		setSentence('');
+		setLastSubmittedPlayerIndex(null);
+		setFinalRoundStarterIndex(null);
+		setMatchStarterIndex(nextStarterIndex);
+		setGamePhase(GAME_PHASES.ACTIVE);
+	}
+
+
 	return (
 		<main className="app-container">
 		<section className="hero-card">
@@ -182,9 +205,17 @@ function App() {
 		</form>
 
 		{players.length >= 2 && gamePhase === GAME_PHASES.SETUP && (
-			<button className="start-button" onClick={() => setGamePhase(GAME_PHASES.ACTIVE)}>
+
+			<button
+			className="start-button"
+			onClick={() => {
+				setCurrentPlayerIndex(matchStarterIndex);
+				setGamePhase(GAME_PHASES.ACTIVE);
+			}}
+			>
 			Start Game
 			</button>
+
 		)}
 
 		<div className="status-box">
@@ -243,6 +274,9 @@ function App() {
 			<h2>Game Over</h2>
 			<p><strong>Winner:</strong> {winner.name}</p>
 			<p><strong>Final Score:</strong> {winner.score}</p>
+			<button className="start-button" onClick={resetMatch}>
+			Play Again
+			</button>
 			</div>
 		)}
 
