@@ -101,7 +101,7 @@ Example:
 Current Scores:
 
 * Victor = 10
-* Sarah = 7
+* Sarah = 6
 * Oasis = 8
 
 Victor reaches the target score.
