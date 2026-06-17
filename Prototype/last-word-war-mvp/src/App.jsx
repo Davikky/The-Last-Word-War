@@ -17,6 +17,14 @@ function App() {
 		}
 
 		if (timeLeft <= 0) {
+			alert(`${players[currentPlayerIndex].name} timed out!`);
+
+			updateScore(currentPlayerIndex, -1);
+
+			const nextPlayer = (currentPlayerIndex + 1) % players.length;
+			setCurrentPlayerIndex(nextPlayer);
+			setTimeLeft(60);
+
 			return;
 		}
 
