@@ -25,22 +25,42 @@ function App() {
 	const [suddenDeathPlayerNames, setSuddenDeathPlayerNames] = useState([]);
 	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
 	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
+	const [roomCode, setRoomCode] = useState('');
+	const [isHost, setIsHost] = useState(false);
 
 
-	async function createTestRoom() {
-		const roomCode = 'TEST' + Math.floor(Math.random() * 10000);
+	function generateRoomCode() {
+		const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+		let code = '';
 
-		const { data, error } = await supabase
+		for (let index = 0; index < 5; index += 1) {
+			code += letters[Math.floor(Math.random() * letters.length)];
+		}
+
+		return code;
+	}
+
+	async function createRoom() {
+		const newRoomCode = generateRoomCode();
+
+		const initialGameState = {
+			roomCode: newRoomCode,
+			players: [],
+			gamePhase: GAME_PHASES.SETUP,
+			currentPlayerIndex: 0,
+			currentWord: 'START',
+			sentenceHistory: [],
+			winner: null,
+		};
+
+		const { error } = await supabase
 			.from('rooms')
 			.insert([
 				{
-					room_code: roomCode,
-					game_state: {
-						status: 'test',
-					},
+					room_code: newRoomCode,
+					game_state: initialGameState,
 				},
-			])
-			.select();
+			]);
 
 		if (error) {
 			console.error(error);
@@ -48,10 +68,11 @@ function App() {
 			return;
 		}
 
-		console.log('Room created:', data);
-		alert(`Room created: ${roomCode}`);
-	}
+		setRoomCode(newRoomCode);
+		setIsHost(true);
 
+		alert(`Room created: ${newRoomCode}`);
+	}
 
 	useEffect(() => {
 		if (gamePhase !== GAME_PHASES.ACTIVE) {
@@ -305,11 +326,19 @@ function App() {
 		<h1>The Last Word War</h1>
 
 
-		<button className="start-button" onClick={createTestRoom}>
-		Test Supabase Room Creation
+		<button className="start-button" onClick={createRoom}>
+		Create Room
 		</button>
 
-		
+
+		{roomCode && (
+			<div className="status-box">
+			<p><strong>Room Code:</strong> {roomCode}</p>
+			<p>Share this code with another player.</p>
+			</div>
+		)}
+
+
 		<p className="subtitle">
 		A turn-based language, reasoning, and knowledge game.
 		</p>
