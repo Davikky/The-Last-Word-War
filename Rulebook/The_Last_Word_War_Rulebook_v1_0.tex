@@ -1,0 +1,869 @@
+\documentclass[11pt,a4paper]{article}
+
+% =========================================================
+% THE LAST WORD WAR
+% Official Game Archive and Implementation Rulebook
+% Author: Victor A. Adeyemi
+% Year: 2026
+% =========================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\setlist[itemize]{leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.7em}
+
+\title{\textbf{The Last Word War}\\
+\large Official Game Archive, Rulebook, and Implementation Guide}
+\author{Victor A. Adeyemi}
+\date{2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textit{A turn-based language, reasoning, creativity, and knowledge-chain game.}
+\end{center}
+
+\tableofcontents
+
+\newpage
+
+% =========================================================
+\section{Game Identity}
+
+\subsection{Name}
+
+The official name of the game is:
+
+\begin{center}
+\textbf{The Last Word War}
+\end{center}
+
+\subsection{Game Category}
+
+\textbf{The Last Word War} is a turn-based language and reasoning game designed for:
+
+\begin{itemize}
+    \item chat platforms;
+    \item classrooms;
+    \item study groups;
+    \item social gatherings;
+    \item language-learning sessions;
+    \item debate and communication training;
+    \item competitive tournaments;
+    \item AI-assisted educational platforms.
+\end{itemize}
+
+\subsection{Core Concept}
+
+Players construct meaningful sentences under a time limit. Each new sentence must begin conceptually from the last word of the previous player's sentence. The game rewards coherence, creativity, logical continuity, subject knowledge, and linguistic control.
+
+% =========================================================
+\section{Game Objective}
+
+The objective is to achieve the highest score or remain the final surviving participant, depending on the selected game mode.
+
+Players must:
+
+\begin{itemize}
+    \item respond within the allotted time;
+    \item construct grammatically meaningful sentences;
+    \item use the previous participant's last word appropriately;
+    \item maintain logical or thematic continuity where required;
+    \item satisfy all active difficulty rules;
+    \item avoid repetition, loopholes, and invalid constructions.
+\end{itemize}
+
+% =========================================================
+\section{Required Participants}
+
+\begin{itemize}
+    \item Minimum number of players: \textbf{2}
+    \item Maximum number of players: \textbf{Unlimited}
+\end{itemize}
+
+For more than two players, a fixed turn order must be established before the game begins.
+
+% =========================================================
+\section{Game Setup}
+
+Before play begins, participants must agree on:
+
+\begin{enumerate}
+    \item game duration;
+    \item response timer;
+    \item difficulty level;
+    \item scoring method;
+    \item challenge procedure;
+    \item endgame format;
+    \item permitted themes or special modes.
+\end{enumerate}
+
+\subsection{Example Setup}
+
+\begin{itemize}
+    \item Duration: 30 minutes
+    \item Timer: 60 seconds per turn
+    \item Difficulty: Medium
+    \item Mode: Standard Chain Mode
+    \item Endgame: Highest Score Wins
+\end{itemize}
+
+% =========================================================
+\section{Core Rule}
+
+Each participant must create a meaningful sentence using the last word of the previous participant's sentence as the starting concept for the next sentence.
+
+\subsection{Example}
+
+\begin{quote}
+\textbf{Player 1:} Knowledge creates opportunity.
+\end{quote}
+
+The last word is:
+
+\begin{quote}
+\textbf{opportunity}
+\end{quote}
+
+The next player may respond:
+
+\begin{quote}
+\textbf{Player 2:} Opportunity often comes after preparation.
+\end{quote}
+
+The new last word is:
+
+\begin{quote}
+\textbf{preparation}
+\end{quote}
+
+% =========================================================
+\section{Determining the Last Word}
+
+The last word is extracted from the previous sentence after removing:
+
+\begin{itemize}
+    \item punctuation marks;
+    \item emojis;
+    \item decorative symbols;
+    \item trailing spaces;
+    \item non-word characters.
+\end{itemize}
+
+\subsection{Example}
+
+\begin{quote}
+Learning never stops!
+\end{quote}
+
+After removing punctuation, the last word is:
+
+\begin{quote}
+\textbf{stops}
+\end{quote}
+
+\subsection{Hyphenated Words}
+
+Hyphenated words may be treated as one word unless players agree otherwise before the game begins.
+
+Example:
+
+\begin{quote}
+Machine-learning improves prediction.
+\end{quote}
+
+The first word may be treated as \textbf{Machine-learning}, while the last word is \textbf{prediction}.
+
+% =========================================================
+\section{Validity of Sentences}
+
+A sentence is considered valid if it satisfies all of the following conditions:
+
+\begin{enumerate}
+    \item It is grammatically meaningful.
+    \item It conveys a coherent idea.
+    \item It uses the required word or concept appropriately.
+    \item It satisfies all active game restrictions.
+    \item It is submitted before the timer expires.
+    \item It does not violate repetition rules.
+\end{enumerate}
+
+\subsection{Valid Example}
+
+\begin{quote}
+Preparation improves performance under pressure.
+\end{quote}
+
+\subsection{Invalid Example}
+
+\begin{quote}
+Books quickly orange happy.
+\end{quote}
+
+This is invalid because it is grammatically and semantically incoherent.
+
+% =========================================================
+\section{Continuity Types}
+
+Continuity determines how strongly a player's sentence connects to the previous sentence.
+
+\subsection{Literal Continuity}
+
+The required word is used directly in the next sentence.
+
+\begin{quote}
+\textbf{Word:} Energy\\
+\textbf{Sentence:} Energy can be transferred between systems.
+\end{quote}
+
+\subsection{Conceptual Continuity}
+
+The response uses the required word as a concept rather than merely repeating it mechanically.
+
+\begin{quote}
+\textbf{Word:} Energy\\
+\textbf{Sentence:} Energy conservation is central to classical mechanics.
+\end{quote}
+
+\subsection{Advanced Continuity}
+
+The response advances the previous idea logically, scientifically, narratively, or argumentatively.
+
+\begin{quote}
+\textbf{Previous sentence:} Energy can be transferred between systems.\\
+\textbf{Next sentence:} Systems exchange energy through work, heat, or radiation.
+\end{quote}
+
+Advanced continuity may receive bonus points.
+
+% =========================================================
+\section{Difficulty Levels}
+
+\subsection{Easy Mode}
+
+Requirements:
+
+\begin{itemize}
+    \item meaningful sentence;
+    \item correct use of the previous last word;
+    \item no strict thematic requirement.
+\end{itemize}
+
+\subsection{Medium Mode}
+
+Requirements:
+
+\begin{itemize}
+    \item all Easy Mode requirements;
+    \item logical continuity with the previous sentence;
+    \item avoidance of obviously false statements;
+    \item basic repetition restriction.
+\end{itemize}
+
+\subsection{Hard Mode}
+
+Requirements:
+
+\begin{itemize}
+    \item all Medium Mode requirements;
+    \item additional thematic restriction;
+    \item stronger penalty for weak continuity;
+    \item possible use of expert judging or AI moderation.
+\end{itemize}
+
+\subsection{Expert Mode}
+
+Requirements:
+
+\begin{itemize}
+    \item all Hard Mode requirements;
+    \item responses must remain within a specialized knowledge domain;
+    \item claims should be defensible or factually reasonable;
+    \item vague filler sentences are invalid;
+    \item technical vocabulary may receive additional points.
+\end{itemize}
+
+% =========================================================
+\section{Thematic Modes}
+
+The game may be played under a theme. In thematic modes, each sentence must remain relevant to the chosen domain.
+
+\begin{itemize}
+    \item Physics Mode
+    \item Mathematics Mode
+    \item Biology Mode
+    \item Chemistry Mode
+    \item History Mode
+    \item German Language Mode
+    \item Literature Mode
+    \item Quantum Computing Mode
+    \item Medical Science Mode
+    \item Engineering Mode
+    \item Story Mode
+\end{itemize}
+
+\subsection{Example: Physics Mode}
+
+\begin{quote}
+\textbf{Player 1:} Motion depends on the net force acting on an object.
+\end{quote}
+
+Last word:
+
+\begin{quote}
+\textbf{object}
+\end{quote}
+
+\begin{quote}
+\textbf{Player 2:} Objects with mass resist changes in motion because of inertia.
+\end{quote}
+
+% =========================================================
+\section{Scoring System}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Action} & \textbf{Score} \\
+\midrule
+Valid sentence & +1 \\
+Strong continuity & +1 \\
+Creative contribution & +1 \\
+Thematic accuracy & +1 \\
+Advanced vocabulary or technical use & +1 \\
+Timeout & $-1$ \\
+Invalid sentence & $-2$ \\
+Rule violation & $-2$ \\
+Failed challenge & $-1$ \\
+Successful challenge against opponent & +1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Recommended Scoring Principle}
+
+The base score should remain simple. Bonus points should reward quality without making the game slow. For casual games, use only valid sentence points and penalties. For tournaments, use the full scoring table.
+
+% =========================================================
+\section{Continuity Bonuses}
+
+Players are rewarded for maintaining long coherent chains.
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Coherent Chain Length} & \textbf{Bonus} \\
+\midrule
+5 turns & +2 \\
+10 turns & +5 \\
+20 turns & +10 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A chain is broken when a player submits an invalid sentence, times out, or violates the active rules.
+
+% =========================================================
+\section{Repetition Rule}
+
+To prevent circular gameplay, a word may not be reused within a fixed recent-window history.
+
+\subsection{Recommended Rule}
+
+A final word may not reappear within the previous \textbf{10 turns}.
+
+\subsection{Example}
+
+If the recent final-word history is:
+
+\begin{quote}
+knowledge, opportunity, preparation, discipline, success
+\end{quote}
+
+then a player should avoid ending their sentence with any of these words unless the agreed repetition window has expired.
+
+\subsection{Purpose}
+
+This rule prevents loops such as:
+
+\begin{quote}
+Knowledge creates opportunity.\\
+Opportunity creates knowledge.
+\end{quote}
+
+% =========================================================
+\section{Restricted and Weak Words}
+
+Some words are too broad and may weaken gameplay.
+
+\subsection{Examples of Weak Words}
+
+\begin{itemize}
+    \item thing
+    \item stuff
+    \item something
+    \item anything
+    \item everything
+    \item good
+    \item bad
+    \item nice
+\end{itemize}
+
+\subsection{Recommended Handling}
+
+Players may choose one of the following options:
+
+\begin{enumerate}
+    \item Ban weak words completely.
+    \item Allow weak words but give no bonus points.
+    \item Penalize repeated weak-word usage.
+\end{enumerate}
+
+% =========================================================
+\section{Word Energy System}
+
+The Word Energy System is an optional advanced scoring mechanic. It assigns strategic value to the final word chosen by each player.
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Word Type} & \textbf{Energy Value} \\
+\midrule
+Common everyday word & 1 \\
+Specific noun or verb & 2 \\
+Technical or academic term & 3 \\
+Rare or specialized term & 4 \\
+Interdisciplinary or high-level concept & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Example}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Word} & \textbf{Energy Value} \\
+\midrule
+chair & 1 \\
+migration & 2 \\
+photosynthesis & 3 \\
+superconductivity & 4 \\
+Hamiltonian & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Strategic Purpose}
+
+Players may deliberately end their sentences with difficult words to challenge the next participant. This creates a balance between scoring, creativity, and competitive pressure.
+
+% =========================================================
+\section{Challenge Mechanism}
+
+Any player may issue a challenge when a rule violation is suspected.
+
+\subsection{Grounds for Challenge}
+
+A challenge may be issued for:
+
+\begin{itemize}
+    \item grammatical incoherence;
+    \item weak or false continuity;
+    \item failure to use the required word;
+    \item thematic violation;
+    \item repetition violation;
+    \item timeout;
+    \item use of banned words;
+    \item fabricated or obviously false technical claims.
+\end{itemize}
+
+\subsection{Successful Challenge}
+
+If the challenge is successful:
+
+\begin{itemize}
+    \item the offending player loses 1 point;
+    \item the challenger gains 1 point, if tournament rules allow it;
+    \item the chain may be reset or continued from the last valid word.
+\end{itemize}
+
+\subsection{Failed Challenge}
+
+If the challenge fails:
+
+\begin{itemize}
+    \item the challenger loses 1 point;
+    \item the challenged sentence remains valid;
+    \item play continues normally.
+\end{itemize}
+
+% =========================================================
+\section{Endgame Formats}
+
+\subsection{Format A: Last Man Standing}
+
+At predetermined checkpoints, the lowest-scoring participant is eliminated. The process continues until only one participant remains.
+
+\subsection{Format B: Highest Score Wins}
+
+The game ends when the agreed duration expires. The participant with the highest score is declared the winner.
+
+\subsection{Format C: Tournament Structure}
+
+Participants advance through successive rounds until a final winner emerges.
+
+\subsection{Format D: Team Battle}
+
+Players are divided into teams. Each team collaborates internally, but only the assigned player may submit the official sentence during a turn.
+
+\subsection{Format E: Classroom Assessment}
+
+The instructor selects a theme and evaluates students based on accuracy, vocabulary, continuity, and creativity.
+
+% =========================================================
+\section{Special Modes}
+
+\subsection{Blitz Mode}
+
+Response timer: \textbf{30 seconds}
+
+\subsection{Lightning Mode}
+
+Response timer: \textbf{10 seconds}
+
+\subsection{Story Mode}
+
+Every sentence must contribute to a single evolving narrative.
+
+\subsection{Reverse Mode}
+
+Players use the first word instead of the last word.
+
+\subsection{No-Repetition Mode}
+
+No final word may be repeated during the entire round.
+
+\subsection{Expert Citation Mode}
+
+For academic or scientific themes, players may be required to make statements that are factually defensible. In formal settings, the referee may request a short explanation.
+
+% =========================================================
+\section{Attack and Defense Cards}
+
+Attack and Defense Cards are optional mechanics for competitive versions of the game.
+
+\subsection{Attack Card Examples}
+
+\begin{itemize}
+    \item \textbf{Theme Shift:} The next player must answer within a new theme.
+    \item \textbf{Technical Term:} The next player must use a technical concept.
+    \item \textbf{No Common Words:} The next player may not end with a common word.
+    \item \textbf{Double Timer Pressure:} The next player has half the normal time.
+    \item \textbf{Definition Demand:} The next player must define the required word in their sentence.
+\end{itemize}
+
+\subsection{Defense Card Examples}
+
+\begin{itemize}
+    \item \textbf{Extra Time:} Gain 30 additional seconds.
+    \item \textbf{Challenge Shield:} Cancel one challenge.
+    \item \textbf{Word Swap:} Replace the required word with a synonym.
+    \item \textbf{Theme Immunity:} Ignore one theme-shift attack.
+\end{itemize}
+
+% =========================================================
+\section{Official Scoreboard Template}
+
+\begin{verbatim}
+THE LAST WORD WAR
+
+Mode: Medium
+Duration: 30 Minutes
+Timer: 60 Seconds
+Theme: General Knowledge
+
+Victor .......... 12
+Sarah ........... 10
+Ahmed ........... 8
+Grace ........... 7
+
+Current Word:
+OPPORTUNITY
+
+Current Turn:
+Ahmed
+
+Recent Word History:
+knowledge | opportunity | preparation | discipline | success
+
+=================================
+\end{verbatim}
+
+% =========================================================
+\section{Implementation Logic}
+
+This section describes a possible digital implementation structure.
+
+\subsection{Core Data Structures}
+
+A simple implementation may track:
+
+\begin{itemize}
+    \item player names;
+    \item player scores;
+    \item current turn index;
+    \item previous sentence;
+    \item current required word;
+    \item recent word history;
+    \item timer status;
+    \item active game mode;
+    \item challenge records.
+\end{itemize}
+
+\subsection{Turn Algorithm}
+
+\begin{enumerate}
+    \item Display the current required word.
+    \item Start the timer.
+    \item Receive player sentence.
+    \item Stop the timer.
+    \item Extract the first relevant word and final word.
+    \item Validate grammar and meaning.
+    \item Validate continuity with the required word.
+    \item Check repetition history.
+    \item Check theme compliance.
+    \item Assign score.
+    \item Update word history.
+    \item Move to next player.
+\end{enumerate}
+
+\subsection{Pseudocode}
+
+\begin{verbatim}
+initialize players
+initialize scores
+choose mode, timer, and theme
+set starting sentence or starting word
+
+while game_not_over:
+    current_player = players[current_turn]
+    display current_word
+    start timer
+    sentence = receive_input(current_player)
+    stop timer
+
+    if timeout:
+        scores[current_player] -= 1
+        move_to_next_player()
+        continue
+
+    if is_valid(sentence, current_word, mode, theme):
+        scores[current_player] += base_score
+        scores[current_player] += bonus_score(sentence)
+        current_word = extract_last_word(sentence)
+        update_word_history(current_word)
+    else:
+        scores[current_player] -= penalty
+
+    resolve_challenges_if_any()
+    move_to_next_player()
+
+announce_winner(scores)
+\end{verbatim}
+
+% =========================================================
+\section{AI Referee Implementation}
+
+An AI-assisted referee can be used to evaluate:
+
+\begin{itemize}
+    \item grammatical correctness;
+    \item semantic coherence;
+    \item continuity strength;
+    \item thematic relevance;
+    \item technical accuracy;
+    \item repetition violations;
+    \item scoring suggestions.
+\end{itemize}
+
+\subsection{Recommended AI Referee Output}
+
+For each turn, the referee may return:
+
+\begin{verbatim}
+Sentence: valid / invalid
+Required word used: yes / no
+Continuity: weak / acceptable / strong
+Theme compliance: yes / no
+Suggested score: integer
+Reason: brief explanation
+New final word: extracted word
+\end{verbatim}
+
+\subsection{Human Override}
+
+In all official games, a human moderator may override the AI referee where context, humor, idiom, or cultural meaning is not properly interpreted.
+
+% =========================================================
+\section{Educational Applications}
+
+The game can be adapted for:
+
+\begin{itemize}
+    \item vocabulary development;
+    \item language learning;
+    \item physics education;
+    \item history revision;
+    \item scientific communication;
+    \item debate training;
+    \item critical thinking exercises;
+    \item classroom icebreakers;
+    \item postgraduate seminar warm-ups;
+    \item AI-literacy exercises.
+\end{itemize}
+
+\subsection{Classroom Example}
+
+In a physics classroom, the instructor may begin with:
+
+\begin{quote}
+Forces cause acceleration.
+\end{quote}
+
+Students must continue the chain while staying within mechanics, energy, momentum, waves, or another selected topic.
+
+% =========================================================
+\section{Digital Product Roadmap}
+
+\subsection{Minimum Viable Product}
+
+The first playable digital version should include:
+
+\begin{itemize}
+    \item player registration;
+    \item turn order;
+    \item timer;
+    \item sentence input;
+    \item automatic last-word extraction;
+    \item manual validation;
+    \item scoreboard;
+    \item game history.
+\end{itemize}
+
+\subsection{Intermediate Version}
+
+The intermediate version may include:
+
+\begin{itemize}
+    \item AI referee;
+    \item theme selection;
+    \item repetition detection;
+    \item challenge system;
+    \item tournament brackets;
+    \item player statistics;
+    \item classroom dashboard.
+\end{itemize}
+
+\subsection{Advanced Version}
+
+The advanced version may include:
+
+\begin{itemize}
+    \item mobile application;
+    \item web multiplayer;
+    \item voice input;
+    \item multilingual play;
+    \item educational analytics;
+    \item adaptive difficulty;
+    \item AI-generated themes;
+    \item downloadable certificates for classroom use.
+\end{itemize}
+
+% =========================================================
+\section{Possible Technology Stack}
+
+\subsection{Web Version}
+
+\begin{itemize}
+    \item Frontend: React, Vue, or Svelte
+    \item Backend: Node.js, Python FastAPI, or Django
+    \item Database: PostgreSQL, Firebase, or MongoDB
+    \item Real-time play: WebSockets
+    \item AI referee: Large language model API or local language model
+\end{itemize}
+
+\subsection{Mobile Version}
+
+\begin{itemize}
+    \item Flutter or React Native for cross-platform development
+    \item Firebase for authentication and real-time state
+    \item Cloud functions for moderation and scoring
+\end{itemize}
+
+\subsection{Offline Classroom Version}
+
+\begin{itemize}
+    \item Printable cards
+    \item Manual scoreboard
+    \item Teacher as referee
+    \item Optional spreadsheet scoring template
+\end{itemize}
+
+% =========================================================
+\section{Intellectual Property Archive}
+
+\subsection{Original Creator}
+
+The game concept, name, rules, and archive structure are attributed to:
+
+\begin{center}
+\textbf{Victor A. Adeyemi}
+\end{center}
+
+\subsection{Archival Statement}
+
+This document records the formal design, rule system, scoring structure, gameplay modes, and implementation direction for \textbf{The Last Word War} as an original language-and-reasoning game concept.
+
+\subsection{Copyright Notice}
+
+\begin{center}
+\textcopyright\ 2026 Victor A. Adeyemi\\
+\textbf{The Last Word War}\\
+All rights reserved.
+\end{center}
+
+% =========================================================
+\section{Version History}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Version} & \textbf{Date} & \textbf{Description} \\
+\midrule
+v0.1 & 2026 & Original rulebook draft \\
+v0.2 & 2026 & Expanded implementation archive \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
