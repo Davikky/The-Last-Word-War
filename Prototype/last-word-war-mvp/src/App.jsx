@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from './lib/supabase';
 import './App.css';
 
 const GAME_PHASES = {
@@ -24,6 +25,33 @@ function App() {
 	const [suddenDeathPlayerNames, setSuddenDeathPlayerNames] = useState([]);
 	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
 	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
+
+
+	async function createTestRoom() {
+		const roomCode = 'TEST' + Math.floor(Math.random() * 10000);
+
+		const { data, error } = await supabase
+			.from('rooms')
+			.insert([
+				{
+					room_code: roomCode,
+					game_state: {
+						status: 'test',
+					},
+				},
+			])
+			.select();
+
+		if (error) {
+			console.error(error);
+			alert('Room creation failed');
+			return;
+		}
+
+		console.log('Room created:', data);
+		alert(`Room created: ${roomCode}`);
+	}
+
 
 	useEffect(() => {
 		if (gamePhase !== GAME_PHASES.ACTIVE) {
@@ -276,6 +304,12 @@ function App() {
 		<section className="hero-card">
 		<h1>The Last Word War</h1>
 
+
+		<button className="start-button" onClick={createTestRoom}>
+		Test Supabase Room Creation
+		</button>
+
+		
 		<p className="subtitle">
 		A turn-based language, reasoning, and knowledge game.
 		</p>
