@@ -20,6 +20,7 @@ function App() {
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(60);
 	const [winner, setWinner] = useState(null);
+	const [finalStandings, setFinalStandings] = useState([]);
 	const [finalRoundStarterIndex, setFinalRoundStarterIndex] = useState(null);
 	const [matchStarterIndex, setMatchStarterIndex] = useState(0);
 
@@ -59,6 +60,16 @@ function App() {
 		setPlayers([...players, { name: trimmedName, score: 0 }]);
 		setPlayerName('');
 	}
+
+
+	function removePlayer(playerIndex) {
+		const updatedPlayers = players.filter(
+			(_, index) => index !== playerIndex
+		);
+
+		setPlayers(updatedPlayers);
+	}
+
 
 	function submitSentence(event) {
 		event.preventDefault();
@@ -147,7 +158,42 @@ function App() {
 	}
 
 
+	function calculateStandings(playerList) {
+		const sortedPlayers = [...playerList].sort(
+			(a, b) => b.score - a.score
+		);
+
+		let previousScore = null;
+		let previousRank = 0;
+
+		return sortedPlayers.map((player, index) => {
+			let rank;
+
+			if (player.score === previousScore) {
+				rank = previousRank;
+			} else {
+				rank = index + 1;
+			}
+
+			previousScore = player.score;
+			previousRank = rank;
+
+			return {
+				...player,
+				rank,
+				isTied: sortedPlayers.filter(
+					(otherPlayer) => otherPlayer.score === player.score
+				).length > 1,
+			};
+		});
+	}
+
+
+
 	function determineWinner() {
+		const standings = calculateStandings(players);
+		setFinalStandings(standings);
+
 		const highestScore = Math.max(...players.map((player) => player.score));
 
 		const topPlayers = players.filter(
@@ -271,14 +317,34 @@ function App() {
 
 		{gamePhase === GAME_PHASES.GAME_OVER && winner && (
 			<div className="winner-panel">
-			<h2>Game Over</h2>
-			<p><strong>Winner:</strong> {winner.name}</p>
-			<p><strong>Final Score:</strong> {winner.score}</p>
+			<h2>🏆 Game Over</h2>
+
+			<p className="winner-name">
+			<strong>Winner:</strong> {winner.name}
+			</p>
+
+			<h3>Final Standings</h3>
+
+			<ol className="standings-list">
+			{finalStandings.map((player, index) => (
+				<li key={index}>
+				<span>
+				{player.rank}
+				{player.isTied ? 'T' : ''}. {player.name}
+				</span>
+
+				<span>{player.score} points</span>
+				</li>
+			))}
+			</ol>
+
 			<button className="start-button" onClick={resetMatch}>
 			Play Again
 			</button>
 			</div>
 		)}
+
+
 
 		{sentenceHistory.length > 0 && (
 			<div className="history-panel">
@@ -304,8 +370,17 @@ function App() {
 		) : (
 			<ul>
 			{players.map((player, index) => (
+
 				<li key={index}>
+				<span>
 				{index + 1}. {player.name} — {player.score} points
+				</span>
+
+				{gamePhase === GAME_PHASES.SETUP && (
+					<button onClick={() => removePlayer(index)}>
+					Remove
+					</button>
+				)}
 				</li>
 			))}
 			</ul>
