@@ -11,6 +11,9 @@ function App() {
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(60);
+	const [gameOver, setGameOver] = useState(false);
+	const [winner, setWinner] = useState(null);
+
 	useEffect(() => {
 		if (!gameStarted) {
 			return;
@@ -85,6 +88,7 @@ function App() {
 
 		setLastSubmittedPlayerIndex(currentPlayerIndex);
 
+		updateScore(currentPlayerIndex, 1);
 
 		setCurrentWord(lastWord);
 
@@ -109,6 +113,15 @@ function App() {
 		});
 
 		setPlayers(updatedPlayers);
+
+		const winningPlayer = updatedPlayers.find(
+			(player) => player.score >= 10
+		);
+
+		if (winningPlayer) {
+			setWinner(winningPlayer);
+			setGameOver(true);
+		}
 	}
 
 	return (
