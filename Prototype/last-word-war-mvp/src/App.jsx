@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -10,6 +10,22 @@ function App() {
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
+	const [timeLeft, setTimeLeft] = useState(60);
+	useEffect(() => {
+		if (!gameStarted) {
+			return;
+		}
+
+		if (timeLeft <= 0) {
+			return;
+		}
+
+		const timer = setInterval(() => {
+			setTimeLeft((previousTime) => previousTime - 1);
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, [gameStarted, timeLeft]);
 
 	function addPlayer(event) {
 		event.preventDefault();
@@ -67,6 +83,7 @@ function App() {
 		const nextPlayer = (currentPlayerIndex + 1) % players.length;
 
 		setCurrentPlayerIndex(nextPlayer);
+		setTimeLeft(60);
 		setSentence('');
 	}
 
@@ -123,6 +140,7 @@ function App() {
 
 			<p><strong>Current Player:</strong> {players[currentPlayerIndex].name}</p>
 			<p><strong>Current Word:</strong> {currentWord}</p>
+			<p><strong>Time Remaining:</strong> {timeLeft} seconds</p>
 
 			<form onSubmit={submitSentence}>
 			<input
