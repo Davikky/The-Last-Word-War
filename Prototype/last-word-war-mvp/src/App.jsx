@@ -736,7 +736,26 @@ function App() {
 	return (
 		<main className="app-container">
 		<section className="hero-card">
+		
 		<h1>The Last Word War</h1>
+
+
+
+		<div className="landing-message">
+		<p>War is not the goal of this GAME at all.</p>
+		<p>All it seeks is to promote HUMAN interactions;</p>
+		<p>Interactions built firmly upon the previous LAST WORD.</p>
+
+		<br />
+
+		<p>Create a room or join one.</p>
+
+		<br />
+
+		<p><strong>[ Humans Only ]</strong></p>
+		</div>
+
+
 
 
 		<button className="start-button" onClick={createRoom}>
@@ -792,22 +811,6 @@ function App() {
 					Start Online Game
 					</button>
 				)}
-
-
-		<div className="landing-message">
-		<p>War is not the goal of this GAME at all.</p>
-		<p>All it seeks is to promote HUMAN interactions;</p>
-		<p>Interactions built firmly upon the previous LAST WORD.</p>
-
-		<br />
-
-		<p>Create a room or join one.</p>
-
-		<br />
-
-		<p><strong>[ Humans Only ]</strong></p>
-		</div>
-
 
 		<form className="player-form" onSubmit={addPlayer}>
 		<input

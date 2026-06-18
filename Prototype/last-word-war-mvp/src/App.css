@@ -25,8 +25,10 @@
 }
 
 .hero-card h1 {
-        font-size: 3rem;
+        font-size: clamp(2rem, 9vw, 3rem);
+        line-height: 1.1;
         margin-bottom: 1rem;
+        color: #f9fafb;
 }
 
 .hero-card h2,
@@ -209,6 +211,3 @@ textarea::placeholder {
         gap: 1rem;
 }
 
-.hero-card h1 {
-        color: #f9fafb !important;
-}
