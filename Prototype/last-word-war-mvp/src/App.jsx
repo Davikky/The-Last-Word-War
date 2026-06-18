@@ -20,6 +20,7 @@ function App() {
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(60);
+	const [turnDeadline, setTurnDeadline] = useState(null);
 	const [winner, setWinner] = useState(null);
 	const [finalStandings, setFinalStandings] = useState([]);
 	const [suddenDeathPlayerNames, setSuddenDeathPlayerNames] = useState([]);
@@ -193,6 +194,7 @@ function App() {
 		setCurrentWord(gameState.currentWord || 'START');
 		setSentenceHistory(gameState.sentenceHistory || []);
 		setWinner(gameState.winner || null);
+		setTurnDeadline(gameState.turnDeadline || null);
 	}
 
 
@@ -212,6 +214,7 @@ function App() {
 		const updatedGameState = {
 			...data.game_state,
 			gamePhase: GAME_PHASES.ACTIVE,
+			turnDeadline: Date.now() + 60000,
 		};
 
 		const { error: updateError } = await supabase
@@ -227,29 +230,38 @@ function App() {
 		}
 	}
 
+
 	useEffect(() => {
-		if (gamePhase !== GAME_PHASES.ACTIVE) {
-			return;
-		}
-
-		if (timeLeft <= 0) {
-			alert(`${players[currentPlayerIndex].name} timed out!`);
-
-			updateScore(currentPlayerIndex, -1);
-
-			const nextPlayer = (currentPlayerIndex + 1) % players.length;
-			setCurrentPlayerIndex(nextPlayer);
-			setTimeLeft(60);
-
+		if (
+			gamePhase !== GAME_PHASES.ACTIVE &&
+			gamePhase !== GAME_PHASES.FINAL_ROUND &&
+			gamePhase !== GAME_PHASES.SUDDEN_DEATH
+		) {
 			return;
 		}
 
 		const timer = setInterval(() => {
-			setTimeLeft((previousTime) => previousTime - 1);
+			if (roomCode && turnDeadline) {
+				const remainingTime = Math.max(
+					0,
+					Math.ceil((turnDeadline - Date.now()) / 1000)
+				);
+
+				setTimeLeft(remainingTime);
+				return;
+			}
+
+			setTimeLeft((previousTime) => {
+				if (previousTime <= 0) {
+					return 0;
+				}
+
+				return previousTime - 1;
+			});
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [gamePhase, timeLeft]);
+	}, [gamePhase, roomCode, turnDeadline]);
 
 
 	useEffect(() => {
@@ -278,6 +290,7 @@ function App() {
 					setCurrentWord(updatedGameState.currentWord || 'START');
 					setSentenceHistory(updatedGameState.sentenceHistory || []);
 					setWinner(updatedGameState.winner || null);
+					setTurnDeadline(updatedGameState.turnDeadline || null);
 				}
 			)
 			.subscribe();
@@ -370,15 +383,17 @@ function App() {
 
 			let nextPlayer = (currentPlayerIndex + 1) % players.length;
 
+
 			const updatedGameState = {
-				roomCode,
-				players: updatedPlayers,
-				gamePhase,
-				currentPlayerIndex: nextPlayer,
-				currentWord: lastWord,
-				sentenceHistory: updatedSentenceHistory,
-				winner,
+				...evaluateOnlineGameState({
+					updatedPlayers,
+					updatedSentenceHistory,
+					lastWord,
+					nextPlayer,
+				}),
+				turnDeadline: Date.now() + 60000,
 			};
+
 
 			const { error } = await supabase
 				.from('rooms')
@@ -496,6 +511,85 @@ function App() {
 				).length > 1,
 			};
 		});
+	}
+
+
+
+
+	function evaluateOnlineGameState({
+		updatedPlayers,
+		updatedSentenceHistory,
+		lastWord,
+		nextPlayer,
+	}) {
+		let updatedGamePhase = gamePhase;
+		let updatedWinner = winner;
+		let updatedFinalStandings = finalStandings;
+		let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
+		let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
+
+		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+			const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
+				suddenDeathPlayerNames.includes(player.name)
+			);
+
+			const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
+				(a, b) => b.score - a.score
+			);
+
+			const leader = sortedSuddenDeathPlayers[0];
+			const secondPlace = sortedSuddenDeathPlayers[1];
+
+			if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
+				updatedWinner = leader;
+				updatedFinalStandings = calculateStandings(updatedPlayers);
+				updatedGamePhase = GAME_PHASES.GAME_OVER;
+			}
+		}
+
+		if (gamePhase === GAME_PHASES.FINAL_ROUND && nextPlayer === finalRoundStarterIndex) {
+			const standings = calculateStandings(updatedPlayers);
+			updatedFinalStandings = standings;
+
+			const highestScore = Math.max(...updatedPlayers.map((player) => player.score));
+
+			const topPlayers = updatedPlayers.filter(
+				(player) => player.score === highestScore
+			);
+
+			if (topPlayers.length === 1) {
+				updatedWinner = topPlayers[0];
+				updatedGamePhase = GAME_PHASES.GAME_OVER;
+			} else {
+				updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
+				updatedWinner = null;
+				updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+			}
+		}
+
+		if (gamePhase === GAME_PHASES.ACTIVE) {
+			const winningPlayerIndex = updatedPlayers.findIndex(
+				(player) => player.score >= 10
+			);
+
+			if (winningPlayerIndex !== -1) {
+				updatedGamePhase = GAME_PHASES.FINAL_ROUND;
+				updatedFinalRoundStarterIndex = winningPlayerIndex;
+			}
+		}
+
+		return {
+			roomCode,
+			players: updatedPlayers,
+			gamePhase: updatedGamePhase,
+			currentPlayerIndex: nextPlayer,
+			currentWord: lastWord,
+			sentenceHistory: updatedSentenceHistory,
+			winner: updatedWinner,
+			finalStandings: updatedFinalStandings,
+			suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
+			finalRoundStarterIndex: updatedFinalRoundStarterIndex,
+		};
 	}
 
 
