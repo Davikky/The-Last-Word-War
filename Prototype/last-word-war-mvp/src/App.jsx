@@ -1099,6 +1099,17 @@ function App() {
 			{roomCode ? 'Start Rematch' : 'Play Again'}
 			</button>
 
+
+			<a
+			className="feedback-button"
+			href="https://forms.gle/XBmDWmfaSz9M8dZn8"
+			target="_blank"
+			rel="noreferrer"
+			>
+			Leave Feedback
+			</a>
+
+
 			</div>
 		)}
 

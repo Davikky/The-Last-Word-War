@@ -228,3 +228,14 @@ textarea::placeholder {
         text-align: center;
         font-weight: bold;
 }
+
+.feedback-button {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.9rem 1.5rem;
+        border-radius: 10px;
+        background: #f9fafb;
+        color: #111827;
+        font-weight: bold;
+        text-decoration: none;
+}
