@@ -1,20 +1,35 @@
 # The Last Word War
 
-A human-centered competitive language game where players build meaning together under structured constraints.
+War is not the goal of this GAME at all.
+
+All it seeks is to promote HUMAN interactions;
+
+Interactions built firmly upon the previous LAST WORD.
 
 ---
 
-## Vision
 
-The Last Word War is designed to create meaningful, enjoyable, and intellectually stimulating interactions between human beings.
+The Last Word War is a human-centered multiplayer language game where players build conversations by continuing from the final word of the previous sentence.
 
-The game combines language, reasoning, creativity, and knowledge into a structured competitive experience.
-
-Unlike many modern systems that focus on Human ↔ AI interaction, The Last Word War is intentionally built around:
+The project is intentionally designed around:
 
 Human ↔ Human
 
-with AI serving only as:
+interaction, with technology serving only to facilitate meaningful communication.
+
+---
+
+## Philosophy
+
+War is not the goal of this game at all.
+
+All it seeks is to promote human interactions;
+
+Interactions built firmly upon the previous last word.
+
+Unlike many modern systems that prioritize Human ↔ AI interaction, The Last Word War places human conversation at the center of the experience.
+
+AI is intended only to serve as:
 
 * Referee
 * Moderator
@@ -22,15 +37,13 @@ with AI serving only as:
 * Educational Assistant
 * Expert Judge
 
-Human interaction remains the center of the experience.
+Humans remain the primary participants.
 
 ---
 
-## Core Gameplay
+## Core Rule
 
-Players take turns constructing sentences.
-
-Each new sentence must begin with the final word of the previous sentence.
+Each player must begin their sentence using the final word from the previous sentence.
 
 Example:
 
@@ -46,97 +59,103 @@ Player 3:
 
 > Innovation drives economic growth.
 
-The chain continues until a player fails to respond within the allowed time.
+The conversation continues until a player fails to respond correctly or within the allotted time.
 
 ---
 
-## Current Features
+## Features
 
-### Core Engine
+### Gameplay
 
-* Player registration
-* Turn management
-* Sentence history
-* Automatic scoring
+* Sentence-chain mechanics
+* Automatic last-word extraction
+* Automatic rule validation
+* Shared sentence history
+* Turn-based multiplayer
+* Countdown timer
 * Timeout penalties
 
 ### Match Flow
 
 * Setup phase
 * Active play
-* Final round
-* Sudden death
-* Game over
+* Final Round
+* Sudden Death
+* Game Over
 
-### Victory System
+### Competitive Systems
 
-* Automatic winner determination
+* Automatic scoring
+* Winner determination
 * Tie-aware standings
-* Win-by-two sudden death resolution
+* Win-by-two Sudden Death
 
-### Match Management
+### Multiplayer
 
-* Quick rematch
-* Rotating match starter
-* Player removal during setup
+* Online room creation
+* Room joining
+* Shared lobby
+* Realtime synchronization
+* Shared timers
+* Shared game state
+* Shared rematch system
 
-### Multiplayer Foundation
+---
 
-* Supabase backend
+## Current Development Status
+
+Version:
+
+v0.1.0-alpha
+
+Status:
+
+Stable Alpha
+
+Completed:
+
+* Local multiplayer prototype
+* Remote multiplayer
+* Final Round system
+* Sudden Death system
+* Timeout synchronization
+* Winner synchronization
+* Online rematch synchronization
+* Public deployment
+* Initial external playtesting
+
+Current Focus:
+
+* UX improvements
+* Additional playtesting
+* AI referee foundation
+
+---
+
+## Playtesting Status
+
+External Playtests Completed:
+
+1
+
+Latest Result:
+
+Host: Oasis
+
+Guest: Davikky
+
+Result:
+
+Successful completion of a full remote multiplayer match.
+
+The playtest validated:
+
 * Room creation
 * Room joining
-* Lobby entry
-* Shared room persistence
-
----
-
-## Project Philosophy
-
-The Last Word War is fundamentally a human-to-human interaction platform.
-
-The project aims to encourage:
-
-* Communication
-* Learning
-* Creativity
-* Critical thinking
-* Friendly competition
-
-Education is considered a first-class use case.
-
-Future educational modes may include:
-
-* Physics
-* Mathematics
-* History
-* Cryptography
-* Language Learning
-* Scientific Communication
-
----
-
-## Roadmap
-
-### Completed
-
-* Local playable prototype
-* Final round system
-* Sudden death system
-* Multiplayer backend foundation
-
-### In Progress
-
-* Shared multiplayer lobby
-* Realtime synchronization
-* Remote two-player gameplay
-
-### Planned
-
-* AI referee
-* Educational game modes
-* Classroom edition
-* Tournament support
-* Spectator mode
+* Turn synchronization
+* Timeout handling
+* Sudden Death
+* Winner determination
 
 ---
 
@@ -153,6 +172,10 @@ Backend
 * PostgreSQL
 * Supabase Realtime
 
+Deployment
+
+* Vercel
+
 Version Control
 
 * Git
@@ -163,27 +186,44 @@ Version Control
 ## Repository Structure
 
 ```text
+Artwork/
 Design_Documents/
-Development_Journal/
+Legal/
+Marketing/
+Prototype/
 Releases/
-src/
+Research/
+Rulebook/
+Website/
 ```
 
 ---
 
-## Current Development Status
+## Roadmap
 
-Current Version:
+### Completed
 
-v0.0.9
+* Local playable prototype
+* Remote multiplayer
+* Shared room system
+* Final Round engine
+* Sudden Death engine
+* Public deployment
 
-Latest Major Feature:
+### In Progress
 
-Sudden Death Engine
+* UX refinement
+* Structured playtesting
+* Feedback collection
 
-Current Focus:
+### Planned
 
-Remote Human-to-Human Multiplayer
+* AI referee
+* Educational modes
+* Classroom edition
+* Tournament support
+* Spectator mode
+* Analytics dashboard
 
 ---
 
@@ -196,7 +236,4 @@ Victor A. Adeyemi
 ## License
 
 License to be determined.
-
-```
-```
 
