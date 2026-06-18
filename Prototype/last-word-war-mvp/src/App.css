@@ -1,191 +1,191 @@
 .app-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #111827;
-        color: #f9fafb;
-        font-family: Arial, sans-serif;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #111827;
+	color: #f9fafb;
+	font-family: Arial, sans-serif;
 }
 
 /* Main card */
 
 :root {
-        color-scheme: dark;
+	color-scheme: dark;
 }
 
 .hero-card {
-        max-width: 700px;
-        padding: 3rem;
-        border-radius: 20px;
-        background: #1f2937;
-        color: #f9fafb;
-        text-align: center;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+	max-width: 700px;
+	padding: 3rem;
+	border-radius: 20px;
+	background: #1f2937;
+	color: #f9fafb;
+	text-align: center;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
 .hero-card h1 {
-        font-size: clamp(2rem, 9vw, 3rem);
-        line-height: 1.1;
-        margin-bottom: 1rem;
-        color: #f9fafb;
+	font-size: clamp(2rem, 9vw, 3rem);
+	line-height: 1.1;
+	margin-bottom: 1rem;
+	color: #f9fafb;
 }
 
 .hero-card h2,
 .hero-card h3,
 .hero-card p {
-        color: #f9fafb;
+	color: #f9fafb;
 }
 
 /* Landing message */
 
 .landing-message {
-        margin-top: 1rem;
-        margin-bottom: 2rem;
-        text-align: center;
-        line-height: 1.6;
-        color: #f9fafb;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	text-align: center;
+	line-height: 1.6;
+	color: #f9fafb;
 }
 
 .landing-message p {
-        margin: 0.25rem 0;
+	margin: 0.25rem 0;
 }
 
 /* Shared controls */
 
 button,
 .start-button {
-        background: #f9fafb;
-        color: #111827;
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
+	background: #f9fafb;
+	color: #111827;
+	border: none;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .start-button {
-        margin-bottom: 1.5rem;
-        padding: 0.9rem 1.5rem;
-        border-radius: 10px;
+	margin-bottom: 1.5rem;
+	padding: 0.9rem 1.5rem;
+	border-radius: 10px;
 }
 
 input,
 textarea {
-        background: #f9fafb;
-        color: #111827;
+	background: #f9fafb;
+	color: #111827;
 }
 
 input::placeholder,
 textarea::placeholder {
-        color: #6b7280;
+	color: #6b7280;
 }
 
 /* Status box */
 
 .status-box {
-        text-align: left;
-        background: #374151;
-        color: #f9fafb;
-        padding: 1.5rem;
-        border-radius: 12px;
+	text-align: left;
+	background: #374151;
+	color: #f9fafb;
+	padding: 1.5rem;
+	border-radius: 12px;
 }
 
 /* Player form */
 
 .player-form {
-        display: flex;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
+	display: flex;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
 }
 
 .player-form input {
-        flex: 1;
-        padding: 0.85rem;
-        border-radius: 10px;
-        border: none;
-        font-size: 1rem;
+	flex: 1;
+	padding: 0.85rem;
+	border-radius: 10px;
+	border: none;
+	font-size: 1rem;
 }
 
 .player-form button {
-        padding: 0.85rem 1.2rem;
-        border-radius: 10px;
+	padding: 0.85rem 1.2rem;
+	border-radius: 10px;
 }
 
 /* Players section */
 
 .players-section {
-        margin-top: 2rem;
-        text-align: left;
-        color: #f9fafb;
+	margin-top: 2rem;
+	text-align: left;
+	color: #f9fafb;
 }
 
 .players-section h2 {
-        margin-bottom: 0.75rem;
+	margin-bottom: 0.75rem;
 }
 
 .players-section ul {
-        list-style: none;
-        padding: 0;
+	list-style: none;
+	padding: 0;
 }
 
 .players-section li {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        background: #374151;
-        margin-bottom: 0.5rem;
-        padding: 0.75rem;
-        border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	background: #374151;
+	margin-bottom: 0.5rem;
+	padding: 0.75rem;
+	border-radius: 8px;
 }
 
 .players-section button {
-        padding: 0.4rem 0.75rem;
-        border-radius: 8px;
+	padding: 0.4rem 0.75rem;
+	border-radius: 8px;
 }
 
 /* Game panel */
 
 .game-panel {
-        margin-top: 1.5rem;
-        padding: 1.5rem;
-        border-radius: 12px;
-        background: #111827;
-        color: #f9fafb;
-        text-align: left;
-        border: 1px solid #4b5563;
+	margin-top: 1.5rem;
+	padding: 1.5rem;
+	border-radius: 12px;
+	background: #111827;
+	color: #f9fafb;
+	text-align: left;
+	border: 1px solid #4b5563;
 }
 
 .game-panel h2,
 .game-panel h3 {
-        color: #f9fafb;
+	color: #f9fafb;
 }
 
 .game-panel form {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1rem;
+	display: flex;
+	gap: 0.75rem;
+	margin-top: 1rem;
 }
 
 .game-panel input {
-        flex: 1;
-        padding: 0.85rem;
-        border-radius: 10px;
-        border: none;
-        font-size: 1rem;
+	flex: 1;
+	padding: 0.85rem;
+	border-radius: 10px;
+	border: none;
+	font-size: 1rem;
 }
 
 .game-panel button,
 .referee-buttons button {
-        padding: 0.85rem 1.2rem;
-        border-radius: 10px;
+	padding: 0.85rem 1.2rem;
+	border-radius: 10px;
 }
 
 /* Referee controls */
 
 .referee-buttons {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1rem;
+	display: flex;
+	gap: 0.75rem;
+	margin-top: 1rem;
 }
 
 /* Winner panel */
@@ -193,21 +193,28 @@ textarea::placeholder {
 .winner-panel,
 .winner-panel h2,
 .winner-panel h3 {
-        color: #f9fafb;
+	color: #f9fafb;
 }
 
 /* Standings */
 
 .standings-list {
-        list-style-position: inside;
-        padding: 0;
+	list-style-position: inside;
+	padding: 0;
 }
 
 .standings-list li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.4rem 0;
-        gap: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.4rem 0;
+	gap: 1rem;
 }
 
+.lobby-status {
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border-radius: 10px;
+	background: #374151;
+	text-align: center;
+}

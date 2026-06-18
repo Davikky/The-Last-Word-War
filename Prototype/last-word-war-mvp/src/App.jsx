@@ -32,6 +32,7 @@ function App() {
 	const [localPlayerName, setLocalPlayerName] = useState('');
 	const [hasJoinedLobby, setHasJoinedLobby] = useState(false);
 	const [roomData, setRoomData] = useState(null);
+	const [hostName, setHostName] = useState('');
 
 
 	function generateRoomCode() {
@@ -143,10 +144,13 @@ function App() {
 			},
 		];
 
+
 		const updatedGameState = {
 			...existingGameState,
 			players: updatedPlayers,
+			hostName: isHost ? trimmedName : existingGameState.hostName,
 		};
+
 
 		const { error: updateError } = await supabase
 			.from('rooms')
@@ -189,6 +193,7 @@ function App() {
 
 		setRoomData(data);
 		setPlayers(gameState.players || []);
+		setHostName(gameState.hostName || '');
 		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
 		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
 		setCurrentWord(gameState.currentWord || 'START');
@@ -295,6 +300,7 @@ function App() {
 					setRoomData(updatedRoom);
 					setPlayers(updatedGameState.players || []);
 					setGamePhase(updatedGameState.gamePhase || GAME_PHASES.SETUP);
+					setHostName(updatedGameState.hostName || '');
 					setCurrentPlayerIndex(updatedGameState.currentPlayerIndex || 0);
 					setCurrentWord(updatedGameState.currentWord || 'START');
 					setSentenceHistory(updatedGameState.sentenceHistory || []);
@@ -329,10 +335,38 @@ function App() {
 	}
 
 
-	function removePlayer(playerIndex) {
+
+	async function removePlayer(playerIndex) {
+		if (roomCode && hasJoinedLobby && !isHost) {
+			alert('Only the host can remove players.');
+			return;
+		}
+
 		const updatedPlayers = players.filter(
 			(_, index) => index !== playerIndex
 		);
+
+		if (roomCode && hasJoinedLobby) {
+			const updatedGameState = {
+				...roomData.game_state,
+				players: updatedPlayers,
+			};
+
+			const { error } = await supabase
+				.from('rooms')
+				.update({
+					game_state: updatedGameState,
+				})
+				.eq('room_code', roomCode);
+
+			if (error) {
+				console.error(error);
+				alert('Could not remove player.');
+				return;
+			}
+
+			return;
+		}
 
 		setPlayers(updatedPlayers);
 	}
@@ -1062,6 +1096,26 @@ function App() {
 		<div className="players-section">
 		<h2>Players</h2>
 
+
+		{roomCode && hasJoinedLobby && gamePhase === GAME_PHASES.SETUP && (
+			<div className="lobby-status">
+			{isHost ? (
+				<p>
+				<strong>You are the Host.</strong>
+				<br />
+				Start the game when everyone has joined.
+				</p>
+			) : (
+				<p>
+				<strong>
+				Waiting for {hostName || 'Host'} to Start the Game...
+				</strong>	
+				</p>
+			)}
+			</div>
+		)}
+
+
 		{players.length === 0 ? (
 			<p>No players added yet.</p>
 		) : (
@@ -1073,11 +1127,13 @@ function App() {
 				{index + 1}. {player.name} — {player.score} points
 				</span>
 
-				{gamePhase === GAME_PHASES.SETUP && (
+
+				{gamePhase === GAME_PHASES.SETUP && (!roomCode || isHost) && (
 					<button onClick={() => removePlayer(index)}>
 					Remove
 					</button>
 				)}
+
 				</li>
 			))}
 			</ul>
