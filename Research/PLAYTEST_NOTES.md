@@ -263,3 +263,17 @@ This validates the core design philosophy of The Last Word War.
 
 End of Playtest #1
 
+Follow-up Investigation
+
+Date: 2026-06-18
+
+Three-player local testing revealed a Sudden Death rotation issue.
+
+The issue allowed eliminated players to continue receiving turns.
+
+The issue was reproduced, fixed, and verified locally.
+
+Status:
+
+Resolved
+

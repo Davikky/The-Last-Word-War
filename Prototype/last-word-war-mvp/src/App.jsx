@@ -269,7 +269,7 @@ function App() {
 		}, 1000);
 
 		return () => clearInterval(timer);
-	}, [gamePhase, roomCode, turnDeadline]);
+	}, [gamePhase, roomCode, turnDeadline, isHost, currentPlayerIndex]);
 
 
 	useEffect(() => {
@@ -392,20 +392,40 @@ function App() {
 				},
 			];
 
+
+
 			let nextPlayer = (currentPlayerIndex + 1) % players.length;
 
+			if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+				nextPlayer = getNextEligiblePlayerIndex(
+					updatedPlayers,
+					nextPlayer,
+					suddenDeathPlayerNames
+				);
+			}
+
+			const evaluatedGameState = evaluateOnlineGameState({
+				updatedPlayers,
+				updatedSentenceHistory,
+				lastWord,
+				nextPlayer,
+			});
+
+			if (evaluatedGameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+				nextPlayer = getNextEligiblePlayerIndex(
+					updatedPlayers,
+					nextPlayer,
+					evaluatedGameState.suddenDeathPlayerNames
+				);
+			}
 
 			const updatedGameState = {
-				...evaluateOnlineGameState({
-					updatedPlayers,
-					updatedSentenceHistory,
-					lastWord,
-					nextPlayer,
-				}),
+				...evaluatedGameState,
 				currentWord: lastWord,
 				currentPlayerIndex: nextPlayer,
 				turnDeadline: Date.now() + 60000,
 			};
+
 
 
 			const { error } = await supabase
@@ -527,6 +547,25 @@ function App() {
 	}
 
 
+	function getNextEligiblePlayerIndex(playerList, startIndex, eligiblePlayerNames) {
+		if (!eligiblePlayerNames || eligiblePlayerNames.length === 0) {
+			return startIndex;
+		}
+
+		let candidateIndex = startIndex;
+		let attempts = 0;
+
+		while (
+			attempts < playerList.length &&
+			!eligiblePlayerNames.includes(playerList[candidateIndex].name)
+		) {
+			candidateIndex = (candidateIndex + 1) % playerList.length;
+			attempts += 1;
+		}
+
+		return candidateIndex;
+	}
+
 
 
 	function evaluateOnlineGameState({
@@ -628,10 +667,10 @@ function App() {
 
 		const gameState = data.game_state;
 		const currentPlayers = gameState.players || [];
-		const activePlayerIndex = gameState.currentPlayerIndex || 0;
+		const activePlayerIndex = gameState.currentPlayerIndex ?? 0;
 		const activePlayer = currentPlayers[activePlayerIndex];
 
-		if (!activePlayer) {
+		if (!activePlayer || currentPlayers.length === 0) {
 			return;
 		}
 
@@ -648,6 +687,17 @@ function App() {
 
 		let nextPlayer = (activePlayerIndex + 1) % currentPlayers.length;
 
+		if (gameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+			const activeSuddenDeathNames = gameState.suddenDeathPlayerNames || [];
+
+			while (
+				activeSuddenDeathNames.length > 0 &&
+				!activeSuddenDeathNames.includes(currentPlayers[nextPlayer].name)
+			) {
+				nextPlayer = (nextPlayer + 1) % currentPlayers.length;
+			}
+		}
+
 		const updatedGameState = {
 			...gameState,
 			players: updatedPlayers,
@@ -655,10 +705,23 @@ function App() {
 			turnDeadline: Date.now() + 60000,
 		};
 
+		const evaluatedGameState = {
+			...updatedGameState,
+			...evaluateOnlineGameState({
+				updatedPlayers,
+				updatedSentenceHistory: gameState.sentenceHistory || [],
+				lastWord: gameState.currentWord || 'START',
+				nextPlayer,
+			}),
+			currentWord: gameState.currentWord || 'START',
+			currentPlayerIndex: nextPlayer,
+			turnDeadline: Date.now() + 60000,
+		};
+
 		const { error: updateError } = await supabase
 			.from('rooms')
 			.update({
-				game_state: updatedGameState,
+				game_state: evaluatedGameState,
 			})
 			.eq('room_code', roomCode);
 
@@ -746,9 +809,9 @@ function App() {
 		<p>War is not the goal of this GAME at all.</p>
 		<p>All it seeks is to promote HUMAN interactions;</p>
 		<p>Interactions built firmly upon the previous LAST WORD.</p>
-		
+
 		<br />
-		
+
 		<p><strong>[WORD GAME FOR HUMANS ONLY]</strong></p>
 		</div>
 

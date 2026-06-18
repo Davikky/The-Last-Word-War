@@ -118,3 +118,46 @@ Not bugs, but known improvements:
 * Component refactor
 * AI referee integration
 
+
+BUG-0004
+
+Date: 2026-06-18
+
+Title:
+
+Sudden Death Rotation Included Eliminated Players
+
+Status:
+
+RESOLVED
+
+Reported During:
+
+Playtest #1 Follow-up Investigation
+
+Description:
+
+In multiplayer Sudden Death mode with three players,
+a player who was not tied for first place remained in the turn rotation.
+
+Expected Behaviour:
+
+Only players participating in Sudden Death should receive turns.
+
+Root Cause:
+
+Online turn rotation continued using normal player rotation logic instead of restricting turns to suddenDeathPlayerNames.
+
+Fix:
+
+Added eligible-player filtering during online turn selection.
+
+Verification:
+
+Three-player local test completed successfully.
+Eliminated players were skipped during Sudden Death.
+Winner determination remained correct.
+
+Resolved In:
+
+v0.1.0-alpha
