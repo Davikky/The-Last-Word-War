@@ -2,193 +2,119 @@
 
 Project: The Last Word War
 
-Author: Victor A. Adeyemi
-
-Purpose:
-
-This document records discovered defects, their root causes, resolutions, and validation status.
-
-The objective is to preserve engineering knowledge and prevent previously solved issues from reappearing in future releases.
-
----
-
-# Bug Status Definitions
-
-OPEN
-
-Bug has been identified but not yet fixed.
-
----
-
-IN PROGRESS
-
-Investigation or implementation is underway.
-
----
-
-RESOLVED
-
-A fix has been implemented.
-
----
-
-VERIFIED
-
-The fix has been tested and confirmed.
-
----
-
-# Bug Registry
-
 ---
 
 ## BUG-0001
 
+Date: 2026-06-18
+
 Title:
 
-Online Game Completion Synchronization Failure
+Winner Not Declared After Final Round
 
----
+Status:
 
-Date Discovered:
+RESOLVED
 
-2026-06-18
+Reported During:
 
----
+Remote Match Test v0.1.0
 
-Version:
+Description:
+
+The game continued indefinitely after a winner had emerged.
+
+Expected Behaviour:
+
+The game should enter GAME_OVER state and display the winner.
+
+Root Cause:
+
+Winner determination was not being triggered correctly at the end of the Final Round cycle.
+
+Fix:
+
+Updated final-round completion logic and winner synchronization.
+
+Verification:
+
+Remote multiplayer match completed successfully and winner displayed on both clients.
+
+Resolved In:
 
 v0.1.0-alpha
 
 ---
 
+## BUG-0002
+
+Date: 2026-06-18
+
+Title:
+
+Online Current Word Failed To Update
+
 Status:
 
-VERIFIED
+RESOLVED
 
----
+Reported During:
 
-Discovered During:
-
-REMOTE_MATCH_TEST_v0_1_0.md
-
-Test 10: Game Completion
-
----
+UX Improvement Round 1
 
 Description:
 
-During remote multiplayer testing, a winner successfully emerged but the game continued indefinitely instead of transitioning to GAME_OVER.
+After a valid sentence submission, the displayed Current Word remained unchanged.
 
-The winner was not consistently synchronized across connected clients.
+Because the Current Word never changed, the sentence validation rule:
 
----
+"Sentence must begin with the current word"
 
-Observed Behavior:
+was effectively bypassed.
 
-Player reaches winning condition.
+Expected Behaviour:
 
-↓
-
-Winner exists.
-
-↓
-
-Match continues.
-
-↓
-
-GAME_OVER does not trigger correctly.
-
----
-
-Expected Behavior:
-
-Player reaches winning condition.
-
-↓
-
-Winner determined.
-
-↓
-
-GAME_OVER state entered.
-
-↓
-
-Winner screen displayed on all clients.
-
----
+The Current Word should update to the extracted last word after every valid submission.
 
 Root Cause:
 
-Incomplete synchronization of room state.
+The online game-state update did not explicitly synchronize currentWord and currentPlayerIndex into Supabase.
 
-The following fields were not loaded and synchronized correctly:
+Fix:
 
-* finalStandings
-* suddenDeathPlayerNames
-* finalRoundStarterIndex
+Added explicit synchronization:
 
-As a result, clients lacked sufficient information to complete Final Round and Sudden Death evaluation consistently.
+* currentWord: lastWord
+* currentPlayerIndex: nextPlayer
 
----
+during online state updates.
 
-Resolution:
+Verification:
 
-Added synchronization support for:
+1. Current Word updates after every valid submission.
+2. Invalid first words are rejected.
+3. Rule enforcement restored.
+4. Multiplayer synchronization confirmed.
 
-* finalStandings
-* suddenDeathPlayerNames
-* finalRoundStarterIndex
+Resolved In:
 
-Updated:
-
-* loadRoom()
-* realtime room subscription
-
-to load and synchronize the missing fields.
+v0.1.0-alpha
 
 ---
 
-Validation:
+# Open Bugs
 
-Remote multiplayer match retested successfully.
-
-Winner correctly displayed.
-
-GAME_OVER entered correctly.
-
-Standings synchronized correctly.
+None
 
 ---
 
-Lessons Learned:
+# Future Improvements
 
-Realtime systems require complete state synchronization.
+Not bugs, but known improvements:
 
-Partial synchronization may appear to work during normal gameplay while failing at edge-case transitions such as victory determination.
-
-Integration testing is required to identify these issues.
-
----
-
-Related Documents:
-
-* Research/REMOTE_MATCH_TEST_v0_1_0.md
-* Releases/v0.1.0-alpha.md
-
----
-
-# Metrics
-
-Total Bugs Logged: 1
-
-OPEN: 0
-
-IN PROGRESS: 0
-
-RESOLVED: 0
-
-VERIFIED: 1
+* Feedback button
+* External playtesting
+* Mobile layout refinement
+* Component refactor
+* AI referee integration
 
