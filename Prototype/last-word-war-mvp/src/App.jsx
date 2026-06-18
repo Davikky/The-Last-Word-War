@@ -248,6 +248,11 @@ function App() {
 				);
 
 				setTimeLeft(remainingTime);
+
+				if (remainingTime === 0 && isHost) {
+					processOnlineTimeout();
+				}
+
 				return;
 			}
 
@@ -592,6 +597,67 @@ function App() {
 		};
 	}
 
+
+	async function processOnlineTimeout() {
+		if (!roomCode || !isHost || !turnDeadline) {
+			return;
+		}
+
+		if (Date.now() < turnDeadline) {
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('rooms')
+			.select('*')
+			.eq('room_code', roomCode)
+			.single();
+
+		if (error || !data) {
+			console.error(error);
+			return;
+		}
+
+		const gameState = data.game_state;
+		const currentPlayers = gameState.players || [];
+		const activePlayerIndex = gameState.currentPlayerIndex || 0;
+		const activePlayer = currentPlayers[activePlayerIndex];
+
+		if (!activePlayer) {
+			return;
+		}
+
+		const updatedPlayers = currentPlayers.map((player, index) => {
+			if (index === activePlayerIndex) {
+				return {
+					...player,
+					score: player.score - 1,
+				};
+			}
+
+			return player;
+		});
+
+		let nextPlayer = (activePlayerIndex + 1) % currentPlayers.length;
+
+		const updatedGameState = {
+			...gameState,
+			players: updatedPlayers,
+			currentPlayerIndex: nextPlayer,
+			turnDeadline: Date.now() + 60000,
+		};
+
+		const { error: updateError } = await supabase
+			.from('rooms')
+			.update({
+				game_state: updatedGameState,
+			})
+			.eq('room_code', roomCode);
+
+		if (updateError) {
+			console.error(updateError);
+		}
+	}
 
 
 	function determineWinner() {
