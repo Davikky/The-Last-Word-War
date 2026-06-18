@@ -206,6 +206,32 @@ Resolved In:
 
 v0.1.0-alpha
 
+BUG-0006
+
+Date: 2026-06-18
+
+Title:
+Host Could Remove Self From Lobby
+
+Status:
+RESOLVED
+
+Description:
+The lobby allowed the host to remove themselves before match start.
+
+Expected:
+Host may remove guests but cannot remove self.
+
+Fix:
+Remove button hidden for host entry.
+
+Verification:
+Host removal no longer possible.
+Guest removal remains functional and synchronized.
+
+Resolved In:
+v0.1.0-alpha
+
 
 Open Bugs
 

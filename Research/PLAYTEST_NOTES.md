@@ -308,3 +308,91 @@ Status:
 
 Fixed and verified.
 
+
+### Post-Playtest Stabilization
+
+Date: 2026-06-18
+
+Following Playtest #1, additional local and multiplayer validation was performed.
+
+#### Issue: Sudden Death Rotation
+
+Observation:
+
+In a three-player match, a player who was not eligible for Sudden Death continued receiving turns.
+
+Impact:
+
+Sudden Death rules were violated.
+
+Resolution:
+
+Turn rotation was restricted to players participating in Sudden Death.
+
+Status:
+
+Resolved and verified.
+
+---
+
+#### Issue: Online Rematch Synchronization
+
+Observation:
+
+Different users could trigger independent match resets.
+
+Impact:
+
+Clients could become desynchronized after Game Over.
+
+Resolution:
+
+Rematch authority was assigned to the Host and synchronized through Supabase.
+
+Status:
+
+Resolved and verified.
+
+---
+
+#### Issue: Host Self-Removal
+
+Observation:
+
+The Host could remove themselves from the lobby during setup.
+
+Impact:
+
+The authoritative room controller could disappear before match start.
+
+Resolution:
+
+Hosts may remove guests but cannot remove themselves.
+
+Status:
+
+Resolved and verified.
+
+---
+
+### Additional Verification Completed
+
+Verified Successfully:
+
+* Three-player multiplayer rotation
+* Consecutive timeout handling
+* Guest timeout penalties
+* Host timeout penalties
+* Final Round transition
+* Sudden Death transition
+* Winner determination
+* Online rematch synchronization
+* Lobby authority enforcement
+
+---
+
+### Current Assessment
+
+The multiplayer alpha is considered stable for continued usability testing and external playtesting.
+
+
