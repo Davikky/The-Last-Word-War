@@ -1,4 +1,4 @@
-# The Last Word War
+# [The Last Word War](https://the-last-word-war.vercel.app)
 
 War is not the goal of this GAME at all.
 
