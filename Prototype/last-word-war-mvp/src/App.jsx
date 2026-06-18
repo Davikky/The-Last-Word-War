@@ -194,7 +194,10 @@ function App() {
 		setCurrentWord(gameState.currentWord || 'START');
 		setSentenceHistory(gameState.sentenceHistory || []);
 		setWinner(gameState.winner || null);
-		setTurnDeadline(gameState.turnDeadline || null);
+		setFinalStandings(gameState.finalStandings || []);
+		setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
+		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
+		setTurnDeadline(gameState.turnDeadline || null);	
 	}
 
 
@@ -295,6 +298,9 @@ function App() {
 					setCurrentWord(updatedGameState.currentWord || 'START');
 					setSentenceHistory(updatedGameState.sentenceHistory || []);
 					setWinner(updatedGameState.winner || null);
+					setFinalStandings(updatedGameState.finalStandings || []);
+					setSuddenDeathPlayerNames(updatedGameState.suddenDeathPlayerNames || []);
+					setFinalRoundStarterIndex(updatedGameState.finalRoundStarterIndex ?? null);
 					setTurnDeadline(updatedGameState.turnDeadline || null);
 				}
 			)
