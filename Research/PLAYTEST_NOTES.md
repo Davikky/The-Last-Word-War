@@ -372,7 +372,19 @@ Hosts may remove guests but cannot remove themselves.
 Status:
 
 Resolved and verified.
+---
 
+### Additional Stabilization
+
+Timeout notifications were implemented and synchronized across clients.
+
+A regression temporarily prevented timeout processing.
+
+The issue was identified, corrected, and verified.
+
+Status:
+
+Resolved.
 ---
 
 ### Additional Verification Completed

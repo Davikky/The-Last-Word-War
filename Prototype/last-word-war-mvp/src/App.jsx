@@ -33,6 +33,8 @@ function App() {
 	const [hasJoinedLobby, setHasJoinedLobby] = useState(false);
 	const [roomData, setRoomData] = useState(null);
 	const [hostName, setHostName] = useState('');
+	const [notification, setNotification] = useState('');
+
 
 
 	function generateRoomCode() {
@@ -204,6 +206,7 @@ function App() {
 		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
 		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
 		setTurnDeadline(gameState.turnDeadline || null);
+		setNotification(updatedGameState.notification || '');
 	}
 
 
@@ -310,6 +313,7 @@ function App() {
 					setFinalRoundStarterIndex(updatedGameState.finalRoundStarterIndex ?? null);
 					setMatchStarterIndex(updatedGameState.matchStarterIndex ?? 0);
 					setTurnDeadline(updatedGameState.turnDeadline || null);
+					setNotification(updatedGameState.notification || '');
 				}
 
 			)
@@ -461,8 +465,8 @@ function App() {
 				currentWord: lastWord,
 				currentPlayerIndex: nextPlayer,
 				turnDeadline: Date.now() + 60000,
+				notification: '',
 			};
-
 
 
 			const { error } = await supabase
@@ -735,25 +739,26 @@ function App() {
 			}
 		}
 
-		const updatedGameState = {
-			...gameState,
-			players: updatedPlayers,
-			currentPlayerIndex: nextPlayer,
-			turnDeadline: Date.now() + 60000,
-		};
+
+		const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
+
+		const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
 
 		const evaluatedGameState = {
-			...updatedGameState,
+			...gameState,
 			...evaluateOnlineGameState({
 				updatedPlayers,
 				updatedSentenceHistory: gameState.sentenceHistory || [],
 				lastWord: gameState.currentWord || 'START',
 				nextPlayer,
 			}),
+			players: updatedPlayers,
 			currentWord: gameState.currentWord || 'START',
 			currentPlayerIndex: nextPlayer,
 			turnDeadline: Date.now() + 60000,
+			notification: timeoutNotification,
 		};
+
 
 		const { error: updateError } = await supabase
 			.from('rooms')
@@ -994,6 +999,12 @@ function App() {
 		)}
 
 
+
+		{notification && (
+			<div className="notification-banner">
+			{notification}
+			</div>
+		)}
 
 
 		{sentenceHistory.length > 0 && (

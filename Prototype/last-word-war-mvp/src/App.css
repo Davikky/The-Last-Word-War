@@ -218,3 +218,13 @@ textarea::placeholder {
 	background: #374151;
 	text-align: center;
 }
+
+.notification-banner {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 10px;
+        background: #92400e;
+        color: #fef3c7;
+        text-align: center;
+        font-weight: bold;
+}

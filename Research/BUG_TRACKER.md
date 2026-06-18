@@ -232,6 +232,36 @@ Guest removal remains functional and synchronized.
 Resolved In:
 v0.1.0-alpha
 
+BUG-0007
+
+Date: 2026-06-18
+
+Title:
+Timeout Notification Integration Broke Timeout Processing
+
+Status:
+RESOLVED
+
+Description:
+
+During implementation of synchronized timeout notifications,
+timeout events stopped advancing turns and penalties were not applied.
+
+Root Cause:
+
+Notification state integration introduced an invalid game-state update path.
+
+Fix:
+
+Notification state was integrated directly into the evaluated online game state before synchronization through Supabase.
+
+Verification:
+
+Timeout penalties, turn advancement, and notifications were tested and confirmed working.
+
+Resolved In:
+
+v0.1.0-alpha
 
 Open Bugs
 
