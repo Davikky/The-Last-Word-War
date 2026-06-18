@@ -793,9 +793,21 @@ function App() {
 					</button>
 				)}
 
-		<p className="subtitle">
-		A turn-based language, reasoning, and knowledge game.
-		</p>
+
+		<div className="landing-message">
+		<p>War is not the goal of this GAME at all.</p>
+		<p>All it seeks is to promote HUMAN interactions;</p>
+		<p>Interactions built firmly upon the previous LAST WORD.</p>
+
+		<br />
+
+		<p>Create a room or join one.</p>
+
+		<br />
+
+		<p><strong>[ Humans Only ]</strong></p>
+		</div>
+
 
 		<form className="player-form" onSubmit={addPlayer}>
 		<input

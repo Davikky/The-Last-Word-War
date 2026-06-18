@@ -154,3 +154,14 @@
 	padding: 0.4rem 0;
 	gap: 1rem;
 }
+
+.landing-message {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.landing-message p {
+    margin: 0.25rem 0;
+}
