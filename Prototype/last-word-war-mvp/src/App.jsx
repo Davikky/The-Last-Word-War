@@ -197,7 +197,8 @@ function App() {
 		setFinalStandings(gameState.finalStandings || []);
 		setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
 		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
-		setTurnDeadline(gameState.turnDeadline || null);	
+		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
+		setTurnDeadline(gameState.turnDeadline || null);
 	}
 
 
@@ -301,8 +302,10 @@ function App() {
 					setFinalStandings(updatedGameState.finalStandings || []);
 					setSuddenDeathPlayerNames(updatedGameState.suddenDeathPlayerNames || []);
 					setFinalRoundStarterIndex(updatedGameState.finalRoundStarterIndex ?? null);
+					setMatchStarterIndex(updatedGameState.matchStarterIndex ?? 0);
 					setTurnDeadline(updatedGameState.turnDeadline || null);
 				}
+
 			)
 			.subscribe();
 
@@ -775,13 +778,50 @@ function App() {
 	}
 
 
-	function resetMatch() {
+
+	async function resetMatch() {
 		const resetPlayers = players.map((player) => ({
 			...player,
 			score: 0,
 		}));
 
 		const nextStarterIndex = (matchStarterIndex + 1) % players.length;
+
+		if (roomCode && hasJoinedLobby) {
+			if (!isHost) {
+				alert('Only the host can start a rematch.');
+				return;
+			}
+
+			const resetGameState = {
+				roomCode,
+				players: resetPlayers,
+				gamePhase: GAME_PHASES.ACTIVE,
+				currentPlayerIndex: nextStarterIndex,
+				currentWord: 'START',
+				sentenceHistory: [],
+				winner: null,
+				finalStandings: [],
+				suddenDeathPlayerNames: [],
+				finalRoundStarterIndex: null,
+				matchStarterIndex: nextStarterIndex,
+				turnDeadline: Date.now() + 60000,
+			};
+
+			const { error } = await supabase
+				.from('rooms')
+				.update({
+					game_state: resetGameState,
+				})
+				.eq('room_code', roomCode);
+
+			if (error) {
+				console.error(error);
+				alert('Could not start rematch.');
+			}
+
+			return;
+		}
 
 		setPlayers(resetPlayers);
 		setSentenceHistory([]);
@@ -796,6 +836,8 @@ function App() {
 		setMatchStarterIndex(nextStarterIndex);
 		setGamePhase(GAME_PHASES.ACTIVE);
 	}
+
+
 
 
 	return (
@@ -1009,8 +1051,9 @@ function App() {
 			</ol>
 
 			<button className="start-button" onClick={resetMatch}>
-			Play Again
+			{roomCode ? 'Start Rematch' : 'Play Again'}
 			</button>
+
 			</div>
 		)}
 

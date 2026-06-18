@@ -161,3 +161,52 @@ Winner determination remained correct.
 Resolved In:
 
 v0.1.0-alpha
+
+
+BUG-0005
+
+Date: 2026-06-18
+
+Title:
+
+Online Rematch Reset Was Local Only
+
+Status:
+
+RESOLVED
+
+Reported During:
+
+Three-Player Online Testing
+
+Description:
+
+The Play Again button reset each client independently.
+Different users could observe different match states after rematch.
+
+Expected Behaviour:
+
+A rematch should reset the game state for all connected players simultaneously.
+
+Root Cause:
+
+resetMatch() only updated local React state and did not synchronize through Supabase.
+
+Fix:
+
+Converted resetMatch() to an online-aware host-authoritative reset that updates the shared room state.
+
+Verification:
+
+Host initiated rematch.
+All connected clients reset simultaneously.
+Match restarted successfully.
+
+Resolved In:
+
+v0.1.0-alpha
+
+
+Open Bugs
+
+None

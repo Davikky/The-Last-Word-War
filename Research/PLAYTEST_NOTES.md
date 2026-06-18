@@ -277,3 +277,34 @@ Status:
 
 Resolved
 
+Follow-up Investigation
+
+Date: 2026-06-18
+
+Three-player testing was conducted.
+
+Verified:
+
+- Normal rotation
+- Consecutive timeouts
+- Guest timeout handling
+- Final round trigger
+- Winner determination
+- Online rematch
+
+Issues Found:
+
+- BUG-0004 Sudden Death rotation
+
+Status:
+
+Fixed and verified.
+
+Issues Found:
+
+- BUG-0005 Online rematch synchronization
+
+Status:
+
+Fixed and verified.
+
