@@ -748,7 +748,7 @@ function App() {
 
 		<br />
 
-		<p>Create a room or join one.</p>
+		<p>CREATE a room or JOIN one.</p>
 
 		<br />
 
@@ -812,35 +812,34 @@ function App() {
 					</button>
 				)}
 
-		<form className="player-form" onSubmit={addPlayer}>
-		<input
-		type="text"
-		value={playerName}
-		onChange={(event) => setPlayerName(event.target.value)}
-		placeholder="Enter player name"
-		/>
-		<button type="submit">Add Player</button>
-		</form>
 
-		{players.length >= 2 && gamePhase === GAME_PHASES.SETUP && (
+		{!roomCode && (
+			<>
+			<form className="player-form" onSubmit={addPlayer}>
+			<input
+			type="text"
+			value={playerName}
+			onChange={(event) => setPlayerName(event.target.value)}
+			placeholder="Enter player name"
+			/>
+			<button type="submit">Add Player</button>
+			</form>
 
-			<button
-			className="start-button"
-			onClick={() => {
-				setCurrentPlayerIndex(matchStarterIndex);
-				setGamePhase(GAME_PHASES.ACTIVE);
-			}}
-			>
-			Start Game
-			</button>
-
+			{players.length >= 2 && gamePhase === GAME_PHASES.SETUP && (
+				<button
+				className="start-button"
+				onClick={() => {
+					setCurrentPlayerIndex(matchStarterIndex);
+					setGamePhase(GAME_PHASES.ACTIVE);
+				}}
+				>
+				Start Game
+				</button>
+			)}
+			</>
 		)}
 
-		<div className="status-box">
-		<p><strong>Current Stage:</strong> MVP Prototype</p>
-		<p><strong>Mode:</strong> Manual Referee</p>
-		<p><strong>Author:</strong> Victor A. Adeyemi</p>
-		</div>
+
 
 
 		{sentenceHistory.length > 0 && (
@@ -963,9 +962,20 @@ function App() {
 			</ul>
 		)}
 		</div>
+	
+
+		<div className="status-box">
+		<p><strong>Current Stage:</strong> MVP Prototype</p>
+		<p><strong>Mode:</strong> Manual Referee</p>
+		<p><strong>Author:</strong> Victor A. Adeyemi</p>
+		</div>
+
+
 		</section>
 		</main>
 	);
 }
+
+
 
 export default App;
