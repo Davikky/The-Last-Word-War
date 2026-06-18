@@ -839,6 +839,23 @@ function App() {
 		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
 
+
+		{sentenceHistory.length > 0 && (
+			<div className="history-panel">
+			<h2>Sentence History</h2>
+
+			<ol>
+			{sentenceHistory.map((entry, index) => (
+				<li key={index}>
+				<strong>{entry.player}:</strong> {entry.sentence}
+				<br />
+				</li>
+			))}
+			</ol>
+			</div>
+		)}
+
+
 		{(gamePhase === GAME_PHASES.ACTIVE ||
 			gamePhase === GAME_PHASES.FINAL_ROUND ||
 			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
@@ -918,22 +935,6 @@ function App() {
 		)}
 
 
-
-		{sentenceHistory.length > 0 && (
-			<div className="history-panel">
-			<h2>Sentence History</h2>
-
-			<ol>
-			{sentenceHistory.map((entry, index) => (
-				<li key={index}>
-				<strong>{entry.player}:</strong> {entry.sentence}
-				<br />
-				<span>Next word: {entry.extractedWord}</span>
-				</li>
-			))}
-			</ol>
-			</div>
-		)}
 
 		<div className="players-section">
 		<h2>Players</h2>
