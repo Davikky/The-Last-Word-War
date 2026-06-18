@@ -134,6 +134,34 @@
 	gap: 1rem;
 }
 
+input,
+textarea {
+	background: #f9fafb;
+	color: #111827;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: #6b7280;
+}
+
+button {
+	background: #f9fafb;
+	color: #111827;
+}
+
+.landing-message {
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	text-align: center;
+	line-height: 1.6;
+	color: #f9fafb;
+}
+
+.landing-message p {
+	margin: 0.25rem 0;
+}
+
 .players-section button {
 	padding: 0.4rem 0.75rem;
 	border-radius: 8px;
@@ -143,8 +171,8 @@
 }
 
 .standings-list {
-  list-style-position: inside;
-  padding: 0;
+	list-style-position: inside;
+	padding: 0;
 }
 
 .standings-list li {
@@ -156,12 +184,42 @@
 }
 
 .landing-message {
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    line-height: 1.6;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+	text-align: center;
+	line-height: 1.6;
 }
 
 .landing-message p {
-    margin: 0.25rem 0;
+	margin: 0.25rem 0;
+}
+
+.hero-card,
+.hero-card h1,
+.hero-card h2,
+.hero-card h3,
+.hero-card p,
+.players-section,
+.players-section h2,
+.game-panel,
+.game-panel h2,
+.game-panel h3,
+.winner-panel,
+.winner-panel h2,
+.winner-panel h3,
+.status-box {
+	color: #f9fafb;
+
+}
+
+
+button {
+	background: #f9fafb;
+	color: #111827;
+}
+
+input,
+textarea {
+	background: #f9fafb;
+	color: #111827;
 }
