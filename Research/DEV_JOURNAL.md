@@ -1,5 +1,41 @@
 # Development Journal
 
+## 2026-06-18
+
+Milestone: v0.1.0-alpha Public Deployment
+
+Completed:
+
+* Public Vercel deployment
+* Remote multiplayer validation
+* Shared countdown synchronization
+* Shared timeout synchronization
+* Victory synchronization
+* Mobile browser validation
+* Landing-page redesign
+* History panel redesign
+* Online/local flow cleanup
+* Mobile UI fixes
+* Current-word synchronization bug fix
+
+Lessons Learned:
+
+* Multiplayer state synchronization requires explicit updates.
+* Mobile browsers may override CSS colors unexpectedly.
+* UX issues become visible only after real gameplay testing.
+* Public deployment accelerates discovery of usability problems.
+
+Next Goals:
+
+* Feedback collection system
+* External playtesting
+* v0.1.1 refactor
+* Component extraction
+* AI referee groundwork
+
+
+
+
 ## 2026-06-17
 
 Milestone: v0.0.6
