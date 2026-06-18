@@ -248,11 +248,11 @@ Expected:
 
 Result:
 
-[ ] Pass
+[x] Pass
 
-[x] Fail
+[ ] Fail
 
-Notes: Game continued indefinitely even when a winner emerges
+Notes: Pass after fix
 
 ---
 
@@ -264,19 +264,19 @@ Total Tests:
 
 10
 
-Passed: 9
+Passed: 10
 
 ---
 
-Failed: 1
+Failed: 0
 
 ---
 
 Overall Status:
 
-[ ] Ready for v0.1.0 Tag
+[x] Ready for v0.1.0 Tag
 
-[x] Requires Fixes
+[ ] Requires Fixes
 
 ---
 
@@ -292,7 +292,7 @@ Overall Status:
 
 # Retest Required
 
-[x] Yes
+[ ] Yes
 
-[ ] No
+[x] No
 
