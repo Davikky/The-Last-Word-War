@@ -1128,11 +1128,15 @@ function App() {
 				</span>
 
 
-				{gamePhase === GAME_PHASES.SETUP && (!roomCode || isHost) && (
-					<button onClick={() => removePlayer(index)}>
-					Remove
-					</button>
-				)}
+
+				{gamePhase === GAME_PHASES.SETUP &&
+					(!roomCode || isHost) &&
+					player.name !== hostName && (
+						<button onClick={() => removePlayer(index)}>
+						Remove
+						</button>
+					)}
+
 
 				</li>
 			))}
