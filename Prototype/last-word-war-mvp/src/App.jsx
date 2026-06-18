@@ -402,6 +402,8 @@ function App() {
 					lastWord,
 					nextPlayer,
 				}),
+				currentWord: lastWord,
+				currentPlayerIndex: nextPlayer,
 				turnDeadline: Date.now() + 60000,
 			};
 
@@ -736,49 +738,57 @@ function App() {
 	return (
 		<main className="app-container">
 		<section className="hero-card">
-		
+
+
 		<h1>The Last Word War</h1>
-
-
 
 		<div className="landing-message">
 		<p>War is not the goal of this GAME at all.</p>
 		<p>All it seeks is to promote HUMAN interactions;</p>
 		<p>Interactions built firmly upon the previous LAST WORD.</p>
-
+		
 		<br />
-
-		<p>CREATE a room or JOIN one.</p>
-
-		<br />
-
-		<p><strong>[ Humans Only ]</strong></p>
+		
+		<p><strong>[WORD GAME FOR HUMANS ONLY]</strong></p>
 		</div>
 
+		{gamePhase === GAME_PHASES.SETUP && (
+			<div className="online-room-panel">
+
+			<p>CREATE a room or JOIN one REMOTELY:</p>
 
 
 
-		<button className="start-button" onClick={createRoom}>
-		Create Room
-		</button>
+			{!roomCode && (
+				<button className="start-button" onClick={createRoom}>
+				Create Room
+				</button>
+			)}
 
-		<div className="join-room-panel">
-		<input
-		type="text"
-		value={joinRoomCode}
-		onChange={(event) => setJoinRoomCode(event.target.value)}
-		placeholder="Enter room code"
-		/>
+			{!roomCode && (
+				<div className="join-room-panel">
+				<input
+				type="text"
+				value={joinRoomCode}
+				onChange={(event) => setJoinRoomCode(event.target.value)}
+				placeholder="Enter room code"
+				/>
 
-		<button className="start-button" onClick={joinRoom}>
-		Join Room
-		</button>
-		</div>
+				<button className="start-button" onClick={joinRoom}>
+				Join Room
+				</button>
+				</div>
+			)}
 
-		{roomCode && (
+			</div>
+		)}
+
+
+
+		{roomCode && gamePhase === GAME_PHASES.SETUP && (
 			<div className="status-box">
 			<p><strong>Room Code:</strong> {roomCode}</p>
-			<p>Share this code with another player.</p>
+			<p>Share ROOM CODE with another player.</p>
 			</div>
 		)}
 
@@ -816,12 +826,17 @@ function App() {
 		{!roomCode && (
 			<>
 			<form className="player-form" onSubmit={addPlayer}>
+
+			<br />
+			<p>SINGLE DEVICE MODE:</p>
+
 			<input
 			type="text"
 			value={playerName}
 			onChange={(event) => setPlayerName(event.target.value)}
 			placeholder="Enter player name"
 			/>
+
 			<button type="submit">Add Player</button>
 			</form>
 
@@ -962,7 +977,7 @@ function App() {
 			</ul>
 		)}
 		</div>
-	
+
 
 		<div className="status-box">
 		<p><strong>Current Stage:</strong> MVP Prototype</p>
