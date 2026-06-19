@@ -8,7 +8,11 @@ import {
 	evaluateOnlineGameState,
 } from './utils/gameLogic';
 
-import { fetchRoomByCode } from './services/roomService';
+import {
+	fetchRoomByCode,
+	createRoomRecord,
+} from './services/roomService';
+
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -64,16 +68,10 @@ function App() {
 			winner: null,
 		};
 
-		const { error } = await supabase
-			.from('rooms')
-			.insert([
-				{
-					room_code: newRoomCode,
-					game_state: initialGameState,
-				},
-			]);
 
-		if (error) {
+		try {
+			await createRoomRecord(newRoomCode, initialGameState);
+		} catch (error) {
 			console.error(error);
 			alert('Room creation failed');
 			return;

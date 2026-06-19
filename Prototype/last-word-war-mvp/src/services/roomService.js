@@ -32,3 +32,25 @@ export async function fetchRoomByCode(roomCode) {
 
 	return data;
 }
+
+
+/**
+ * Creates a new room in Supabase.
+ *
+ * @param {string} roomCode
+ * @param {Object} initialGameState
+ */
+export async function createRoomRecord(roomCode, initialGameState) {
+	const { error } = await supabase
+		.from('rooms')
+		.insert([
+			{
+				room_code: roomCode,
+				game_state: initialGameState,
+			},
+		]);
+
+	if (error) {
+		throw error;
+	}
+}
