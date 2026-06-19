@@ -1,336 +1,267 @@
-# The Last Word War
+# REFACTOR_PLAN_v0_1_1
 
-## Refactor Plan v0.1.1
+Project: The Last Word War
 
-Author: Victor A. Adeyemi
+Version: v0.1.1
 
-Date: 2026-06-18
+Date: 2026-06-19
 
-Status: Planning Document
+Status: Planned
 
 ---
 
 # Purpose
 
-This document defines the stabilization and refactoring plan for version v0.1.1 of The Last Word War.
+The current implementation is stable and feature complete for the Alpha phase.
 
-Version v0.1.0-alpha successfully validated the first complete remote multiplayer match. The objective of v0.1.1 is not to add major new gameplay features, but to improve code organization, maintainability, readability, and scalability.
+The primary objective of this refactor is to improve maintainability, readability, testability, and future scalability without changing gameplay behavior.
 
----
-
-# Background
-
-By v0.1.0-alpha, the project includes:
-
-* Local gameplay
-* Final round logic
-* Sudden Death logic
-* Supabase room creation
-* Room joining
-* Realtime lobby synchronization
-* Online sentence submission
-* Online timer synchronization
-* Host-authoritative timeout handling
-* Online winner synchronization
-
-Most of this logic currently lives inside `App.jsx`.
-
-This was acceptable during rapid prototyping, but it is no longer ideal for long-term development.
+No new gameplay features shall be introduced during this refactor.
 
 ---
 
-# Core Refactor Principle
+# Current State
 
-The refactor should not change gameplay behavior.
+Main application file:
 
-The goal is:
+App.jsx
 
-Same behavior.
+Approximate size:
 
-Cleaner structure.
+1350 lines
 
-Better maintainability.
+Current issues:
 
-Refactoring must be done incrementally with testing after each step.
-
----
-
-# v0.1.1 Primary Goals
-
-## Goal 1: Preserve Functionality
-
-All behavior that worked in v0.1.0-alpha must continue to work.
-
-This includes:
-
-* Room creation
-* Room joining
-* Lobby entry
-* Realtime player synchronization
-* Online game start
-* Online sentence submission
-* Shared countdown
-* Online timeout processing
-* Final Round
-* Sudden Death
-* Game Over
+* Multiple responsibilities in a single file
+* Game logic mixed with UI rendering
+* Supabase operations mixed with React components
+* Increasing difficulty of maintenance
+* Increasing risk of regressions
 
 ---
 
-## Goal 2: Improve Code Organization
+# Refactor Principles
 
-Move repeated or logically distinct code out of `App.jsx`.
+1. Preserve behavior.
 
-The long-term objective is to make `App.jsx` primarily responsible for application composition rather than containing all game logic.
+2. Preserve existing gameplay.
 
----
+3. Preserve existing multiplayer functionality.
 
-## Goal 3: Prepare for Future Features
+4. Preserve existing game rules.
 
-The refactor should make it easier to later add:
+5. Refactor in small verified steps.
 
-* AI referee
-* educational modes
-* challenge mechanism
-* production security hardening
-* room expiration
-* deployment
-* additional UI improvements
+6. Test after every extraction.
 
 ---
 
-# Proposed Folder Structure
+# Phase 1 — Constants Extraction
 
-The planned structure is:
+Goal:
 
-```text
-src/
-├── components/
-├── constants/
-├── hooks/
-├── lib/
-├── services/
-├── utils/
-├── App.jsx
-└── App.css
-```
+Move static constants into dedicated files.
 
----
+Target:
 
-# Refactor Phase 1: Constants
+src/constants/
 
-Move stable constants into dedicated files.
+Files:
 
-## Target Files
+gamePhases.js
 
-```text
-src/constants/gamePhases.js
-src/constants/gameConfig.js
-```
-
-## Expected Extractions
-
-From `App.jsx`:
+Contents:
 
 * GAME_PHASES
-* default turn duration
-* target score
-* room-code length
-* allowed room-code characters
 
-## Intended Benefit
+Expected Benefit:
 
-This reduces hardcoded values inside the application and makes game configuration easier to manage.
+* Cleaner imports
+* Reduced App.jsx size
+* Centralized constants
+
+Status:
+
+Pending
 
 ---
 
-# Refactor Phase 2: Utility Functions
+# Phase 2 — Game Logic Extraction
 
-Move pure helper functions into utility files.
+Goal:
 
-## Target Files
+Move pure game logic out of App.jsx.
 
-```text
-src/utils/roomCode.js
-src/utils/standings.js
-src/utils/gameState.js
-```
+Target:
 
-## Expected Extractions
+src/utils/gameLogic.js
 
-* generateRoomCode()
+Candidate Functions:
+
 * calculateStandings()
 * evaluateOnlineGameState()
+* determineWinner()
+* helper functions
 
-## Intended Benefit
+Expected Benefit:
 
-These functions do not directly render UI and should be easier to test and reason about independently.
+* Easier testing
+* Cleaner component code
+* Separation of logic and presentation
 
----
+Status:
 
-# Refactor Phase 3: Supabase Services
-
-Move Supabase database operations into service files.
-
-## Target File
-
-```text
-src/services/roomService.js
-```
-
-## Expected Extractions
-
-* create room in Supabase
-* join room lookup
-* load room
-* update room game state
-* start room game
-
-## Intended Benefit
-
-This separates backend communication from UI logic.
-
-`App.jsx` should not need to know the detailed structure of every Supabase query.
+Pending
 
 ---
 
-# Refactor Phase 4: Components
+# Phase 3 — Service Layer Extraction
 
-Move UI sections into reusable components.
+Goal:
 
-## Target Files
+Separate Supabase operations from UI.
 
-```text
-src/components/LobbyPanel.jsx
-src/components/GamePanel.jsx
-src/components/PlayersList.jsx
-src/components/WinnerPanel.jsx
-src/components/StandingsList.jsx
-```
+Target:
 
-## Expected Extractions
+src/services/
 
-* Lobby UI
-* Player list
-* Sentence submission panel
-* Winner screen
-* Final standings
+Files:
 
-## Intended Benefit
+roomService.js
 
-This makes the application easier to read and modify.
+Candidate Functions:
 
-Each component should have a clear responsibility.
+* createRoom()
+* joinRoom()
+* loadRoom()
+* updateRoomState()
+* room synchronization helpers
 
----
+Expected Benefit:
 
-# Refactor Phase 5: Custom Hooks
+* Cleaner networking layer
+* Easier backend replacement
+* Reduced App.jsx complexity
 
-Move complex stateful logic into hooks only after the simpler extractions are complete.
+Status:
 
-## Possible Target Files
-
-```text
-src/hooks/useRoomSubscription.js
-src/hooks/useSharedTimer.js
-```
-
-## Expected Extractions
-
-* Supabase realtime room subscription
-* shared turn-deadline countdown logic
-
-## Intended Benefit
-
-Hooks will make complex synchronization logic reusable and easier to isolate.
-
-This phase should be done carefully because hooks can be harder to debug if extracted too early.
+Pending
 
 ---
 
-# Refactor Phase 6: Comments and Documentation
+# Phase 4 — Component Extraction
 
-Add comments only where they clarify intent or architectural reasoning.
+Goal:
 
-Comments should explain why something exists, not simply repeat what the code already says.
+Split major UI sections into reusable React components.
 
-## Good Comment Example
+Target:
 
-```javascript
-// The host is the timeout authority in v0.1.x to prevent duplicate timeout penalties.
-```
+src/components/
 
-## Poor Comment Example
+Candidate Components:
 
-```javascript
-// Set time left
-setTimeLeft(60);
-```
+LandingPage.jsx
 
----
+Lobby.jsx
 
-# Refactor Safety Rules
+PlayerList.jsx
 
-Each refactor step must follow this cycle:
+GameBoard.jsx
 
-1. Make one small structural change.
-2. Run the application.
-3. Perform a focused manual test.
-4. Commit the change.
-5. Continue to the next extraction.
+WinnerPanel.jsx
 
-No large multi-file refactor should be committed without testing.
+NotificationBanner.jsx
 
----
+Expected Benefit:
 
-# Required Tests After Refactor
+* Smaller files
+* Easier maintenance
+* Easier feature expansion
 
-At minimum, the following must still pass:
+Status:
 
-* Create room
-* Join room
-* Enter lobby
-* Realtime lobby sync
-* Host starts online game
-* Submit sentence online
-* Timeout online
-* Final Round
-* Sudden Death
-* Game Over
+Pending
 
 ---
 
-# What v0.1.1 Should Not Include
+# Phase 5 — Custom Hooks
 
-v0.1.1 should not introduce major new features such as:
+Goal:
 
+Extract reusable React state logic.
+
+Target:
+
+src/hooks/
+
+Candidate Hooks:
+
+useRoomSync.js
+
+useGameTimer.js
+
+useNotifications.js
+
+Expected Benefit:
+
+* Cleaner state management
+* Improved separation of concerns
+
+Status:
+
+Pending
+
+---
+
+# Success Criteria
+
+The refactor shall be considered successful when:
+
+* Gameplay remains unchanged.
+* Multiplayer behavior remains unchanged.
+* Playtest results remain unaffected.
+* App.jsx is reduced below 400 lines.
+* All existing tests pass.
+
+---
+
+# Non-Goals
+
+The following are explicitly excluded from this refactor:
+
+* New game modes
 * AI referee
-* user accounts
-* public matchmaking
-* ranking system
-* spectator mode
-* production deployment
+* Educational modes
+* Tournament mode
+* Spectator mode
+* Gameplay rule changes
 
-The release should focus on stability and maintainability.
-
----
-
-# Expected Outcome
-
-After v0.1.1:
-
-* `App.jsx` should be smaller.
-* Game constants should be centralized.
-* Supabase operations should be separated from UI.
-* Core helper functions should be easier to understand.
-* Multiplayer synchronization code should be clearer.
-* The project should be easier to extend.
+These items belong to future releases.
 
 ---
 
-# Version History
+# End State
 
-## v0.1.1
+Target Structure
 
-Initial stabilization and refactor plan following successful v0.1.0-alpha remote multiplayer validation.
+src/
+
+├── components/
+
+├── constants/
+
+├── hooks/
+
+├── services/
+
+├── utils/
+
+└── App.jsx
+
+App.jsx becomes a coordinator rather than the location of all game logic.
+
+---
+
+End of Document
 
