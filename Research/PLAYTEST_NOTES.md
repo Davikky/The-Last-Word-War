@@ -402,9 +402,69 @@ Verified Successfully:
 * Lobby authority enforcement
 
 ---
+### Additional Stabilization
+
+#### Inactivity Termination Rule
+
+Date: 2026-06-19
+
+Objective:
+
+Prevent abandoned matches from remaining active indefinitely.
+
+Implementation:
+
+A consecutive timeout counter was introduced.
+
+The counter increments whenever a player's turn expires without a valid sentence submission.
+
+Any successful sentence submission immediately resets the counter.
+
+Verification Performed:
+
+Test A:
+
+Timeout × 5 consecutively
+
+Result:
+
+Match automatically entered GAME_OVER state.
+
+No winner declared.
+
+Final standings displayed correctly.
+
+Pass.
+
+---
+
+Test B:
+
+Timeout → Timeout → Valid Sentence → Timeout
+
+Result:
+
+Valid sentence submission reset inactivity counter as intended.
+
+Subsequent timeout was counted as the first inactivity event.
+
+Pass.
+
+---
+
+Outcome:
+
+The Inactivity Termination Rule is considered stable and ready for public playtesting.
+
+Status:
+
+Resolved and Verified.
+---
+
 
 ### Current Assessment
 
 The multiplayer alpha is considered stable for continued usability testing and external playtesting.
+
 
 
