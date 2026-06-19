@@ -34,6 +34,7 @@ function App() {
 	const [roomData, setRoomData] = useState(null);
 	const [hostName, setHostName] = useState('');
 	const [notification, setNotification] = useState('');
+	const [gameOverReason, setGameOverReason] = useState('');
 
 
 
@@ -207,6 +208,7 @@ function App() {
 		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
 		setTurnDeadline(gameState.turnDeadline || null);
 		setNotification(updatedGameState.notification || '');
+		setGameOverReason(gameState.gameOverReason || '');
 	}
 
 
@@ -314,6 +316,7 @@ function App() {
 					setMatchStarterIndex(updatedGameState.matchStarterIndex ?? 0);
 					setTurnDeadline(updatedGameState.turnDeadline || null);
 					setNotification(updatedGameState.notification || '');
+					setGameOverReason(updatedGameState.gameOverReason || '');
 				}
 
 			)
@@ -466,6 +469,8 @@ function App() {
 				currentPlayerIndex: nextPlayer,
 				turnDeadline: Date.now() + 60000,
 				notification: '',
+				consecutiveTimeouts: 0,
+				gameOverReason: '',
 			};
 
 
@@ -742,6 +747,37 @@ function App() {
 
 		const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
 
+		const nextConsecutiveTimeouts = (gameState.consecutiveTimeouts || 0) + 1;
+
+		if (nextConsecutiveTimeouts >= 5) {
+			const inactivityGameState = {
+				...gameState,
+				players: updatedPlayers,
+				gamePhase: GAME_PHASES.GAME_OVER,
+				winner: null,
+				finalStandings: calculateStandings(updatedPlayers),
+				currentWord: gameState.currentWord || 'START',
+				currentPlayerIndex: nextPlayer,
+				turnDeadline: null,
+				notification: '⏰ Match ended after 5 consecutive timeouts.',
+				consecutiveTimeouts: nextConsecutiveTimeouts,
+				gameOverReason: 'INACTIVITY',
+			};
+
+			const { error: inactivityUpdateError } = await supabase
+				.from('rooms')
+				.update({
+					game_state: inactivityGameState,
+				})
+				.eq('room_code', roomCode);
+
+			if (inactivityUpdateError) {
+				console.error(inactivityUpdateError);
+			}
+
+			return;
+		}
+
 		const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
 
 		const evaluatedGameState = {
@@ -757,6 +793,8 @@ function App() {
 			currentPlayerIndex: nextPlayer,
 			turnDeadline: Date.now() + 60000,
 			notification: timeoutNotification,
+			consecutiveTimeouts: nextConsecutiveTimeouts,
+			gameOverReason: '',
 		};
 
 
@@ -845,6 +883,9 @@ function App() {
 				finalRoundStarterIndex: null,
 				matchStarterIndex: nextStarterIndex,
 				turnDeadline: Date.now() + 60000,
+				consecutiveTimeouts: 0,
+				gameOverReason: '',
+				notification: '',
 			};
 
 			const { error } = await supabase
@@ -873,6 +914,9 @@ function App() {
 		setFinalRoundStarterIndex(null);
 		setSuddenDeathPlayerNames([]);
 		setMatchStarterIndex(nextStarterIndex);
+		setGameOverReason('');
+		setNotification('');
+		setConsecutiveTimeouts(0);
 		setGamePhase(GAME_PHASES.ACTIVE);
 	}
 
@@ -1072,13 +1116,25 @@ function App() {
 			)}
 
 
-		{gamePhase === GAME_PHASES.GAME_OVER && winner && (
+		{gamePhase === GAME_PHASES.GAME_OVER && (
 			<div className="winner-panel">
 			<h2>🏆 Game Over</h2>
 
-			<p className="winner-name">
-			<strong>Winner:</strong> {winner.name}
-			</p>
+
+			{winner ? (
+				<p className="winner-name">
+				<strong>Winner:</strong> {winner.name}
+				</p>
+			) : (
+				<p className="winner-name">
+				<strong>No winner declared.</strong>
+				<br />
+				{gameOverReason === 'INACTIVITY'
+					? 'Match ended due to inactivity.'
+					: 'Match ended without a winner.'}
+				</p>
+			)}
+
 
 			<h3>Final Standings</h3>
 
