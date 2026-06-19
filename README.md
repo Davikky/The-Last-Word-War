@@ -1,12 +1,14 @@
 [![tlww-image](https://github.com/Davikky/The-Last-Word-War/blob/main/the-last-word-war.png?raw=true)](https://the-last-word-war.vercel.app)
 
-# The Last Word War
+[![tlww-image](https://github.com/Davikky/The-Last-Word-War/blob/main/the-last-word-war.png?raw=true)](https://the-last-word-war.vercel.app)
+
+# The Last Word War™
 
 ---
 
 ## Overview
 
-The Last Word War is a human-centered multiplayer language game where players build conversations by continuing from the final word of the previous sentence.
+The Last Word War™ is a human-centered multiplayer language game where players build conversations by continuing from the final word of the previous sentence.
 
 The project is intentionally designed around:
 
@@ -14,25 +16,23 @@ The project is intentionally designed around:
 
 interaction, with technology serving only to facilitate meaningful communication.
 
-Unlike many modern systems that prioritize Human ↔ AI interaction, The Last Word War places human conversation at the center of the experience.
+Unlike many modern systems that prioritize Human ↔ AI interaction, The Last Word War™ places human conversation at the center of the experience.
+
+The Last Word War™ is stewarded by Victor A. Adeyemi under the Da-aim Services research and development ecosystem.
 
 ---
 
 ## Philosophy
 
-War is not the goal of this game at all.
+War is not the goal of this GAME at all.
 
-All it seeks is to promote human interactions;
+All it seeks is to promote HUMAN interactions;
 
-Interactions built firmly upon the previous last word.
+Interactions built firmly upon the previous LAST WORD.
 
-AI is intended only to serve as:
+Artificial intelligence serves only as an assistant to project development and research activities.
 
-* Referee
-* Moderator
-* Rule Validator
-* Educational Assistant
-* Expert Judge
+Artificial intelligence is not a player, owner, author, or governing authority within The Last Word War™.
 
 Humans remain the primary participants.
 
@@ -154,6 +154,7 @@ Status:
 * Codebase refactoring
 * Feedback analysis
 * AI referee planning
+* Human-Centered AI research
 
 ---
 
@@ -192,7 +193,7 @@ Outcomes:
 
 Status:
 
-In Preparation
+Active
 
 Objectives:
 
@@ -201,6 +202,29 @@ Objectives:
 * Validate turn awareness
 * Validate draw resolution
 * Collect player feedback
+
+---
+
+## Research Initiative
+
+The Last Word War™ serves as both a software project and a research initiative.
+
+Current research themes include:
+
+* Human-centered computing
+* Human ↔ Human interaction systems
+* Educational gaming
+* Human-in-the-loop design
+* AI-assisted creative systems
+* Responsible AI integration
+
+Research and publication materials can be found within:
+
+```text
+Research/
+Papers/
+Legal/
+```
 
 ---
 
@@ -247,6 +271,8 @@ Artwork/
 Design_Documents/
 Legal/
 Marketing/
+Papers/
+Project_Archive/
 Prototype/
 Releases/
 Research/
@@ -286,9 +312,15 @@ Website/
 
 ---
 
-## Author
+## Stewardship
+
+Project Steward:
 
 Victor A. Adeyemi
+
+Organization:
+
+Da-aim Services
 
 ---
 
