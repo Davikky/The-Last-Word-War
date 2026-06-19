@@ -2,13 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import './App.css';
 
-const GAME_PHASES = {
-	SETUP: 'SETUP',
-	ACTIVE: 'ACTIVE',
-	FINAL_ROUND: 'FINAL_ROUND',
-	SUDDEN_DEATH: 'SUDDEN_DEATH',
-	GAME_OVER: 'GAME_OVER',
-};
+import { GAME_PHASES } from './constants/gamePhases';
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
