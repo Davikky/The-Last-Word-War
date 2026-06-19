@@ -1297,11 +1297,11 @@ function App() {
 
 
 		<div className="status-box">
-		<p><strong>Current Stage:</strong> MVP Prototype</p>
-		<p><strong>Mode:</strong> Manual Referee</p>
+		<p><strong>Version:</strong> v0.1.1</p>
+		<p><strong>Stage:</strong> Feature Complete Alpha</p>
+		<p><strong>Mode:</strong> Human ↔ Human Multiplayer</p>
 		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
-
 
 		</section>
 		</main>
