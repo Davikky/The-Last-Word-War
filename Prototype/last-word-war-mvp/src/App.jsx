@@ -8,7 +8,7 @@ import {
 	evaluateOnlineGameState,
 } from './utils/gameLogic';
 
-
+import { fetchRoomByCode } from './services/roomService';
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -96,13 +96,10 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', normalizedRoomCode)
-			.single();
 
-		if (error || !data) {
+		try {
+			await fetchRoomByCode(normalizedRoomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Room not found.');
 			return;
@@ -125,13 +122,12 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', roomCode)
-			.single();
 
-		if (error || !data) {
+		let data;
+
+		try {
+			data = await fetchRoomByCode(roomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Room not found.');
 			return;
@@ -182,13 +178,12 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', targetRoomCode)
-			.single();
 
-		if (error || !data) {
+		let data;
+
+		try {
+			data = await fetchRoomByCode(targetRoomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Could not load room.');
 			return;
@@ -215,18 +210,16 @@ function App() {
 
 
 	async function startRoomGame() {
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', roomCode)
-			.single();
+		
+let data;
 
-		if (error || !data) {
-			console.error(error);
-			alert('Could not load room.');
-			return;
-		}
-
+try {
+	data = await fetchRoomByCode(roomCode);
+} catch (error) {
+	console.error(error);
+	alert('Could not load room.');
+	return;
+}
 		const updatedGameState = {
 			...data.game_state,
 			gamePhase: GAME_PHASES.ACTIVE,
