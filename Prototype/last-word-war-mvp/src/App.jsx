@@ -14,6 +14,7 @@ import {
 	updateRoomGameState,
 } from './services/roomService';
 
+import { generateRoomCode } from './utils/roomCode';
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -45,16 +46,6 @@ function App() {
 
 
 
-	function generateRoomCode() {
-		const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-		let code = '';
-
-		for (let index = 0; index < 5; index += 1) {
-			code += letters[Math.floor(Math.random() * letters.length)];
-		}
-
-		return code;
-	}
 
 	async function createRoom() {
 		const newRoomCode = generateRoomCode();
@@ -650,11 +641,11 @@ function App() {
 				gameOverReason: 'INACTIVITY',
 			};
 
-try {
-	await updateRoomGameState(roomCode, inactivityGameState);
-} catch (error) {
-	console.error(error);
-}
+			try {
+				await updateRoomGameState(roomCode, inactivityGameState);
+			} catch (error) {
+				console.error(error);
+			}
 
 			return;
 		}
@@ -690,13 +681,13 @@ try {
 			gameOverReason: '',
 		};
 
-try {
-	await updateRoomGameState(roomCode, evaluatedGameState);
-} catch (error) {
-	console.error(error);
-}
+		try {
+			await updateRoomGameState(roomCode, evaluatedGameState);
+		} catch (error) {
+			console.error(error);
+		}
 
-}
+	}
 
 
 	function determineWinner() {
