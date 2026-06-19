@@ -2,7 +2,29 @@
 
 Project Name:
 
-The Last Word War
+The Last Word War™
+
+Steward:
+
+Victor A. Adeyemi
+
+Organization:
+
+Da-aim Services
+
+Status:
+
+Active Development
+
+---
+
+# Project Overview
+
+The Last Word War™ is a human-centered multiplayer language game in which players build conversations by beginning each sentence with the final word of the previous sentence.
+
+The project is designed around Human ↔ Human interaction, with technology serving only to facilitate meaningful communication, gameplay, and learning.
+
+The Last Word War™ is stewarded by Victor A. Adeyemi under the Da-aim Services research and development ecosystem.
 
 ---
 
@@ -16,13 +38,38 @@ Interactions built firmly upon the previous LAST WORD.
 
 ---
 
-# High-Level Description
+# Artificial Intelligence Policy
 
-The Last Word War is a human-centered multiplayer language game.
+Artificial intelligence serves only as an assistant to project development and research activities.
 
-Players build conversations by beginning each sentence with the final word of the previous sentence.
+Artificial intelligence is not a player, owner, author, or governing authority within The Last Word War™.
 
-Technology exists only to facilitate human interaction.
+Current AI Roles:
+
+* Development assistance
+* Documentation assistance
+* Research assistance
+* Architecture assistance
+* Educational assistance
+
+---
+
+# Human Contribution Principle
+
+Guiding Philosophy:
+
+2/3 Human Contribution
+
+1/3 AI Assistance
+
+Human contributors remain responsible for:
+
+* Vision
+* Direction
+* Meaning
+* Decision-making
+
+Artificial intelligence provides bounded assistance.
 
 ---
 
@@ -40,18 +87,23 @@ Feature Complete Alpha
 
 Frontend:
 
-- React
-- Vite
+* React
+* Vite
 
 Backend:
 
-- Supabase
-- PostgreSQL
-- Supabase Realtime
+* Supabase
+* PostgreSQL
+* Supabase Realtime
 
 Deployment:
 
-- Vercel
+* Vercel
+
+Version Control:
+
+* Git
+* GitHub
 
 ---
 
@@ -61,7 +113,7 @@ Main Application:
 
 App.jsx
 
-Refactored Modules:
+Current Refactored Modules:
 
 src/constants/gamePhases.js
 
@@ -69,12 +121,14 @@ src/utils/gameLogic.js
 
 Contains:
 
-- calculateStandings()
-- evaluateOnlineGameState()
+* calculateStandings()
+* evaluateOnlineGameState()
 
-Planned:
+Current Refactor Target:
 
 src/services/roomService.js
+
+Future Targets:
 
 src/components/
 
@@ -84,14 +138,17 @@ src/hooks/
 
 # Current Gameplay Systems
 
-- Online multiplayer
-- Host authority
-- Timeout handling
-- Final Round
-- Sudden Death
-- Sudden Death draw resolution
-- Inactivity termination
-- Online rematch
+* Online multiplayer
+* Room creation
+* Room joining
+* Host authority
+* Realtime synchronization
+* Timeout handling
+* Final Round
+* Sudden Death
+* Sudden Death draw resolution
+* Inactivity termination
+* Online rematch
 
 ---
 
@@ -103,14 +160,23 @@ Status:
 
 Active
 
+Objectives:
+
+* Validate onboarding
+* Validate usability
+* Validate multiplayer flow
+* Collect player feedback
+
 ---
 
 # Current Development Focus
 
-1. Refactoring
-2. UX improvements
-3. Feedback analysis
-4. AI Referee planning
+1. Codebase refactoring
+2. Playtest #2
+3. UX improvements
+4. Feedback analysis
+5. AI referee planning
+6. Human-Centered AI research
 
 ---
 
@@ -122,42 +188,60 @@ Refactoring must preserve behavior.
 
 Documentation is maintained alongside development.
 
+Research is developed alongside implementation.
+
+---
+
+# Research Program
+
+Current Research Themes:
+
+* Human-centered computing
+* Human ↔ Human interaction systems
+* Educational gaming
+* Human-in-the-loop design
+* AI-assisted creative systems
+* Responsible AI integration
+
+Current Research Assets:
+
+* Human-Centered AI Framework
+* Publication Roadmap
+* Authorship Policy
+* Intellectual Property Framework
+
 ---
 
 # Important Documents
 
 README.md
 
-Releases/v0.1.1.md
+PROJECT_ROADMAP.md
 
 Research/PROJECT_STATE_v0_1_1.md
 
-Design_Documents/REFACTOR_PLAN_v0_1_1.md
+Research/PUBLICATION_ROADMAP_v1_0.md
+
+Legal/AUTHORSHIP_POLICY_v1_0.md
 
 Rulebook/The_Last_Word_War_Rulebook_v1_0.tex
 
+Releases/v0.1.1.md
+
 ---
 
-# Future Vision
+# Long-Term Vision
 
-Human-centered conversation platform.
+The Last Word War™ seeks to demonstrate how artificial intelligence can strengthen human collaboration without replacing human beings at the center of creative and educational activities.
 
-Potential future modes:
+The project aims to evolve into both:
 
-- Physics
-- Mathematics
-- Cryptography
-- History
-- Language Learning
-- Scientific Communication
+* A multiplayer conversational platform
+* A human-centered AI research initiative
 
-with AI acting only as:
-
-- Referee
-- Moderator
-- Validator
-- Educational Assistant
+under the Da-aim Services research and development ecosystem.
 
 ---
 
 End of Document
+
