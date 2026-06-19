@@ -1075,7 +1075,7 @@ function App() {
 				)}
 
 
-		{!roomCode && (
+		{false && (
 			<>
 			<form className="player-form" onSubmit={addPlayer}>
 
