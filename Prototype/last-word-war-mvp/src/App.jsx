@@ -319,8 +319,8 @@ function App() {
 					setTurnDeadline(updatedGameState.turnDeadline || null);
 					setNotification(updatedGameState.notification || '');
 					setGameOverReason(updatedGameState.gameOverReason || '');
-			setDrawPlayers(updatedGameState.drawPlayers || []);
-setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
+					setDrawPlayers(updatedGameState.drawPlayers || []);
+					setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
 
 				}
 
@@ -631,40 +631,40 @@ setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
 		let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
 		let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
 		let updatedDrawPlayers = drawPlayers;
-let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
-let updatedGameOverReason = gameOverReason;
+		let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
+		let updatedGameOverReason = gameOverReason;
 
 
-if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-        const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
-                suddenDeathPlayerNames.includes(player.name)
-        );
+		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+			const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
+				suddenDeathPlayerNames.includes(player.name)
+			);
 
-        const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
-                (a, b) => b.score - a.score
-        );
+			const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
+				(a, b) => b.score - a.score
+			);
 
-        const leader = sortedSuddenDeathPlayers[0];
-        const secondPlace = sortedSuddenDeathPlayers[1];
+			const leader = sortedSuddenDeathPlayers[0];
+			const secondPlace = sortedSuddenDeathPlayers[1];
 
-        if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
-                updatedWinner = leader;
-                updatedFinalStandings = calculateStandings(updatedPlayers);
-                updatedGamePhase = GAME_PHASES.GAME_OVER;
-                updatedDrawPlayers = [];
-                updatedGameOverReason = '';
-        } else if (nextPlayer === finalRoundStarterIndex) {
-                updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
+			if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
+				updatedWinner = leader;
+				updatedFinalStandings = calculateStandings(updatedPlayers);
+				updatedGamePhase = GAME_PHASES.GAME_OVER;
+				updatedDrawPlayers = [];
+				updatedGameOverReason = '';
+			} else if (nextPlayer === finalRoundStarterIndex) {
+				updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
 
-                if (updatedSuddenDeathRoundCount >= 5) {
-                        updatedWinner = null;
-                        updatedFinalStandings = calculateStandings(updatedPlayers);
-                        updatedDrawPlayers = activeSuddenDeathPlayers;
-                        updatedGamePhase = GAME_PHASES.GAME_OVER;
-                        updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
-                }
-        }
-}
+				if (updatedSuddenDeathRoundCount >= 5) {
+					updatedWinner = null;
+					updatedFinalStandings = calculateStandings(updatedPlayers);
+					updatedDrawPlayers = activeSuddenDeathPlayers;
+					updatedGamePhase = GAME_PHASES.GAME_OVER;
+					updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
+				}
+			}
+		}
 
 
 		if (gamePhase === GAME_PHASES.FINAL_ROUND && nextPlayer === finalRoundStarterIndex) {
@@ -682,12 +682,12 @@ if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
 				updatedGamePhase = GAME_PHASES.GAME_OVER;
 			} else {
 
-			updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
-updatedWinner = null;
-updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
-updatedSuddenDeathRoundCount = 0;
-updatedDrawPlayers = [];
-updatedGameOverReason = '';
+				updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
+				updatedWinner = null;
+				updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+				updatedSuddenDeathRoundCount = 0;
+				updatedDrawPlayers = [];
+				updatedGameOverReason = '';
 
 			}
 		}
@@ -704,7 +704,7 @@ updatedGameOverReason = '';
 		}
 
 		return {
-			
+
 			roomCode,
 			players: updatedPlayers,
 			gamePhase: updatedGamePhase,
@@ -716,8 +716,8 @@ updatedGameOverReason = '';
 			suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
 			finalRoundStarterIndex: updatedFinalRoundStarterIndex,
 			drawPlayers: updatedDrawPlayers,
-suddenDeathRoundCount: updatedSuddenDeathRoundCount,
-gameOverReason: updatedGameOverReason,
+			suddenDeathRoundCount: updatedSuddenDeathRoundCount,
+			gameOverReason: updatedGameOverReason,
 
 		};
 	}
@@ -919,7 +919,7 @@ gameOverReason: updatedGameOverReason,
 				gameOverReason: '',
 				notification: '',
 				drawPlayers: [],
-suddenDeathRoundCount: 0,
+				suddenDeathRoundCount: 0,
 
 			};
 
@@ -953,7 +953,7 @@ suddenDeathRoundCount: 0,
 		setNotification('');
 		setConsecutiveTimeouts(0);
 		setDrawPlayers([]);
-setSuddenDeathRoundCount(0);
+		setSuddenDeathRoundCount(0);
 		setGamePhase(GAME_PHASES.ACTIVE);
 	}
 
@@ -976,6 +976,33 @@ setSuddenDeathRoundCount(0);
 
 		<p><strong>[WORD GAME FOR HUMANS ONLY]</strong></p>
 		</div>
+
+
+		{gamePhase === GAME_PHASES.SETUP && (
+
+			<div className="quick-rules">
+			<h3>📜 Quick Rules</h3>
+
+			<p>🎯 Create or Join a Room.</p>
+
+			<p>🔄 Players take turns creating sentences.</p>
+
+			<p>
+			📝 Your sentence must begin with the LAST WORD of the previous sentence.
+			</p>
+
+			<p>✅ Valid play = +1 point.</p>
+
+			<p>⏰ Timeout = -1 point.</p>
+
+			<p>🏁 First player to 10 points triggers the Final Round.</p>
+
+			<p>⚔️ Tied leaders enter Sudden Death.</p>
+
+			<p>🤝 Interact meaningfully and have fun.</p>
+			</div>
+
+		)}
 
 		{gamePhase === GAME_PHASES.SETUP && (
 			<div className="online-room-panel">
@@ -1158,29 +1185,29 @@ setSuddenDeathRoundCount(0);
 			<h2>🏆 Game Over</h2>
 
 
-{winner ? (
-        <p className="winner-name">
-        <strong>Winner:</strong> {winner.name}
-        </p>
-) : (
-        <div className="winner-name">
-        <strong>No winner declared.</strong>
-        <br />
-        {gameOverReason === 'INACTIVITY' && 'Match ended due to inactivity.'}
-        {gameOverReason === 'SUDDEN_DEATH_DRAW' && 'Sudden Death ended in a draw.'}
+			{winner ? (
+				<p className="winner-name">
+				<strong>Winner:</strong> {winner.name}
+				</p>
+			) : (
+				<div className="winner-name">
+				<strong>No winner declared.</strong>
+				<br />
+				{gameOverReason === 'INACTIVITY' && 'Match ended due to inactivity.'}
+				{gameOverReason === 'SUDDEN_DEATH_DRAW' && 'Sudden Death ended in a draw.'}
 
-        {drawPlayers.length > 0 && (
-                <>
-                <h3>Draw Players</h3>
-                <ul>
-                {drawPlayers.map((player, index) => (
-                        <li key={index}>{player.name}</li>
-                ))}
-                </ul>
-                </>
-        )}
-        </div>
-)}
+				{drawPlayers.length > 0 && (
+					<>
+					<h3>Draw Players</h3>
+					<ul>
+					{drawPlayers.map((player, index) => (
+						<li key={index}>{player.name}</li>
+					))}
+					</ul>
+					</>
+				)}
+				</div>
+			)}
 
 			<h3>Final Standings</h3>
 

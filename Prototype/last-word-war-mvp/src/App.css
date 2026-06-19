@@ -239,3 +239,22 @@ textarea::placeholder {
         font-weight: bold;
         text-decoration: none;
 }
+
+.quick-rules {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #374151;
+        text-align: left;
+        line-height: 1.6;
+}
+
+.quick-rules h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        text-align: center;
+}
+
+.quick-rules p {
+        margin: 0.4rem 0;
+}
