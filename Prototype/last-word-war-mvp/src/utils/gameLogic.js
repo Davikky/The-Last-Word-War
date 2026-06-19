@@ -1,4 +1,27 @@
 /**
+ * The Last Word War
+ *
+ * Core gameplay utility functions.
+ *
+ * These functions contain deterministic game logic and
+ * should not depend on:
+ *
+ * - React state
+ * - React hooks
+ * - Supabase
+ * - Browser APIs
+ *
+ * Keeping these functions pure makes them easier to:
+ *
+ * - test
+ * - refactor
+ * - reuse
+ * - validate
+ */
+
+
+
+/**
  * Generates ranked standings for the current player list.
  *
  * Players are sorted by score in descending order.
@@ -39,3 +62,154 @@ export function calculateStandings(playerList) {
                 };
         });
 }
+
+
+
+
+
+/**
+ * Evaluates the next online game state after a valid sentence
+ * or timeout-related state change.
+ *
+ * This function is intentionally pure:
+ * - no React state setters
+ * - no Supabase calls
+ * - no browser APIs
+ *
+ * It receives the current state explicitly and returns the next
+ * synchronized game state object.
+ */
+
+
+/**
+ * IMPORTANT:
+ *
+ * The caller must provide the authoritative current state.
+ *
+ * For normal gameplay this may come from React state.
+ *
+ * For timeout processing this must come from the latest
+ * Supabase room state because timeout resolution is
+ * host-authoritative.
+ */
+
+
+export function evaluateOnlineGameState({
+        currentState,
+        updatedPlayers,
+        updatedSentenceHistory,
+        lastWord,
+        nextPlayer,
+        GAME_PHASES,
+}) {
+        const {
+                roomCode,
+                gamePhase,
+                winner,
+                finalStandings,
+                suddenDeathPlayerNames,
+                finalRoundStarterIndex,
+                drawPlayers,
+                suddenDeathRoundCount,
+                gameOverReason,
+        } = currentState;
+
+        let updatedGamePhase = gamePhase;
+        let updatedWinner = winner;
+        let updatedFinalStandings = finalStandings;
+        let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
+        let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
+        let updatedDrawPlayers = drawPlayers;
+        let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
+        let updatedGameOverReason = gameOverReason;
+
+        if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+                const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
+                        suddenDeathPlayerNames.includes(player.name)
+                );
+
+                const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
+                        (a, b) => b.score - a.score
+                );
+
+                const leader = sortedSuddenDeathPlayers[0];
+                const secondPlace = sortedSuddenDeathPlayers[1];
+
+                if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
+                        updatedWinner = leader;
+                        updatedFinalStandings = calculateStandings(updatedPlayers);
+                        updatedGamePhase = GAME_PHASES.GAME_OVER;
+                        updatedDrawPlayers = [];
+                        updatedGameOverReason = '';
+                } else if (nextPlayer === finalRoundStarterIndex) {
+                        updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
+
+                        if (updatedSuddenDeathRoundCount >= 5) {
+                                updatedWinner = null;
+                                updatedFinalStandings = calculateStandings(updatedPlayers);
+                                updatedDrawPlayers = activeSuddenDeathPlayers;
+                                updatedGamePhase = GAME_PHASES.GAME_OVER;
+                                updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
+                        }
+                }
+        }
+
+        if (
+                gamePhase === GAME_PHASES.FINAL_ROUND &&
+                nextPlayer === finalRoundStarterIndex
+        ) {
+                const standings = calculateStandings(updatedPlayers);
+                updatedFinalStandings = standings;
+
+                const highestScore = Math.max(
+                        ...updatedPlayers.map((player) => player.score)
+                );
+
+                const topPlayers = updatedPlayers.filter(
+                        (player) => player.score === highestScore
+                );
+
+                if (topPlayers.length === 1) {
+                        updatedWinner = topPlayers[0];
+                        updatedGamePhase = GAME_PHASES.GAME_OVER;
+                } else {
+                        updatedSuddenDeathPlayerNames = topPlayers.map(
+                                (player) => player.name
+                        );
+                        updatedWinner = null;
+                        updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+                        updatedSuddenDeathRoundCount = 0;
+                        updatedDrawPlayers = [];
+                        updatedGameOverReason = '';
+                }
+        }
+
+        if (gamePhase === GAME_PHASES.ACTIVE) {
+                const winningPlayerIndex = updatedPlayers.findIndex(
+                        (player) => player.score >= 10
+                );
+
+                if (winningPlayerIndex !== -1) {
+                        updatedGamePhase = GAME_PHASES.FINAL_ROUND;
+                        updatedFinalRoundStarterIndex = winningPlayerIndex;
+                }
+        }
+
+        return {
+                roomCode,
+                players: updatedPlayers,
+                gamePhase: updatedGamePhase,
+                currentPlayerIndex: nextPlayer,
+                currentWord: lastWord,
+                sentenceHistory: updatedSentenceHistory,
+                winner: updatedWinner,
+                finalStandings: updatedFinalStandings,
+                suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
+                finalRoundStarterIndex: updatedFinalRoundStarterIndex,
+                drawPlayers: updatedDrawPlayers,
+                suddenDeathRoundCount: updatedSuddenDeathRoundCount,
+                gameOverReason: updatedGameOverReason,
+        };
+}
+
+

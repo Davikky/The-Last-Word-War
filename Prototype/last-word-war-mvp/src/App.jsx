@@ -3,7 +3,12 @@ import { supabase } from './lib/supabase';
 import './App.css';
 
 import { GAME_PHASES } from './constants/gamePhases';
-import { calculateStandings } from './utils/gameLogic';
+import {
+	calculateStandings,
+	evaluateOnlineGameState,
+} from './utils/gameLogic';
+
+
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -449,10 +454,22 @@ function App() {
 			}
 
 			const evaluatedGameState = evaluateOnlineGameState({
+				currentState: {
+					roomCode,
+					gamePhase,
+					winner,
+					finalStandings,
+					suddenDeathPlayerNames,
+					finalRoundStarterIndex,
+					drawPlayers,
+					suddenDeathRoundCount,
+					gameOverReason,
+				},
 				updatedPlayers,
 				updatedSentenceHistory,
 				lastWord,
 				nextPlayer,
+				GAME_PHASES,
 			});
 
 			if (evaluatedGameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
@@ -585,108 +602,6 @@ function App() {
 
 
 
-	function evaluateOnlineGameState({
-		updatedPlayers,
-		updatedSentenceHistory,
-		lastWord,
-		nextPlayer,
-	}) {
-		let updatedGamePhase = gamePhase;
-		let updatedWinner = winner;
-		let updatedFinalStandings = finalStandings;
-		let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
-		let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
-		let updatedDrawPlayers = drawPlayers;
-		let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
-		let updatedGameOverReason = gameOverReason;
-
-
-		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-			const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
-				suddenDeathPlayerNames.includes(player.name)
-			);
-
-			const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
-				(a, b) => b.score - a.score
-			);
-
-			const leader = sortedSuddenDeathPlayers[0];
-			const secondPlace = sortedSuddenDeathPlayers[1];
-
-			if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
-				updatedWinner = leader;
-				updatedFinalStandings = calculateStandings(updatedPlayers);
-				updatedGamePhase = GAME_PHASES.GAME_OVER;
-				updatedDrawPlayers = [];
-				updatedGameOverReason = '';
-			} else if (nextPlayer === finalRoundStarterIndex) {
-				updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
-
-				if (updatedSuddenDeathRoundCount >= 5) {
-					updatedWinner = null;
-					updatedFinalStandings = calculateStandings(updatedPlayers);
-					updatedDrawPlayers = activeSuddenDeathPlayers;
-					updatedGamePhase = GAME_PHASES.GAME_OVER;
-					updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
-				}
-			}
-		}
-
-
-		if (gamePhase === GAME_PHASES.FINAL_ROUND && nextPlayer === finalRoundStarterIndex) {
-			const standings = calculateStandings(updatedPlayers);
-			updatedFinalStandings = standings;
-
-			const highestScore = Math.max(...updatedPlayers.map((player) => player.score));
-
-			const topPlayers = updatedPlayers.filter(
-				(player) => player.score === highestScore
-			);
-
-			if (topPlayers.length === 1) {
-				updatedWinner = topPlayers[0];
-				updatedGamePhase = GAME_PHASES.GAME_OVER;
-			} else {
-
-				updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
-				updatedWinner = null;
-				updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
-				updatedSuddenDeathRoundCount = 0;
-				updatedDrawPlayers = [];
-				updatedGameOverReason = '';
-
-			}
-		}
-
-		if (gamePhase === GAME_PHASES.ACTIVE) {
-			const winningPlayerIndex = updatedPlayers.findIndex(
-				(player) => player.score >= 10
-			);
-
-			if (winningPlayerIndex !== -1) {
-				updatedGamePhase = GAME_PHASES.FINAL_ROUND;
-				updatedFinalRoundStarterIndex = winningPlayerIndex;
-			}
-		}
-
-		return {
-
-			roomCode,
-			players: updatedPlayers,
-			gamePhase: updatedGamePhase,
-			currentPlayerIndex: nextPlayer,
-			currentWord: lastWord,
-			sentenceHistory: updatedSentenceHistory,
-			winner: updatedWinner,
-			finalStandings: updatedFinalStandings,
-			suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
-			finalRoundStarterIndex: updatedFinalRoundStarterIndex,
-			drawPlayers: updatedDrawPlayers,
-			suddenDeathRoundCount: updatedSuddenDeathRoundCount,
-			gameOverReason: updatedGameOverReason,
-
-		};
-	}
 
 
 	async function processOnlineTimeout() {
@@ -781,10 +696,22 @@ function App() {
 		const evaluatedGameState = {
 			...gameState,
 			...evaluateOnlineGameState({
+				currentState: {
+					roomCode,
+					gamePhase: gameState.gamePhase,
+					winner: gameState.winner || null,
+					finalStandings: gameState.finalStandings || [],
+					suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
+					finalRoundStarterIndex: gameState.finalRoundStarterIndex ?? null,
+					drawPlayers: gameState.drawPlayers || [],
+					suddenDeathRoundCount: gameState.suddenDeathRoundCount || 0,
+					gameOverReason: gameState.gameOverReason || '',
+				},
 				updatedPlayers,
 				updatedSentenceHistory: gameState.sentenceHistory || [],
 				lastWord: gameState.currentWord || 'START',
 				nextPlayer,
+				GAME_PHASES,
 			}),
 			players: updatedPlayers,
 			currentWord: gameState.currentWord || 'START',
@@ -794,7 +721,6 @@ function App() {
 			consecutiveTimeouts: nextConsecutiveTimeouts,
 			gameOverReason: '',
 		};
-
 
 		const { error: updateError } = await supabase
 			.from('rooms')
