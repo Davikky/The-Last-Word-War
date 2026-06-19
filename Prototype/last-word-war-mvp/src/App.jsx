@@ -35,6 +35,8 @@ function App() {
 	const [hostName, setHostName] = useState('');
 	const [notification, setNotification] = useState('');
 	const [gameOverReason, setGameOverReason] = useState('');
+	const [drawPlayers, setDrawPlayers] = useState([]);
+	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 
 
 
@@ -317,6 +319,9 @@ function App() {
 					setTurnDeadline(updatedGameState.turnDeadline || null);
 					setNotification(updatedGameState.notification || '');
 					setGameOverReason(updatedGameState.gameOverReason || '');
+			setDrawPlayers(updatedGameState.drawPlayers || []);
+setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
+
 				}
 
 			)
@@ -625,25 +630,42 @@ function App() {
 		let updatedFinalStandings = finalStandings;
 		let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
 		let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
+		let updatedDrawPlayers = drawPlayers;
+let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
+let updatedGameOverReason = gameOverReason;
 
-		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-			const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
-				suddenDeathPlayerNames.includes(player.name)
-			);
 
-			const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
-				(a, b) => b.score - a.score
-			);
+if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+        const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
+                suddenDeathPlayerNames.includes(player.name)
+        );
 
-			const leader = sortedSuddenDeathPlayers[0];
-			const secondPlace = sortedSuddenDeathPlayers[1];
+        const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
+                (a, b) => b.score - a.score
+        );
 
-			if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
-				updatedWinner = leader;
-				updatedFinalStandings = calculateStandings(updatedPlayers);
-				updatedGamePhase = GAME_PHASES.GAME_OVER;
-			}
-		}
+        const leader = sortedSuddenDeathPlayers[0];
+        const secondPlace = sortedSuddenDeathPlayers[1];
+
+        if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
+                updatedWinner = leader;
+                updatedFinalStandings = calculateStandings(updatedPlayers);
+                updatedGamePhase = GAME_PHASES.GAME_OVER;
+                updatedDrawPlayers = [];
+                updatedGameOverReason = '';
+        } else if (nextPlayer === finalRoundStarterIndex) {
+                updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
+
+                if (updatedSuddenDeathRoundCount >= 5) {
+                        updatedWinner = null;
+                        updatedFinalStandings = calculateStandings(updatedPlayers);
+                        updatedDrawPlayers = activeSuddenDeathPlayers;
+                        updatedGamePhase = GAME_PHASES.GAME_OVER;
+                        updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
+                }
+        }
+}
+
 
 		if (gamePhase === GAME_PHASES.FINAL_ROUND && nextPlayer === finalRoundStarterIndex) {
 			const standings = calculateStandings(updatedPlayers);
@@ -659,9 +681,14 @@ function App() {
 				updatedWinner = topPlayers[0];
 				updatedGamePhase = GAME_PHASES.GAME_OVER;
 			} else {
-				updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
-				updatedWinner = null;
-				updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+
+			updatedSuddenDeathPlayerNames = topPlayers.map((player) => player.name);
+updatedWinner = null;
+updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+updatedSuddenDeathRoundCount = 0;
+updatedDrawPlayers = [];
+updatedGameOverReason = '';
+
 			}
 		}
 
@@ -677,6 +704,7 @@ function App() {
 		}
 
 		return {
+			
 			roomCode,
 			players: updatedPlayers,
 			gamePhase: updatedGamePhase,
@@ -687,6 +715,10 @@ function App() {
 			finalStandings: updatedFinalStandings,
 			suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
 			finalRoundStarterIndex: updatedFinalRoundStarterIndex,
+			drawPlayers: updatedDrawPlayers,
+suddenDeathRoundCount: updatedSuddenDeathRoundCount,
+gameOverReason: updatedGameOverReason,
+
 		};
 	}
 
@@ -886,6 +918,9 @@ function App() {
 				consecutiveTimeouts: 0,
 				gameOverReason: '',
 				notification: '',
+				drawPlayers: [],
+suddenDeathRoundCount: 0,
+
 			};
 
 			const { error } = await supabase
@@ -917,6 +952,8 @@ function App() {
 		setGameOverReason('');
 		setNotification('');
 		setConsecutiveTimeouts(0);
+		setDrawPlayers([]);
+setSuddenDeathRoundCount(0);
 		setGamePhase(GAME_PHASES.ACTIVE);
 	}
 
@@ -1121,20 +1158,29 @@ function App() {
 			<h2>🏆 Game Over</h2>
 
 
-			{winner ? (
-				<p className="winner-name">
-				<strong>Winner:</strong> {winner.name}
-				</p>
-			) : (
-				<p className="winner-name">
-				<strong>No winner declared.</strong>
-				<br />
-				{gameOverReason === 'INACTIVITY'
-					? 'Match ended due to inactivity.'
-					: 'Match ended without a winner.'}
-				</p>
-			)}
+{winner ? (
+        <p className="winner-name">
+        <strong>Winner:</strong> {winner.name}
+        </p>
+) : (
+        <div className="winner-name">
+        <strong>No winner declared.</strong>
+        <br />
+        {gameOverReason === 'INACTIVITY' && 'Match ended due to inactivity.'}
+        {gameOverReason === 'SUDDEN_DEATH_DRAW' && 'Sudden Death ended in a draw.'}
 
+        {drawPlayers.length > 0 && (
+                <>
+                <h3>Draw Players</h3>
+                <ul>
+                {drawPlayers.map((player, index) => (
+                        <li key={index}>{player.name}</li>
+                ))}
+                </ul>
+                </>
+        )}
+        </div>
+)}
 
 			<h3>Final Standings</h3>
 

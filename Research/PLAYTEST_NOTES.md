@@ -460,7 +460,10 @@ Status:
 
 Resolved and Verified.
 ---
-
+Sudden Death Draw Rule verified:
+2-player Sudden Death draw tested successfully.
+3-player verification pending/completed.
+---
 
 ### Current Assessment
 
