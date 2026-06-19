@@ -11,6 +11,7 @@ import {
 import {
 	fetchRoomByCode,
 	createRoomRecord,
+	updateRoomGameState,
 } from './services/roomService';
 
 
@@ -151,18 +152,14 @@ function App() {
 		};
 
 
-		const { error: updateError } = await supabase
-			.from('rooms')
-			.update({
-				game_state: updatedGameState,
-			})
-			.eq('room_code', roomCode);
-
-		if (updateError) {
-			console.error(updateError);
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
 			alert('Could not join lobby.');
 			return;
 		}
+
 
 		setPlayers(updatedPlayers);
 		setHasJoinedLobby(true);
@@ -208,35 +205,31 @@ function App() {
 
 
 	async function startRoomGame() {
-		
-let data;
 
-try {
-	data = await fetchRoomByCode(roomCode);
-} catch (error) {
-	console.error(error);
-	alert('Could not load room.');
-	return;
-}
+		let data;
+
+		try {
+			data = await fetchRoomByCode(roomCode);
+		} catch (error) {
+			console.error(error);
+			alert('Could not load room.');
+			return;
+		}
 		const updatedGameState = {
 			...data.game_state,
 			gamePhase: GAME_PHASES.ACTIVE,
 			turnDeadline: Date.now() + 60000,
 		};
 
-		const { error: updateError } = await supabase
-			.from('rooms')
-			.update({
-				game_state: updatedGameState,
-			})
-			.eq('room_code', roomCode);
-
-		if (updateError) {
-			console.error(updateError);
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
 			alert('Could not start game.');
-		}
-	}
 
+		}
+
+	}
 
 	useEffect(() => {
 		if (

@@ -54,3 +54,27 @@ export async function createRoomRecord(roomCode, initialGameState) {
 		throw error;
 	}
 }
+
+
+
+/**
+ * Updates the game_state column for a room.
+ *
+ * @param {string} roomCode
+ * @param {Object} gameState
+ */
+export async function updateRoomGameState(roomCode, gameState) {
+	const { error } = await supabase
+		.from('rooms')
+		.update({
+			game_state: gameState,
+		})
+		.eq('room_code', roomCode);
+
+	if (error) {
+		throw error;
+	}
+}
+
+
+
