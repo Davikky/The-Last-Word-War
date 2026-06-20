@@ -253,5 +253,17 @@ under the Da-aim Services research and development ecosystem.
 
 ---
 
+Observation:
+
+Multiple playtest participants expected an AI opponent or single-player mode.
+
+Interpretation:
+
+Contemporary users increasingly assume Human ↔ AI interaction as the default digital experience.
+
+Action Taken:
+
+A Human-Centered Welcome Screen was introduced to explicitly communicate the philosophy and multiplayer requirements of The Last Word War™.
+
 End of Document
 
