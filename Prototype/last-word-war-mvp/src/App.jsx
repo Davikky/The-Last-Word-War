@@ -560,16 +560,11 @@ function App() {
 			return;
 		}
 
-		const updatedPlayers = currentPlayers.map((player, index) => {
-			if (index === activePlayerIndex) {
-				return {
-					...player,
-					score: player.score - 1,
-				};
-			}
-
-			return player;
-		});
+		const updatedPlayers = applyScoreChange(
+			currentPlayers,
+			activePlayerIndex,
+			-1
+		);
 
 		let nextPlayer = (activePlayerIndex + 1) % currentPlayers.length;
 
