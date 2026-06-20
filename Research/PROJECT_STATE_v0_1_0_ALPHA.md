@@ -1,5 +1,14 @@
 # Project State Report
 
+Status:
+
+ARCHIVED
+
+Superseded By:
+
+PROJECT_STATE_v0_1_1.md
+---
+
 Version: v0.1.0-alpha
 
 Date: 2026-06-18

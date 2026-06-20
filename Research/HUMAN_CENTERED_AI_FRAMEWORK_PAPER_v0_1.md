@@ -1,44 +1,90 @@
 # HUMAN_CENTERED_AI_FRAMEWORK_PAPER_v0_1
 
-Project: The Last Word War
+Project: The Last Word War™
 
-Document Type: Research Notebook
+Steward:
 
-Version: 0.1
+Victor A. Adeyemi
 
-Date: 2026-06-20
+Organization:
 
-Status: Research Development
+Da-aim Services
+
+Document Type:
+
+Research Foundation Notebook
+
+Version:
+
+0.1
+
+Date:
+
+2026-06-20
+
+Status:
+
+Research Development
 
 ---
 
 # Purpose
 
-This document serves as the research notebook for the first planned academic publication arising from The Last Word War project.
+This document serves as the primary research notebook supporting the first planned publication arising from The Last Word War™ project.
 
-The objective is to capture ideas, arguments, references, observations, and conceptual developments before formal manuscript preparation begins.
+The objective is to capture ideas, arguments, observations, references, critiques, and conceptual developments before formal manuscript preparation begins.
 
-This document is exploratory in nature.
+This document is exploratory in nature and should be treated as a living research notebook rather than a finalized manuscript.
 
 ---
 
-# Working Title
+# Associated Publication
 
-The Last Word War:
+Working Title:
+
+The Last Word War™:
 
 A Human-Centered Framework for AI-Assisted Creative Systems
+
+Publication Priority:
+
+Highest
+
+Target Venue:
+
+arXiv
+
+---
+
+# Research Context
+
+The Last Word War™ is a human-centered multiplayer language game developed under the Da-aim Services research and development ecosystem.
+
+The project explores whether artificial intelligence can strengthen human collaboration without replacing human beings as the primary creators of meaning, direction, and interaction.
+
+The project serves as both:
+
+* A software system
+* A research case study
 
 ---
 
 # Core Research Question
 
-Can artificial intelligence be integrated into creative and collaborative systems without displacing human interaction, human ownership, and human meaning?
+Can artificial intelligence be integrated into creative and collaborative systems without displacing:
+
+* human interaction
+* human ownership
+* human stewardship
+* human meaning
+
+?
 
 ---
 
 # Motivation
 
-Many modern AI systems are designed around:
+Many contemporary AI systems are built primarily around:
 
 Human ↔ AI
 
@@ -46,9 +92,9 @@ interaction.
 
 As artificial intelligence becomes increasingly capable, there exists a growing tendency for technology to replace rather than support human-to-human engagement.
 
-The Last Word War explores an alternative approach.
+The Last Word War™ explores an alternative model.
 
-Instead of replacing human interaction, artificial intelligence is restricted to a supporting role while human beings remain the primary participants.
+Instead of replacing human interaction, artificial intelligence is intentionally restricted to a supporting role while human beings remain the primary participants.
 
 ---
 
@@ -79,6 +125,7 @@ These statements appear to define both:
 
 * gameplay philosophy
 * development philosophy
+* research philosophy
 
 ---
 
@@ -89,6 +136,12 @@ These statements appear to define both:
 Technology serves people.
 
 People do not serve technology.
+
+Questions:
+
+* How can this principle be operationalized?
+* Can it be measured?
+* What design patterns support it?
 
 ---
 
@@ -108,6 +161,12 @@ Artificial intelligence may not:
 * dominate
 * replace
 
+Questions:
+
+* How should boundaries be defined?
+* What boundaries are effective?
+* How can compliance be evaluated?
+
 ---
 
 ## Human Contribution Principle
@@ -116,18 +175,19 @@ Working Formulation:
 
 Meaningful creative systems should preserve majority human contribution.
 
-Current project target:
+Current Project Guideline:
 
 2/3 Human Contribution
 
 1/3 AI Assistance
 
-Questions:
+Research Questions:
 
 * Can this principle be generalized?
 * Can it be measured?
 * Is it domain dependent?
 * How should contribution be defined?
+* Is a ratio necessary?
 
 ---
 
@@ -147,7 +207,7 @@ Davikky → Vision
 
 Oasis → Reflection
 
-AI → Assistance
+Artificial Intelligence → Assistance
 
 Research Questions:
 
@@ -160,25 +220,22 @@ Research Questions:
 
 # Literature Areas To Review
 
-Human-Centered Computing
+Primary Areas:
 
-Human-Computer Interaction
+* Human-Centered Computing
+* Human-Computer Interaction
+* Human-in-the-Loop Systems
+* Collaborative Creativity
+* Responsible AI
+* AI Ethics
 
-Human-in-the-Loop Systems
+Secondary Areas:
 
-Collaborative Creativity
-
-Educational Technology
-
-Game Studies
-
-Responsible AI
-
-AI Ethics
-
-Co-Creation Systems
-
-Digital Humanities
+* Educational Technology
+* Game Studies
+* Co-Creation Systems
+* Digital Humanities
+* Participatory Design
 
 ---
 
@@ -188,11 +245,23 @@ Contribution 1
 
 Human Contribution Principle
 
+Potential Claim:
+
+Human-centered systems should preserve majority human agency and authorship.
+
 ---
 
 Contribution 2
 
 Trinity Collaboration Framework
+
+Potential Claim:
+
+Creative projects may naturally organize around complementary functions of:
+
+* Vision
+* Reflection
+* Assistance
 
 ---
 
@@ -200,13 +269,21 @@ Contribution 3
 
 Human-Centered AI-Assisted Design Framework
 
+Potential Claim:
+
+AI can strengthen collaboration without becoming the primary participant.
+
 ---
 
 Contribution 4
 
 Case Study:
 
-The Last Word War
+The Last Word War™
+
+Potential Claim:
+
+The project demonstrates practical implementation of bounded AI participation.
 
 ---
 
@@ -218,8 +295,9 @@ The framework may be criticized as:
 * overly philosophical
 * difficult to generalize
 * difficult to validate experimentally
+* culturally dependent
 
-Future work should address these concerns.
+Future work should explicitly address these concerns.
 
 ---
 
@@ -238,6 +316,10 @@ Documentation Evolution
 Contribution Records
 
 User Observations
+
+Refactor Records
+
+Research Notes
 
 ---
 
@@ -283,6 +365,26 @@ Assistance
 
 ---
 
+Figure 5
+
+Project Ecosystem
+
+Da-aim Services
+
+↓
+
+The Last Word War™
+
+↓
+
+Research
+
+↓
+
+Publications
+
+---
+
 # Future Manuscript Structure
 
 Abstract
@@ -290,6 +392,8 @@ Abstract
 Introduction
 
 Background
+
+Related Work
 
 Human Contribution Principle
 
@@ -300,6 +404,8 @@ Case Study
 Discussion
 
 Limitations
+
+Future Work
 
 Conclusion
 
@@ -312,21 +418,27 @@ Review literature on:
 * Human-centered computing
 * Human-in-the-loop systems
 * AI-assisted creativity
+* Responsible AI
 
 Document examples of:
 
 * AI replacing human interaction
 * AI supporting human interaction
 
-Continue gathering evidence through playtesting and project development.
+Continue gathering evidence through:
+
+* Playtesting
+* Development
+* Refactoring
+* Documentation evolution
 
 ---
 
-# Notes
+# Long-Term Research Goal
 
-This document is expected to evolve continuously.
+The long-term objective is to develop a rigorous framework for designing systems in which artificial intelligence strengthens human collaboration while preserving human agency, stewardship, creativity, and meaning.
 
-It should be treated as a living research notebook rather than a finalized manuscript.
+The Last Word War™ serves as the first case study within that broader research effort.
 
 ---
 
