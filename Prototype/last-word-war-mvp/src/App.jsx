@@ -11,6 +11,7 @@ import {
 	parseSentenceWords,
 	buildResetGameState,
 	resolveFinalRoundWinner,
+	resolveSuddenDeathWinner,
 } from './utils/gameLogic';
 
 import {
@@ -662,24 +663,19 @@ function App() {
 
 
 	function checkSuddenDeathWinner(playerList) {
-		const activeSuddenDeathPlayers = playerList.filter((player) =>
-			suddenDeathPlayerNames.includes(player.name)
+		const result = resolveSuddenDeathWinner(
+			playerList,
+			suddenDeathPlayerNames
 		);
 
-		const sortedPlayers = [...activeSuddenDeathPlayers].sort(
-			(a, b) => b.score - a.score
-		);
-
-		const leader = sortedPlayers[0];
-		const secondPlace = sortedPlayers[1];
-
-		if (leader.score - secondPlace.score >= 2) {
-			setWinner(leader);
-			setFinalStandings(calculateStandings(playerList));
-			setGamePhase(GAME_PHASES.GAME_OVER);
+		if (!result.hasWinner) {
+			return;
 		}
-	}
 
+		setWinner(result.winner);
+		setFinalStandings(calculateStandings(playerList));
+		setGamePhase(GAME_PHASES.GAME_OVER);
+	}
 
 
 	async function resetMatch() {

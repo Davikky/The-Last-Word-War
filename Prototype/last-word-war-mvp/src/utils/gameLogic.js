@@ -368,3 +368,45 @@ export function resolveFinalRoundWinner(playerList) {
 		isSuddenDeath: true,
 	};
 }
+
+/**
+ * Sudden Death uses a win-by-two rule so a tied match is
+ * resolved by clear separation rather than a single lucky turn.
+ *
+ * This helper only decides whether the rule has been satisfied;
+ * React state updates remain in App.jsx.
+ */
+export function resolveSuddenDeathWinner(
+	playerList,
+	suddenDeathPlayerNames
+) {
+	const activeSuddenDeathPlayers = playerList.filter((player) =>
+		suddenDeathPlayerNames.includes(player.name)
+	);
+
+	const sortedPlayers = [...activeSuddenDeathPlayers].sort(
+		(a, b) => b.score - a.score
+	);
+
+	const leader = sortedPlayers[0];
+	const secondPlace = sortedPlayers[1];
+
+	if (!leader || !secondPlace) {
+		return {
+			hasWinner: false,
+			winner: null,
+		};
+	}
+
+	if (leader.score - secondPlace.score >= 2) {
+		return {
+			hasWinner: true,
+			winner: leader,
+		};
+	}
+
+	return {
+		hasWinner: false,
+		winner: null,
+	};
+}
