@@ -410,3 +410,27 @@ export function resolveSuddenDeathWinner(
 		winner: null,
 	};
 }
+
+/**
+ * Sentence history is built through one helper so online
+ * and local submissions record the same player, sentence,
+ * and extracted-word structure.
+ *
+ * This keeps the history format stable for future replay,
+ * moderation, and AI-referee features.
+ */
+export function appendSentenceHistoryEntry({
+	sentenceHistory,
+	playerName,
+	sentence,
+	extractedWord,
+}) {
+	return [
+		...sentenceHistory,
+		{
+			player: playerName,
+			sentence,
+			extractedWord,
+		},
+	];
+}

@@ -12,6 +12,7 @@ import {
 	buildResetGameState,
 	resolveFinalRoundWinner,
 	resolveSuddenDeathWinner,
+	appendSentenceHistoryEntry,
 } from './utils/gameLogic';
 
 import {
@@ -396,15 +397,12 @@ function App() {
 				1
 			);
 
-			const updatedSentenceHistory = [
-				...sentenceHistory,
-				{
-					player: currentPlayer.name,
-					sentence: trimmedSentence,
-					extractedWord: lastWord,
-				},
-			];
-
+			const updatedSentenceHistory = appendSentenceHistoryEntry({
+				sentenceHistory,
+				playerName: currentPlayer.name,
+				sentence: trimmedSentence,
+				extractedWord: lastWord,
+			});
 
 
 			let nextPlayer = (currentPlayerIndex + 1) % players.length;
@@ -469,14 +467,26 @@ function App() {
 			return;
 		}
 
-		const updatedSentenceHistory = [
-			...sentenceHistory,
-			{
-				player: currentPlayer.name,
-				sentence: trimmedSentence,
-				extractedWord: lastWord,
-			},
-		];
+
+		/**
+		 * Legacy single-device mode.
+		 *
+		 * This mode is currently hidden from the user interface
+		 * but retained for future offline, tutorial, or AI-assisted
+		 * gameplay experiments.
+		 *
+		 * Refactor policy:
+		 * Preserve functionality unless a future release formally
+		 * removes offline play support.
+		 */
+
+
+		const updatedSentenceHistory = appendSentenceHistoryEntry({
+			sentenceHistory,
+			playerName: currentPlayer.name,
+			sentence: trimmedSentence,
+			extractedWord: lastWord,
+		});
 
 		setSentenceHistory(updatedSentenceHistory);
 		setLastSubmittedPlayerIndex(currentPlayerIndex);
