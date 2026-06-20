@@ -333,3 +333,38 @@ export function buildResetGameState({
 		suddenDeathRoundCount: 0,
 	};
 }
+
+/**
+ * Winner resolution is separated from React state updates
+ * so the game rule can be tested independently of the UI.
+ *
+ * A single top player ends the game immediately; tied leaders
+ * move into Sudden Death.
+ */
+export function resolveFinalRoundWinner(playerList) {
+	const standings = calculateStandings(playerList);
+
+	const highestScore = Math.max(
+		...playerList.map((player) => player.score)
+	);
+
+	const topPlayers = playerList.filter(
+		(player) => player.score === highestScore
+	);
+
+	if (topPlayers.length === 1) {
+		return {
+			standings,
+			winner: topPlayers[0],
+			tiedPlayerNames: [],
+			isSuddenDeath: false,
+		};
+	}
+
+	return {
+		standings,
+		winner: null,
+		tiedPlayerNames: topPlayers.map((player) => player.name),
+		isSuddenDeath: true,
+	};
+}

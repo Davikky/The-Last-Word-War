@@ -10,6 +10,7 @@ import {
 	applyScoreChange,
 	parseSentenceWords,
 	buildResetGameState,
+	resolveFinalRoundWinner,
 } from './utils/gameLogic';
 
 import {
@@ -644,26 +645,19 @@ function App() {
 
 
 	function determineWinner() {
-		const standings = calculateStandings(players);
-		setFinalStandings(standings);
+		const result = resolveFinalRoundWinner(players);
 
-		const highestScore = Math.max(...players.map((player) => player.score));
+		setFinalStandings(result.standings);
 
-		const topPlayers = players.filter(
-			(player) => player.score === highestScore
-		);
-
-		if (topPlayers.length === 1) {
-			setWinner(topPlayers[0]);
-			setGamePhase(GAME_PHASES.GAME_OVER);
-
-		} else {
-			const tiedPlayerNames = topPlayers.map((player) => player.name);
-
-			setSuddenDeathPlayerNames(tiedPlayerNames);
+		if (result.isSuddenDeath) {
+			setSuddenDeathPlayerNames(result.tiedPlayerNames);
 			setGamePhase(GAME_PHASES.SUDDEN_DEATH);
 			setWinner(null);
+			return;
 		}
+
+		setWinner(result.winner);
+		setGamePhase(GAME_PHASES.GAME_OVER);
 	}
 
 
