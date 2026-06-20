@@ -434,3 +434,31 @@ export function appendSentenceHistoryEntry({
 		},
 	];
 }
+
+/**
+ * Turn rotation is centralized so all game modes advance
+ * players using the same rules.
+ *
+ * During Sudden Death, only eligible players may receive
+ * the next turn.
+ */
+export function determineNextPlayerIndex({
+	currentPlayerIndex,
+	playerList,
+	gamePhase,
+	suddenDeathPlayerNames,
+	GAME_PHASES,
+}) {
+	let nextPlayer =
+		(currentPlayerIndex + 1) % playerList.length;
+
+	if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+		nextPlayer = getNextEligiblePlayerIndex(
+			playerList,
+			nextPlayer,
+			suddenDeathPlayerNames
+		);
+	}
+
+	return nextPlayer;
+}

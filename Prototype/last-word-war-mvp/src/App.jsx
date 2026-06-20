@@ -13,6 +13,7 @@ import {
 	resolveFinalRoundWinner,
 	resolveSuddenDeathWinner,
 	appendSentenceHistoryEntry,
+	determineNextPlayerIndex,
 } from './utils/gameLogic';
 
 import {
@@ -405,15 +406,13 @@ function App() {
 			});
 
 
-			let nextPlayer = (currentPlayerIndex + 1) % players.length;
-
-			if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-				nextPlayer = getNextEligiblePlayerIndex(
-					updatedPlayers,
-					nextPlayer,
-					suddenDeathPlayerNames
-				);
-			}
+let nextPlayer = determineNextPlayerIndex({
+	currentPlayerIndex,
+	playerList: updatedPlayers,
+	gamePhase,
+	suddenDeathPlayerNames,
+	GAME_PHASES,
+});
 
 			const evaluatedGameState = evaluateOnlineGameState({
 				currentState: {
@@ -481,31 +480,31 @@ function App() {
 		 */
 
 
-		const updatedSentenceHistory = appendSentenceHistoryEntry({
-			sentenceHistory,
-			playerName: currentPlayer.name,
-			sentence: trimmedSentence,
-			extractedWord: lastWord,
-		});
+const updatedSentenceHistory = appendSentenceHistoryEntry({
+	sentenceHistory,
+	playerName: currentPlayer.name,
+	sentence: trimmedSentence,
+	extractedWord: lastWord,
+});
 
-		setSentenceHistory(updatedSentenceHistory);
-		setLastSubmittedPlayerIndex(currentPlayerIndex);
+setSentenceHistory(updatedSentenceHistory);
+setLastSubmittedPlayerIndex(currentPlayerIndex);
 
-		updateScore(currentPlayerIndex, 1);
+updateScore(currentPlayerIndex, 1);
 
-		setCurrentWord(lastWord);
+setCurrentWord(lastWord);
 
-		let nextPlayer = (currentPlayerIndex + 1) % players.length;
+let nextPlayer = determineNextPlayerIndex({
+	currentPlayerIndex,
+	playerList: players,
+	gamePhase,
+	suddenDeathPlayerNames,
+	GAME_PHASES,
+});
 
-		if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-			while (!suddenDeathPlayerNames.includes(players[nextPlayer].name)) {
-				nextPlayer = (nextPlayer + 1) % players.length;
-			}
-		}
-
-		if (
-			gamePhase === GAME_PHASES.FINAL_ROUND &&
-			nextPlayer === finalRoundStarterIndex
+if (
+	gamePhase === GAME_PHASES.FINAL_ROUND &&
+	nextPlayer === finalRoundStarterIndex
 		) {
 			determineWinner();
 			setTimeLeft(60);
