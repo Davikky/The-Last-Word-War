@@ -212,4 +212,55 @@ export function evaluateOnlineGameState({
         };
 }
 
+/**
+ * Finds the next player whose name is eligible for the current phase.
+ *
+ * This is used during restricted phases such as Sudden Death,
+ * where only a subset of players should continue taking turns.
+ *
+ * If no eligibility list is provided, the original start index is
+ * preserved so normal turn rotation remains unchanged.
+ */
+export function getNextEligiblePlayerIndex(
+	playerList,
+	startIndex,
+	eligiblePlayerNames
+) {
+	if (!eligiblePlayerNames || eligiblePlayerNames.length === 0) {
+		return startIndex;
+	}
 
+	let candidateIndex = startIndex;
+	let attempts = 0;
+
+	while (
+		attempts < playerList.length &&
+		!eligiblePlayerNames.includes(playerList[candidateIndex].name)
+	) {
+		candidateIndex = (candidateIndex + 1) % playerList.length;
+		attempts += 1;
+	}
+
+	return candidateIndex;
+}
+
+
+/**
+ * Score changes are calculated as immutable player updates
+ * so React can detect the new player list reliably.
+ *
+ * Keeping this logic pure makes score updates reusable across
+ * local play, online play, and future AI-referee workflows.
+ */
+export function applyScoreChange(playerList, playerIndex, change) {
+	return playerList.map((player, index) => {
+		if (index === playerIndex) {
+			return {
+				...player,
+				score: player.score + change,
+			};
+		}
+
+		return player;
+	});
+}

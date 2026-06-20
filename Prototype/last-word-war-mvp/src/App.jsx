@@ -6,6 +6,8 @@ import { GAME_PHASES } from './constants/gamePhases';
 import {
 	calculateStandings,
 	evaluateOnlineGameState,
+	getNextEligiblePlayerIndex,
+	applyScoreChange,
 } from './utils/gameLogic';
 
 import {
@@ -402,6 +404,7 @@ function App() {
 				return player;
 			});
 
+
 			const updatedSentenceHistory = [
 				...sentenceHistory,
 				{
@@ -515,16 +518,7 @@ function App() {
 	}
 
 	function updateScore(playerIndex, change) {
-		const updatedPlayers = players.map((player, index) => {
-			if (index === playerIndex) {
-				return {
-					...player,
-					score: player.score + change,
-				};
-			}
-
-			return player;
-		});
+		const updatedPlayers = applyScoreChange(players, playerIndex, change);
 
 		setPlayers(updatedPlayers);
 
@@ -543,31 +537,6 @@ function App() {
 		}
 
 	}
-
-
-
-
-	function getNextEligiblePlayerIndex(playerList, startIndex, eligiblePlayerNames) {
-		if (!eligiblePlayerNames || eligiblePlayerNames.length === 0) {
-			return startIndex;
-		}
-
-		let candidateIndex = startIndex;
-		let attempts = 0;
-
-		while (
-			attempts < playerList.length &&
-			!eligiblePlayerNames.includes(playerList[candidateIndex].name)
-		) {
-			candidateIndex = (candidateIndex + 1) % playerList.length;
-			attempts += 1;
-		}
-
-		return candidateIndex;
-	}
-
-
-
 
 
 	async function processOnlineTimeout() {
