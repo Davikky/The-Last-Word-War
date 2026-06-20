@@ -293,3 +293,43 @@ export function parseSentenceWords(sentence) {
 		lastWord,
 	};
 }
+
+
+/**
+ * Match reset state is built in one place so online rematches
+ * and future local/rematch flows can share the same reset rules.
+ *
+ * The next starter rotates to reduce repeated first-player advantage.
+ */
+export function buildResetGameState({
+	roomCode,
+	players,
+	nextStarterIndex,
+	GAME_PHASES,
+	now,
+}) {
+	const resetPlayers = players.map((player) => ({
+		...player,
+		score: 0,
+	}));
+
+	return {
+		roomCode,
+		players: resetPlayers,
+		gamePhase: GAME_PHASES.ACTIVE,
+		currentPlayerIndex: nextStarterIndex,
+		currentWord: 'START',
+		sentenceHistory: [],
+		winner: null,
+		finalStandings: [],
+		suddenDeathPlayerNames: [],
+		finalRoundStarterIndex: null,
+		matchStarterIndex: nextStarterIndex,
+		turnDeadline: now + 60000,
+		consecutiveTimeouts: 0,
+		gameOverReason: '',
+		notification: '',
+		drawPlayers: [],
+		suddenDeathRoundCount: 0,
+	};
+}

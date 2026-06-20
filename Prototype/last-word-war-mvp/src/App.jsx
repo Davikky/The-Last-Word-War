@@ -9,6 +9,7 @@ import {
 	getNextEligiblePlayerIndex,
 	applyScoreChange,
 	parseSentenceWords,
+	buildResetGameState,
 } from './utils/gameLogic';
 
 import {
@@ -701,26 +702,13 @@ function App() {
 				return;
 			}
 
-			const resetGameState = {
+			const resetGameState = buildResetGameState({
 				roomCode,
-				players: resetPlayers,
-				gamePhase: GAME_PHASES.ACTIVE,
-				currentPlayerIndex: nextStarterIndex,
-				currentWord: 'START',
-				sentenceHistory: [],
-				winner: null,
-				finalStandings: [],
-				suddenDeathPlayerNames: [],
-				finalRoundStarterIndex: null,
-				matchStarterIndex: nextStarterIndex,
-				turnDeadline: Date.now() + 60000,
-				consecutiveTimeouts: 0,
-				gameOverReason: '',
-				notification: '',
-				drawPlayers: [],
-				suddenDeathRoundCount: 0,
-
-			};
+				players,
+				nextStarterIndex,
+				GAME_PHASES,
+				now: Date.now(),
+			});
 
 			try {
 				await updateRoomGameState(roomCode, resetGameState);
