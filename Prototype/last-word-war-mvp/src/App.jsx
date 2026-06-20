@@ -387,17 +387,11 @@ function App() {
 				return;
 			}
 
-			const updatedPlayers = players.map((player, index) => {
-				if (index === currentPlayerIndex) {
-					return {
-						...player,
-						score: player.score + 1,
-					};
-				}
-
-				return player;
-			});
-
+			const updatedPlayers = applyScoreChange(
+				players,
+				currentPlayerIndex,
+				1
+			);
 
 			const updatedSentenceHistory = [
 				...sentenceHistory,
