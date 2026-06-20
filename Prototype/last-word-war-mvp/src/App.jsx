@@ -6,9 +6,19 @@ import { GAME_PHASES } from './constants/gamePhases';
 import {
 	calculateStandings,
 	evaluateOnlineGameState,
+	getNextEligiblePlayerIndex,
+	applyScoreChange,
+	parseSentenceWords,
+	buildResetGameState,
 } from './utils/gameLogic';
 
+import {
+	fetchRoomByCode,
+	createRoomRecord,
+	updateRoomGameState,
+} from './services/roomService';
 
+import { generateRoomCode } from './utils/roomCode';
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -40,16 +50,6 @@ function App() {
 
 
 
-	function generateRoomCode() {
-		const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-		let code = '';
-
-		for (let index = 0; index < 5; index += 1) {
-			code += letters[Math.floor(Math.random() * letters.length)];
-		}
-
-		return code;
-	}
 
 	async function createRoom() {
 		const newRoomCode = generateRoomCode();
@@ -64,16 +64,10 @@ function App() {
 			winner: null,
 		};
 
-		const { error } = await supabase
-			.from('rooms')
-			.insert([
-				{
-					room_code: newRoomCode,
-					game_state: initialGameState,
-				},
-			]);
 
-		if (error) {
+		try {
+			await createRoomRecord(newRoomCode, initialGameState);
+		} catch (error) {
 			console.error(error);
 			alert('Room creation failed');
 			return;
@@ -96,13 +90,10 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', normalizedRoomCode)
-			.single();
 
-		if (error || !data) {
+		try {
+			await fetchRoomByCode(normalizedRoomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Room not found.');
 			return;
@@ -125,13 +116,12 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', roomCode)
-			.single();
 
-		if (error || !data) {
+		let data;
+
+		try {
+			data = await fetchRoomByCode(roomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Room not found.');
 			return;
@@ -157,18 +147,14 @@ function App() {
 		};
 
 
-		const { error: updateError } = await supabase
-			.from('rooms')
-			.update({
-				game_state: updatedGameState,
-			})
-			.eq('room_code', roomCode);
-
-		if (updateError) {
-			console.error(updateError);
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
 			alert('Could not join lobby.');
 			return;
 		}
+
 
 		setPlayers(updatedPlayers);
 		setHasJoinedLobby(true);
@@ -182,13 +168,12 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', targetRoomCode)
-			.single();
 
-		if (error || !data) {
+		let data;
+
+		try {
+			data = await fetchRoomByCode(targetRoomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Could not load room.');
 			return;
@@ -215,37 +200,31 @@ function App() {
 
 
 	async function startRoomGame() {
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', roomCode)
-			.single();
 
-		if (error || !data) {
+		let data;
+
+		try {
+			data = await fetchRoomByCode(roomCode);
+		} catch (error) {
 			console.error(error);
 			alert('Could not load room.');
 			return;
 		}
-
 		const updatedGameState = {
 			...data.game_state,
 			gamePhase: GAME_PHASES.ACTIVE,
 			turnDeadline: Date.now() + 60000,
 		};
 
-		const { error: updateError } = await supabase
-			.from('rooms')
-			.update({
-				game_state: updatedGameState,
-			})
-			.eq('room_code', roomCode);
-
-		if (updateError) {
-			console.error(updateError);
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
 			alert('Could not start game.');
-		}
-	}
 
+		}
+
+	}
 
 	useEffect(() => {
 		if (
@@ -364,14 +343,9 @@ function App() {
 				players: updatedPlayers,
 			};
 
-			const { error } = await supabase
-				.from('rooms')
-				.update({
-					game_state: updatedGameState,
-				})
-				.eq('room_code', roomCode);
-
-			if (error) {
+			try {
+				await updateRoomGameState(roomCode, updatedGameState);
+			} catch (error) {
 				console.error(error);
 				alert('Could not remove player.');
 				return;
@@ -387,27 +361,20 @@ function App() {
 	async function submitSentence(event) {
 		event.preventDefault();
 
-		const trimmedSentence = sentence.trim();
+		const {
+			trimmedSentence,
+			firstWord,
+			lastWord,
+		} = parseSentenceWords(sentence);
 
 		if (trimmedSentence === '') {
 			return;
 		}
 
-		const firstWord = trimmedSentence
-			.split(/\s+/)[0]
-			.replace(/[^\w]/g, '')
-			.toUpperCase();
-
 		if (currentWord !== 'START' && firstWord !== currentWord) {
 			alert(`Sentence must begin with the current word: ${currentWord}`);
 			return;
 		}
-
-		const words = trimmedSentence.split(/\s+/);
-
-		const lastWord = words[words.length - 1]
-			.replace(/[^\w]/g, '')
-			.toUpperCase();
 
 		const currentPlayer = players[currentPlayerIndex];
 
@@ -421,16 +388,11 @@ function App() {
 				return;
 			}
 
-			const updatedPlayers = players.map((player, index) => {
-				if (index === currentPlayerIndex) {
-					return {
-						...player,
-						score: player.score + 1,
-					};
-				}
-
-				return player;
-			});
+			const updatedPlayers = applyScoreChange(
+				players,
+				currentPlayerIndex,
+				1
+			);
 
 			const updatedSentenceHistory = [
 				...sentenceHistory,
@@ -491,18 +453,14 @@ function App() {
 			};
 
 
-			const { error } = await supabase
-				.from('rooms')
-				.update({
-					game_state: updatedGameState,
-				})
-				.eq('room_code', roomCode);
-
-			if (error) {
+			try {
+				await updateRoomGameState(roomCode, updatedGameState);
+			} catch (error) {
 				console.error(error);
 				alert('Could not submit sentence.');
 				return;
 			}
+
 
 			setSentence('');
 			setTimeLeft(60);
@@ -549,16 +507,7 @@ function App() {
 	}
 
 	function updateScore(playerIndex, change) {
-		const updatedPlayers = players.map((player, index) => {
-			if (index === playerIndex) {
-				return {
-					...player,
-					score: player.score + change,
-				};
-			}
-
-			return player;
-		});
+		const updatedPlayers = applyScoreChange(players, playerIndex, change);
 
 		setPlayers(updatedPlayers);
 
@@ -579,31 +528,6 @@ function App() {
 	}
 
 
-
-
-	function getNextEligiblePlayerIndex(playerList, startIndex, eligiblePlayerNames) {
-		if (!eligiblePlayerNames || eligiblePlayerNames.length === 0) {
-			return startIndex;
-		}
-
-		let candidateIndex = startIndex;
-		let attempts = 0;
-
-		while (
-			attempts < playerList.length &&
-			!eligiblePlayerNames.includes(playerList[candidateIndex].name)
-		) {
-			candidateIndex = (candidateIndex + 1) % playerList.length;
-			attempts += 1;
-		}
-
-		return candidateIndex;
-	}
-
-
-
-
-
 	async function processOnlineTimeout() {
 		if (!roomCode || !isHost || !turnDeadline) {
 			return;
@@ -613,13 +537,11 @@ function App() {
 			return;
 		}
 
-		const { data, error } = await supabase
-			.from('rooms')
-			.select('*')
-			.eq('room_code', roomCode)
-			.single();
+		let data;
 
-		if (error || !data) {
+		try {
+			data = await fetchRoomByCode(roomCode);
+		} catch (error) {
 			console.error(error);
 			return;
 		}
@@ -633,16 +555,11 @@ function App() {
 			return;
 		}
 
-		const updatedPlayers = currentPlayers.map((player, index) => {
-			if (index === activePlayerIndex) {
-				return {
-					...player,
-					score: player.score - 1,
-				};
-			}
-
-			return player;
-		});
+		const updatedPlayers = applyScoreChange(
+			currentPlayers,
+			activePlayerIndex,
+			-1
+		);
 
 		let nextPlayer = (activePlayerIndex + 1) % currentPlayers.length;
 
@@ -677,15 +594,10 @@ function App() {
 				gameOverReason: 'INACTIVITY',
 			};
 
-			const { error: inactivityUpdateError } = await supabase
-				.from('rooms')
-				.update({
-					game_state: inactivityGameState,
-				})
-				.eq('room_code', roomCode);
-
-			if (inactivityUpdateError) {
-				console.error(inactivityUpdateError);
+			try {
+				await updateRoomGameState(roomCode, inactivityGameState);
+			} catch (error) {
+				console.error(error);
 			}
 
 			return;
@@ -722,16 +634,12 @@ function App() {
 			gameOverReason: '',
 		};
 
-		const { error: updateError } = await supabase
-			.from('rooms')
-			.update({
-				game_state: evaluatedGameState,
-			})
-			.eq('room_code', roomCode);
-
-		if (updateError) {
-			console.error(updateError);
+		try {
+			await updateRoomGameState(roomCode, evaluatedGameState);
+		} catch (error) {
+			console.error(error);
 		}
+
 	}
 
 
@@ -794,39 +702,20 @@ function App() {
 				return;
 			}
 
-			const resetGameState = {
+			const resetGameState = buildResetGameState({
 				roomCode,
-				players: resetPlayers,
-				gamePhase: GAME_PHASES.ACTIVE,
-				currentPlayerIndex: nextStarterIndex,
-				currentWord: 'START',
-				sentenceHistory: [],
-				winner: null,
-				finalStandings: [],
-				suddenDeathPlayerNames: [],
-				finalRoundStarterIndex: null,
-				matchStarterIndex: nextStarterIndex,
-				turnDeadline: Date.now() + 60000,
-				consecutiveTimeouts: 0,
-				gameOverReason: '',
-				notification: '',
-				drawPlayers: [],
-				suddenDeathRoundCount: 0,
+				players,
+				nextStarterIndex,
+				GAME_PHASES,
+				now: Date.now(),
+			});
 
-			};
-
-			const { error } = await supabase
-				.from('rooms')
-				.update({
-					game_state: resetGameState,
-				})
-				.eq('room_code', roomCode);
-
-			if (error) {
+			try {
+				await updateRoomGameState(roomCode, resetGameState);
+			} catch (error) {
 				console.error(error);
 				alert('Could not start rematch.');
 			}
-
 			return;
 		}
 
