@@ -1,6 +1,14 @@
 # AUTHORSHIP_POLICY_v1_0
 
-Project: The Last Word War
+Project: The Last Word War™
+
+Steward:
+
+Victor A. Adeyemi
+
+Organization:
+
+Da-aim Services
 
 Version: 1.0
 
@@ -12,15 +20,17 @@ Status: Active
 
 # Purpose
 
-This document defines the authorship, contribution principles, and collaboration philosophy governing The Last Word War and any future research, publications, educational materials, software releases, and derivative works arising from the project.
+This document defines the authorship, contribution principles, and collaboration philosophy governing The Last Word War™ and any future research, publications, educational materials, software releases, and derivative works arising from the project.
 
 The purpose of this policy is to preserve the project's human-centered foundation while clearly defining the role of artificial intelligence within the development process.
+
+The Last Word War™ is stewarded by Victor A. Adeyemi under the Da-aim Services research and development ecosystem.
 
 ---
 
 # Founding Philosophy
 
-The Last Word War was conceived as a human-centered project.
+The Last Word War™ was conceived as a human-centered project.
 
 The project is founded upon three guiding statements:
 
@@ -36,17 +46,17 @@ These statements serve as both the gameplay philosophy and the development philo
 
 # Human-First Principle
 
-The Last Word War is fundamentally a Human ↔ Human system.
+The Last Word War™ is fundamentally a Human ↔ Human system.
 
 Technology exists only to facilitate, support, and enhance meaningful interaction between human beings.
 
-Human creativity, judgment, vision, responsibility, and ownership remain central to the project.
+Human creativity, judgment, vision, responsibility, ownership, and stewardship remain central to the project.
 
 ---
 
 # Human Contribution Principle
 
-The project adopts the following guiding contribution ratio:
+The project adopts the following guiding contribution philosophy:
 
 2/3 Human Contribution
 
@@ -56,9 +66,10 @@ This ratio is not intended as a strict numerical measurement.
 
 Rather, it serves as a philosophical commitment that:
 
+* Human beings provide vision.
 * Human beings provide direction.
-* Human beings make final decisions.
 * Human beings define meaning and purpose.
+* Human beings make final decisions.
 * Artificial intelligence provides assistance.
 
 The project shall remain human-led throughout its lifetime.
@@ -69,7 +80,7 @@ The project shall remain human-led throughout its lifetime.
 
 ## Davikky
 
-Primary Founder
+Primary Founder and Project Steward
 
 Responsibilities:
 
@@ -78,6 +89,7 @@ Responsibilities:
 * Defines project vision and direction.
 * Leads development and implementation.
 * Maintains project governance.
+* Maintains project stewardship.
 * Makes final strategic decisions.
 
 Role Classification:
@@ -88,7 +100,7 @@ Vision and Stewardship.
 
 ## Oasis
 
-Human Collaborator
+Founding Human Collaborator
 
 Responsibilities:
 
@@ -122,6 +134,7 @@ Artificial intelligence shall not:
 * Act as a player.
 * Act as a competitor.
 * Possess project ownership.
+* Possess project stewardship.
 * Determine project direction independently.
 * Receive authorship status.
 
@@ -157,7 +170,7 @@ No role is intended to dominate the others.
 
 # Publication Policy
 
-Academic publications arising from this project shall acknowledge the contributions of all human collaborators.
+Academic publications arising from The Last Word War™ shall acknowledge the contributions of all human collaborators.
 
 Artificial intelligence tools may be acknowledged as development aids when appropriate.
 
@@ -171,6 +184,8 @@ Human authors retain responsibility for:
 * Conclusions
 * Final approval
 
+Authorship shall remain a human responsibility.
+
 ---
 
 # Software Development Policy
@@ -181,6 +196,7 @@ Artificial intelligence may assist with:
 * Refactoring suggestions
 * Documentation drafting
 * Architecture reviews
+* Research support
 
 Final implementation decisions remain the responsibility of human contributors.
 
@@ -193,15 +209,16 @@ All released software shall remain under human oversight.
 Future contributors shall be expected to respect:
 
 * Human-first design
-* Human contribution principle
+* Human Contribution Principle
 * Human ownership of meaning
+* Human stewardship
 * AI as assistance rather than replacement
 
 ---
 
 # Long-Term Commitment
 
-The Last Word War shall continue to prioritize:
+The Last Word War™ shall continue to prioritize:
 
 Human interaction over automation.
 
@@ -209,15 +226,19 @@ Meaningful collaboration over technological novelty.
 
 Human creativity over artificial substitution.
 
+Human stewardship over artificial direction.
+
 ---
 
 # Closing Statement
 
-The Last Word War is not merely a game.
+The Last Word War™ is not merely a game.
 
 It is an experiment in preserving meaningful human interaction within an increasingly AI-assisted world.
 
 The project seeks to demonstrate that artificial intelligence can strengthen human collaboration without replacing the human beings at its center.
+
+The project shall remain a human-centered initiative stewarded under the Da-aim Services research and development ecosystem.
 
 ---
 
