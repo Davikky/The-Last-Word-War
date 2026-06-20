@@ -879,13 +879,6 @@ function App() {
 
 
 
-		{notification && (
-			<div className="notification-banner">
-			{notification}
-			</div>
-		)}
-
-
 		{sentenceHistory.length > 0 && (
 			<div className="history-panel">
 			<h2>Sentence History</h2>
@@ -898,6 +891,13 @@ function App() {
 				</li>
 			))}
 			</ol>
+			</div>
+		)}
+
+
+		{notification && (
+			<div className="notification-banner">
+			{notification}
 			</div>
 		)}
 
