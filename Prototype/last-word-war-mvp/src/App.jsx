@@ -856,8 +856,8 @@ function App() {
 		<main className="app-container">
 		<section className="hero-card">
 
+		<h1>The Last Word War™</h1>
 
-		<h1>The Last Word War</h1>
 
 		<div className="landing-message">
 		<p>War is not the goal of this GAME at all.</p>

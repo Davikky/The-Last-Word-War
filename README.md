@@ -1,7 +1,5 @@
 [![tlww-image](https://github.com/Davikky/The-Last-Word-War/blob/main/the-last-word-war.png?raw=true)](https://the-last-word-war.vercel.app)
 
-[![tlww-image](https://github.com/Davikky/The-Last-Word-War/blob/main/the-last-word-war.png?raw=true)](https://the-last-word-war.vercel.app)
-
 # The Last Word War™
 
 ---
