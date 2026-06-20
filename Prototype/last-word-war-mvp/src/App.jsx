@@ -8,6 +8,7 @@ import {
 	evaluateOnlineGameState,
 	getNextEligiblePlayerIndex,
 	applyScoreChange,
+	parseSentenceWords,
 } from './utils/gameLogic';
 
 import {
@@ -359,27 +360,20 @@ function App() {
 	async function submitSentence(event) {
 		event.preventDefault();
 
-		const trimmedSentence = sentence.trim();
+		const {
+			trimmedSentence,
+			firstWord,
+			lastWord,
+		} = parseSentenceWords(sentence);
 
 		if (trimmedSentence === '') {
 			return;
 		}
 
-		const firstWord = trimmedSentence
-			.split(/\s+/)[0]
-			.replace(/[^\w]/g, '')
-			.toUpperCase();
-
 		if (currentWord !== 'START' && firstWord !== currentWord) {
 			alert(`Sentence must begin with the current word: ${currentWord}`);
 			return;
 		}
-
-		const words = trimmedSentence.split(/\s+/);
-
-		const lastWord = words[words.length - 1]
-			.replace(/[^\w]/g, '')
-			.toUpperCase();
 
 		const currentPlayer = players[currentPlayerIndex];
 

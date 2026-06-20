@@ -264,3 +264,32 @@ export function applyScoreChange(playerList, playerIndex, change) {
 		return player;
 	});
 }
+
+
+/**
+ * Sentence parsing is isolated so the word-extraction
+ * rule remains consistent across local play, online play,
+ * and future AI-referee validation.
+ *
+ * Punctuation is removed before comparison because the game
+ * depends on spoken/written word continuity, not punctuation.
+ */
+export function parseSentenceWords(sentence) {
+	const trimmedSentence = sentence.trim();
+
+	const words = trimmedSentence.split(/\s+/);
+
+	const firstWord = words[0]
+		.replace(/[^\w]/g, '')
+		.toUpperCase();
+
+	const lastWord = words[words.length - 1]
+		.replace(/[^\w]/g, '')
+		.toUpperCase();
+
+	return {
+		trimmedSentence,
+		firstWord,
+		lastWord,
+	};
+}
