@@ -14,6 +14,7 @@ import {
 	resolveSuddenDeathWinner,
 	appendSentenceHistoryEntry,
 	determineNextPlayerIndex,
+	buildInactivityGameState,
 } from './utils/gameLogic';
 
 import {
@@ -587,19 +588,13 @@ function App() {
 		const nextConsecutiveTimeouts = (gameState.consecutiveTimeouts || 0) + 1;
 
 		if (nextConsecutiveTimeouts >= 5) {
-			const inactivityGameState = {
-				...gameState,
-				players: updatedPlayers,
-				gamePhase: GAME_PHASES.GAME_OVER,
-				winner: null,
-				finalStandings: calculateStandings(updatedPlayers),
-				currentWord: gameState.currentWord || 'START',
-				currentPlayerIndex: nextPlayer,
-				turnDeadline: null,
-				notification: '⏰ Match ended after 5 consecutive timeouts.',
-				consecutiveTimeouts: nextConsecutiveTimeouts,
-				gameOverReason: 'INACTIVITY',
-			};
+			const inactivityGameState = buildInactivityGameState({
+				gameState,
+				updatedPlayers,
+				nextPlayer,
+				nextConsecutiveTimeouts,
+				GAME_PHASES,
+			});
 
 			try {
 				await updateRoomGameState(roomCode, inactivityGameState);

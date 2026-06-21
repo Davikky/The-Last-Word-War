@@ -462,3 +462,33 @@ export function determineNextPlayerIndex({
 
 	return nextPlayer;
 }
+
+/**
+ * Consecutive timeouts can terminate a match to prevent
+ * abandoned rooms from remaining active indefinitely.
+ *
+ * This helper centralizes the inactivity-forfeit rule so
+ * all timeout-based game termination follows one policy.
+ */
+export function buildInactivityGameState({
+	gameState,
+	updatedPlayers,
+	nextPlayer,
+	nextConsecutiveTimeouts,
+	GAME_PHASES,
+}) {
+	return {
+		...gameState,
+		players: updatedPlayers,
+		gamePhase: GAME_PHASES.GAME_OVER,
+		winner: null,
+		finalStandings: calculateStandings(updatedPlayers),
+		currentWord: gameState.currentWord || 'START',
+		currentPlayerIndex: nextPlayer,
+		turnDeadline: null,
+		notification:
+			'⏰ Match ended after 5 consecutive timeouts.',
+		consecutiveTimeouts: nextConsecutiveTimeouts,
+		gameOverReason: 'INACTIVITY',
+	};
+}
