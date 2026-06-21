@@ -388,5 +388,78 @@ Future implementation may also detect very close names using stricter similarity
 
 `hotfix-unique-player-names-v0.1.1`
 
+## Known Issue: Game Session Lost on Page Refresh
+
+**Date Identified:** 2026-06-21
+
+### Description
+
+Refreshing the browser during an active online match causes the player to lose their current session and return to the landing page.
+
+Although the multiplayer room and game state remain intact in Supabase, the client loses all locally stored session information.
+
+### Example Scenario
+
+1. A player joins an active room.
+2. The player accidentally refreshes the browser tab.
+3. The React application reloads.
+4. All in-memory state is reset.
+5. The player is returned to the welcome screen.
+6. The player must manually re-enter the room code and rejoin the lobby.
+
+### Severity
+
+**HIGH**
+
+This issue negatively affects usability in deployed environments (e.g., Vercel) because accidental refreshes, browser crashes, network interruptions, and mobile tab suspensions are common.
+
+### Root Cause
+
+Important client session information is currently stored only in React state.
+
+Examples:
+
+```javascript
+roomCode
+localPlayerName
+isHost
+hasJoinedLobby
+```
+
+React state is destroyed whenever the page reloads.
+
+### Proposed Solution
+
+Persist essential session information using browser `localStorage`.
+
+Suggested keys:
+
+```javascript
+tlww_roomCode
+tlww_localPlayerName
+tlww_isHost
+tlww_hasJoinedLobby
+```
+
+On application startup:
+
+1. Check localStorage for a saved session.
+2. Restore the session state if available.
+3. Automatically call `loadRoom(roomCode)`.
+4. Re-establish realtime subscriptions.
+5. Resume gameplay without requiring manual re-entry.
+
+### Additional Considerations
+
+* Clear localStorage when the player intentionally leaves a room.
+* Clear localStorage after a room is permanently closed.
+* Validate that the saved room still exists before restoring.
+* Gracefully handle stale or invalid saved sessions.
+
+### Suggested Branch
+
+`hotfix-refresh-session-restore-v0.1.1`
+
+
 End of Document
 
