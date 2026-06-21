@@ -561,26 +561,26 @@ function App() {
 	}
 
 
-function startNewPlayFromActiveSession() {
-	clearSavedSession();
+	function startNewPlayFromActiveSession() {
+		clearSavedSession();
 
-	setRoomCode('');
-	setJoinRoomCode('');
-	setLocalPlayerName('');
-	setPlayers([]);
-	setSentenceHistory([]);
-	setWinner(null);
-	setNotification('');
-	setHasJoinedLobby(false);
-	setIsHost(false);
-	setCurrentWord('START');
-	setCurrentPlayerIndex(0);
-	setTimeLeft(60);
-	setSentence('');
-	setGamePhase(GAME_PHASES.SETUP);
+		setRoomCode('');
+		setJoinRoomCode('');
+		setLocalPlayerName('');
+		setPlayers([]);
+		setSentenceHistory([]);
+		setWinner(null);
+		setNotification('');
+		setHasJoinedLobby(false);
+		setIsHost(false);
+		setCurrentWord('START');
+		setCurrentPlayerIndex(0);
+		setTimeLeft(60);
+		setSentence('');
+		setGamePhase(GAME_PHASES.SETUP);
 
-	setShowWelcomeScreen(true);
-}
+		setShowWelcomeScreen(true);
+	}
 
 
 	async function processOnlineTimeout() {
@@ -858,19 +858,19 @@ function startNewPlayFromActiveSession() {
 
 
 
-{roomCode && gamePhase === GAME_PHASES.SETUP && (
-	<div className="status-box">
-		<p><strong>Room Code:</strong> {roomCode}</p>
-		<p>Share ROOM CODE with another player.</p>
+		{roomCode && gamePhase === GAME_PHASES.SETUP && (
+			<div className="status-box">
+			<p><strong>Room Code:</strong> {roomCode}</p>
+			<p>Share ROOM CODE with another player.</p>
 
-		<button
+			<button
 			className="start-button"
 			onClick={startNewPlayFromActiveSession}
-		>
+			>
 			Start New Play
-		</button>
-	</div>
-)}
+			</button>
+			</div>
+		)}
 
 
 		{roomCode && !hasJoinedLobby && (
@@ -1056,6 +1056,12 @@ function startNewPlayFromActiveSession() {
 			{roomCode ? 'Start Rematch' : 'Play Again'}
 			</button>
 
+			<button
+			className="start-button"
+			onClick={startNewPlayFromActiveSession}
+			>
+			Start New Play
+			</button>
 
 			<a
 			className="feedback-button"
