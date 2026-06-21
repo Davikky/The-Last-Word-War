@@ -15,6 +15,7 @@ import {
 	appendSentenceHistoryEntry,
 	determineNextPlayerIndex,
 	buildInactivityGameState,
+	buildTimeoutGameState,
 } from './utils/gameLogic';
 
 import {
@@ -607,34 +608,37 @@ function App() {
 
 		const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
 
-		const evaluatedGameState = {
-			...gameState,
-			...evaluateOnlineGameState({
-				currentState: {
-					roomCode,
-					gamePhase: gameState.gamePhase,
-					winner: gameState.winner || null,
-					finalStandings: gameState.finalStandings || [],
-					suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
-					finalRoundStarterIndex: gameState.finalRoundStarterIndex ?? null,
-					drawPlayers: gameState.drawPlayers || [],
-					suddenDeathRoundCount: gameState.suddenDeathRoundCount || 0,
-					gameOverReason: gameState.gameOverReason || '',
-				},
-				updatedPlayers,
-				updatedSentenceHistory: gameState.sentenceHistory || [],
-				lastWord: gameState.currentWord || 'START',
-				nextPlayer,
-				GAME_PHASES,
-			}),
-			players: updatedPlayers,
-			currentWord: gameState.currentWord || 'START',
-			currentPlayerIndex: nextPlayer,
-			turnDeadline: Date.now() + 60000,
-			notification: timeoutNotification,
-			consecutiveTimeouts: nextConsecutiveTimeouts,
-			gameOverReason: '',
-		};
+		const evaluatedState = evaluateOnlineGameState({
+	currentState: {
+		roomCode,
+		gamePhase: gameState.gamePhase,
+		winner: gameState.winner || null,
+		finalStandings: gameState.finalStandings || [],
+		suddenDeathPlayerNames:
+			gameState.suddenDeathPlayerNames || [],
+		finalRoundStarterIndex:
+			gameState.finalRoundStarterIndex ?? null,
+		drawPlayers: gameState.drawPlayers || [],
+		suddenDeathRoundCount:
+			gameState.suddenDeathRoundCount || 0,
+		gameOverReason: gameState.gameOverReason || '',
+	},
+	updatedPlayers,
+	updatedSentenceHistory: gameState.sentenceHistory || [],
+	lastWord: gameState.currentWord || 'START',
+	nextPlayer,
+	GAME_PHASES,
+});
+
+const evaluatedGameState = buildTimeoutGameState({
+	gameState,
+	evaluatedGameState: evaluatedState,
+	updatedPlayers,
+	nextPlayer,
+	timeoutNotification,
+	nextConsecutiveTimeouts,
+	now: Date.now(),
+});
 
 		try {
 			await updateRoomGameState(roomCode, evaluatedGameState);

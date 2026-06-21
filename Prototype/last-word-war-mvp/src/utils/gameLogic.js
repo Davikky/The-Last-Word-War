@@ -492,3 +492,33 @@ export function buildInactivityGameState({
 		gameOverReason: 'INACTIVITY',
 	};
 }
+
+/**
+ * Timeout penalties advance the match while preserving
+ * the current word and applying the standard game-state
+ * evaluation rules.
+ *
+ * Centralizing this builder ensures timeout transitions
+ * remain consistent across all multiplayer sessions.
+ */
+export function buildTimeoutGameState({
+	gameState,
+	evaluatedGameState,
+	updatedPlayers,
+	nextPlayer,
+	timeoutNotification,
+	nextConsecutiveTimeouts,
+	now,
+}) {
+	return {
+		...gameState,
+		...evaluatedGameState,
+		players: updatedPlayers,
+		currentWord: gameState.currentWord || 'START',
+		currentPlayerIndex: nextPlayer,
+		turnDeadline: now + 60000,
+		notification: timeoutNotification,
+		consecutiveTimeouts: nextConsecutiveTimeouts,
+		gameOverReason: '',
+	};
+}
