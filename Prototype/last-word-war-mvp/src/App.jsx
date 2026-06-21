@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from './lib/supabase';
 import './App.css';
 
@@ -15,8 +15,15 @@ import {
 	updateRoomGameState,
 } from './services/roomService';
 
+import {
+	saveSessionValue,
+	loadSavedSession,
+} from './services/sessionService';
+
 import { generateRoomCode } from './utils/roomCode';
+
 import WelcomeScreen from './components/WelcomeScreen';
+
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -46,34 +53,65 @@ function App() {
 	const [drawPlayers, setDrawPlayers] = useState([]);
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
+	const hasRestoredSessionRef = useRef(false);
 
 
-useEffect(() => {
-	if (roomCode) {
-		localStorage.setItem('tlww_roomCode', roomCode);
-	} else {
-		localStorage.removeItem('tlww_roomCode');
-	}
-}, [roomCode]);
+	useEffect(() => {
+		if (!hasRestoredSessionRef.current) {
+			return;
+		}
 
-useEffect(() => {
-	if (localPlayerName) {
-		localStorage.setItem('tlww_localPlayerName', localPlayerName);
-	} else {
-		localStorage.removeItem('tlww_localPlayerName');
-	}
-}, [localPlayerName]);
+		saveSessionValue('roomCode', roomCode);
+	}, [roomCode]);
 
-useEffect(() => {
-	localStorage.setItem('tlww_isHost', JSON.stringify(isHost));
-}, [isHost]);
+	useEffect(() => {
+		if (!hasRestoredSessionRef.current) {
+			return;
+		}
 
-useEffect(() => {
-	localStorage.setItem(
-		'tlww_hasJoinedLobby',
-		JSON.stringify(hasJoinedLobby)
-	);
-}, [hasJoinedLobby]);
+		saveSessionValue(
+			'localPlayerName',
+			localPlayerName
+		);
+	}, [localPlayerName]);
+
+	useEffect(() => {
+		if (!hasRestoredSessionRef.current) {
+			return;
+		}
+
+		saveSessionValue('isHost', isHost);
+	}, [isHost]);
+
+	useEffect(() => {
+		if (!hasRestoredSessionRef.current) {
+			return;
+		}
+
+		saveSessionValue(
+			'hasJoinedLobby',
+			hasJoinedLobby
+		);
+	}, [hasJoinedLobby]);
+
+
+	useEffect(() => {
+		const savedSession = loadSavedSession();
+
+		if (!savedSession.roomCode) {
+			hasRestoredSessionRef.current = true;
+			return;
+		}
+
+		setRoomCode(savedSession.roomCode);
+		setLocalPlayerName(savedSession.localPlayerName);
+		setIsHost(savedSession.isHost);
+		setHasJoinedLobby(savedSession.hasJoinedLobby);
+
+		loadRoom(savedSession.roomCode);
+
+		hasRestoredSessionRef.current = true;
+	}, []);
 
 
 
