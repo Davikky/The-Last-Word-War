@@ -460,6 +460,43 @@ On application startup:
 
 `hotfix-refresh-session-restore-v0.1.1`
 
+## Session Persistence and Recovery Improvements
+
+**Date:** 2026-06-21
+
+### Motivation
+
+Refreshing the browser during an active multiplayer session caused complete loss of the local client state, forcing players to manually rejoin rooms.
+
+### Implemented Improvements
+
+* Introduced `sessionService.js` to isolate browser persistence concerns.
+* Persisted room and player identity information using browser local storage.
+* Added automatic session restoration after browser refresh.
+* Preserved existing welcome-screen workflow.
+* Added "Start New Play" action to intentionally abandon restored sessions.
+* Added "Start New Play" action to the game-over screen.
+
+### Architectural Impact
+
+Browser persistence logic is now separated from gameplay logic, improving maintainability and reducing coupling inside `App.jsx`.
+
+### User Experience Improvements
+
+Players can now:
+
+* recover from accidental refreshes,
+* resume interrupted games,
+* intentionally discard old sessions,
+* begin fresh games without stale session interference.
+
+### Future Work
+
+* Add explicit "Leave Game" functionality.
+* Allow hosts to close rooms gracefully.
+* Remove disconnected players automatically.
+* Add stale-session detection.
+
 
 End of Document
 
