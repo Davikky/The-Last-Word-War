@@ -18,11 +18,13 @@ import {
 import {
 	saveSessionValue,
 	loadSavedSession,
+	clearSavedSession,
 } from './services/sessionService';
 
 import { generateRoomCode } from './utils/roomCode';
 
 import WelcomeScreen from './components/WelcomeScreen';
+
 
 
 function App() {
@@ -559,6 +561,28 @@ function App() {
 	}
 
 
+function startNewPlayFromActiveSession() {
+	clearSavedSession();
+
+	setRoomCode('');
+	setJoinRoomCode('');
+	setLocalPlayerName('');
+	setPlayers([]);
+	setSentenceHistory([]);
+	setWinner(null);
+	setNotification('');
+	setHasJoinedLobby(false);
+	setIsHost(false);
+	setCurrentWord('START');
+	setCurrentPlayerIndex(0);
+	setTimeLeft(60);
+	setSentence('');
+	setGamePhase(GAME_PHASES.SETUP);
+
+	setShowWelcomeScreen(true);
+}
+
+
 	async function processOnlineTimeout() {
 		if (!roomCode || !isHost || !turnDeadline) {
 			return;
@@ -834,12 +858,19 @@ function App() {
 
 
 
-		{roomCode && gamePhase === GAME_PHASES.SETUP && (
-			<div className="status-box">
-			<p><strong>Room Code:</strong> {roomCode}</p>
-			<p>Share ROOM CODE with another player.</p>
-			</div>
-		)}
+{roomCode && gamePhase === GAME_PHASES.SETUP && (
+	<div className="status-box">
+		<p><strong>Room Code:</strong> {roomCode}</p>
+		<p>Share ROOM CODE with another player.</p>
+
+		<button
+			className="start-button"
+			onClick={startNewPlayFromActiveSession}
+		>
+			Start New Play
+		</button>
+	</div>
+)}
 
 
 		{roomCode && !hasJoinedLobby && (
