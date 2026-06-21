@@ -408,13 +408,13 @@ function App() {
 			});
 
 
-let nextPlayer = determineNextPlayerIndex({
-	currentPlayerIndex,
-	playerList: updatedPlayers,
-	gamePhase,
-	suddenDeathPlayerNames,
-	GAME_PHASES,
-});
+			let nextPlayer = determineNextPlayerIndex({
+				currentPlayerIndex,
+				playerList: updatedPlayers,
+				gamePhase,
+				suddenDeathPlayerNames,
+				GAME_PHASES,
+			});
 
 			const evaluatedGameState = evaluateOnlineGameState({
 				currentState: {
@@ -482,31 +482,31 @@ let nextPlayer = determineNextPlayerIndex({
 		 */
 
 
-const updatedSentenceHistory = appendSentenceHistoryEntry({
-	sentenceHistory,
-	playerName: currentPlayer.name,
-	sentence: trimmedSentence,
-	extractedWord: lastWord,
-});
+		const updatedSentenceHistory = appendSentenceHistoryEntry({
+			sentenceHistory,
+			playerName: currentPlayer.name,
+			sentence: trimmedSentence,
+			extractedWord: lastWord,
+		});
 
-setSentenceHistory(updatedSentenceHistory);
-setLastSubmittedPlayerIndex(currentPlayerIndex);
+		setSentenceHistory(updatedSentenceHistory);
+		setLastSubmittedPlayerIndex(currentPlayerIndex);
 
-updateScore(currentPlayerIndex, 1);
+		updateScore(currentPlayerIndex, 1);
 
-setCurrentWord(lastWord);
+		setCurrentWord(lastWord);
 
-let nextPlayer = determineNextPlayerIndex({
-	currentPlayerIndex,
-	playerList: players,
-	gamePhase,
-	suddenDeathPlayerNames,
-	GAME_PHASES,
-});
+		let nextPlayer = determineNextPlayerIndex({
+			currentPlayerIndex,
+			playerList: players,
+			gamePhase,
+			suddenDeathPlayerNames,
+			GAME_PHASES,
+		});
 
-if (
-	gamePhase === GAME_PHASES.FINAL_ROUND &&
-	nextPlayer === finalRoundStarterIndex
+		if (
+			gamePhase === GAME_PHASES.FINAL_ROUND &&
+			nextPlayer === finalRoundStarterIndex
 		) {
 			determineWinner();
 			setTimeLeft(60);
@@ -574,13 +574,13 @@ if (
 			-1
 		);
 
-const nextPlayer = determineNextPlayerIndex({
-	currentPlayerIndex: activePlayerIndex,
-	playerList: currentPlayers,
-	gamePhase: gameState.gamePhase,
-	suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
-	GAME_PHASES,
-});
+		const nextPlayer = determineNextPlayerIndex({
+			currentPlayerIndex: activePlayerIndex,
+			playerList: currentPlayers,
+			gamePhase: gameState.gamePhase,
+			suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
+			GAME_PHASES,
+		});
 
 		const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
 
@@ -734,16 +734,16 @@ const nextPlayer = determineNextPlayerIndex({
 	}
 
 
-if (showWelcomeScreen) {
-	return (
-		<WelcomeScreen
-		onContinue={() => setShowWelcomeScreen(false)}
-		/>
-	);
-}
+	if (showWelcomeScreen) {
+		return (
+			<WelcomeScreen
+			onContinue={() => setShowWelcomeScreen(false)}
+			/>
+		);
+	}
 
-return (
-	<main className="app-container">
+	return (
+		<main className="app-container">
 		<section className="hero-card">
 
 		<h1>The Last Word War™</h1>
@@ -1076,6 +1076,12 @@ return (
 			</ul>
 		)}
 		</div>
+
+		<p className="research-note">
+		A human-centered multiplayer experiment in
+		conversation, learning, and collaborative creativity.
+		</p>
+
 
 		</section>
 		</main>
