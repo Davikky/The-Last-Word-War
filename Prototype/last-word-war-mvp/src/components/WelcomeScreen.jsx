@@ -13,15 +13,6 @@ function WelcomeScreen({ onContinue }) {
                                         The Last Word War<sup>™</sup>
                                 </h1>
 
-                                <h2>
-
-                                <div className="landing-message">
-                                        <p>War is not the goal of this GAME at all.</p>
-                                        <p>All it seeks is to promote HUMAN interactions;</p>
-                                        <p>Interactions built firmly upon the previous LAST WORD.</p>
-                                </div>
-
-		</h2>
                                 <div className="status-box welcome-message">
                                         <h3>Before You Begin</h3>
 
