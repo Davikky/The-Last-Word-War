@@ -345,5 +345,48 @@ Implement server-authoritative turn versioning in a dedicated branch:
 `hotfix-turn-versioning-v0.1.1`
 
 
+## Known Issue: Duplicate or Confusingly Similar Player Names
+
+**Date Identified:** 2026-06-21
+
+### Description
+
+Online multiplayer currently allows players to join a room using identical or very similar display names.
+
+This can create confusion during play because player names are used throughout the interface for turn ownership, sentence history, timeout notifications, Sudden Death resolution, and winner display.
+
+### Example Scenario
+
+If two players join as:
+
+- `Victor`
+- `victor`
+- `Victor A.`
+- `Victo r`
+
+players may struggle to identify whose turn it is or who received a penalty.
+
+### Severity
+
+**MEDIUM-HIGH**
+
+This does not necessarily corrupt game state, but it can significantly affect gameplay clarity and fairness.
+
+### Proposed Solution
+
+Reject duplicate or confusingly similar player names during lobby entry.
+
+Initial implementation should normalize names before comparison by:
+
+- trimming whitespace
+- converting to lowercase
+- collapsing repeated spaces
+
+Future implementation may also detect very close names using stricter similarity checks.
+
+### Suggested Branch
+
+`hotfix-unique-player-names-v0.1.1`
+
 End of Document
 
