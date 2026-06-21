@@ -264,6 +264,86 @@ Contemporary users increasingly assume Human ↔ AI interaction as the default d
 Action Taken:
 
 A Human-Centered Welcome Screen was introduced to explicitly communicate the philosophy and multiplayer requirements of The Last Word War™.
+---
+
+## Known Issue: Race Condition Between Late Submission and Host Timeout
+
+**Date Identified:** 2026-06-21
+
+### Description
+
+A race condition has been observed in online multiplayer mode when a player submits a sentence very close to the timeout deadline.
+
+Current architecture relies on the host client to enforce timeouts. Under certain network conditions, a valid submission may be delayed in transit while the host simultaneously processes a timeout event.
+
+### Example Scenario
+
+1. Player 1 is the active player.
+2. Player 1 submits a valid sentence at approximately `t = 59.8 s`.
+3. Due to network latency, the submission arrives at Supabase after the host timer reaches zero.
+4. The host processes a timeout and advances the turn to Player 2.
+5. The delayed submission from Player 1 is subsequently processed.
+6. The game state becomes inconsistent:
+
+   * Player 2 may lose a turn unfairly.
+   * Incorrect timeout penalties may be applied.
+   * Turn order may become corrupted.
+   * The wrong player may be penalized.
+
+### Severity
+
+**HIGH PRIORITY**
+
+This issue affects competitive fairness and game-state correctness.
+
+### Root Cause
+
+The current implementation lacks a mechanism for distinguishing stale timeout events from already-resolved turns.
+
+Timeout processing and sentence submission operate independently and may update the room state concurrently.
+
+### Proposed Long-Term Solution
+
+Introduce a monotonically increasing `turnNumber` (or `stateVersion`) field within `game_state`.
+
+Example:
+
+```javascript
+{
+    currentPlayerIndex: 0,
+    turnNumber: 17
+}
+```
+
+Rules:
+
+* Every successful submission increments `turnNumber`.
+* Every timeout event increments `turnNumber`.
+* Before applying a timeout update, the host must verify that the observed `turnNumber` still matches the latest room state.
+* If the version has changed, abort timeout processing because another event has already advanced the game.
+
+Pseudo-code:
+
+```javascript
+const observedTurn = gameState.turnNumber;
+
+const latestRoom = await fetchRoomByCode(roomCode);
+
+if (latestRoom.game_state.turnNumber !== observedTurn) {
+    return; // stale timeout event
+}
+```
+
+### Interim Mitigation
+
+A short timeout grace window (e.g., 3 seconds) may reduce the probability of unfair penalties but does not completely eliminate this race condition.
+
+### Future Work
+
+Implement server-authoritative turn versioning in a dedicated branch:
+
+`hotfix-turn-versioning-v0.1.1`
+
 
 End of Document
 
