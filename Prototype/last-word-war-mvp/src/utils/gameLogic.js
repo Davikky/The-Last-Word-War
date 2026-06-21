@@ -522,3 +522,28 @@ export function buildTimeoutGameState({
 		gameOverReason: '',
 	};
 }
+
+
+/**
+ * Builds the next multiplayer game state after a successful
+ * sentence submission.
+ *
+ * This helper centralizes the standard online turn transition
+ * process while keeping React state management inside App.jsx.
+ */
+export function buildOnlineSubmissionGameState({
+	evaluatedGameState,
+	lastWord,
+	nextPlayer,
+	now,
+}) {
+	return {
+		...evaluatedGameState,
+		currentWord: lastWord,
+		currentPlayerIndex: nextPlayer,
+		turnDeadline: now + 60000,
+		notification: '',
+		consecutiveTimeouts: 0,
+		gameOverReason: '',
+	};
+}

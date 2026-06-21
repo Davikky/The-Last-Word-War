@@ -4,18 +4,9 @@ import './App.css';
 
 import { GAME_PHASES } from './constants/gamePhases';
 import {
-	calculateStandings,
-	evaluateOnlineGameState,
-	getNextEligiblePlayerIndex,
-	applyScoreChange,
-	parseSentenceWords,
-	buildResetGameState,
-	resolveFinalRoundWinner,
-	resolveSuddenDeathWinner,
-	appendSentenceHistoryEntry,
-	determineNextPlayerIndex,
-	buildInactivityGameState,
-	buildTimeoutGameState,
+	calculateStandings, evaluateOnlineGameState, getNextEligiblePlayerIndex, applyScoreChange, parseSentenceWords, buildResetGameState,
+	resolveFinalRoundWinner, resolveSuddenDeathWinner, appendSentenceHistoryEntry, 	determineNextPlayerIndex, buildInactivityGameState,
+	buildTimeoutGameState, buildOnlineSubmissionGameState,
 } from './utils/gameLogic';
 
 import {
@@ -445,16 +436,12 @@ function App() {
 				);
 			}
 
-			const updatedGameState = {
-				...evaluatedGameState,
-				currentWord: lastWord,
-				currentPlayerIndex: nextPlayer,
-				turnDeadline: Date.now() + 60000,
-				notification: '',
-				consecutiveTimeouts: 0,
-				gameOverReason: '',
-			};
-
+			const updatedGameState = buildOnlineSubmissionGameState({
+				evaluatedGameState,
+				lastWord,
+				nextPlayer,
+				now: Date.now(),
+			});
 
 			try {
 				await updateRoomGameState(roomCode, updatedGameState);
@@ -609,36 +596,36 @@ function App() {
 		const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
 
 		const evaluatedState = evaluateOnlineGameState({
-	currentState: {
-		roomCode,
-		gamePhase: gameState.gamePhase,
-		winner: gameState.winner || null,
-		finalStandings: gameState.finalStandings || [],
-		suddenDeathPlayerNames:
-			gameState.suddenDeathPlayerNames || [],
-		finalRoundStarterIndex:
-			gameState.finalRoundStarterIndex ?? null,
-		drawPlayers: gameState.drawPlayers || [],
-		suddenDeathRoundCount:
-			gameState.suddenDeathRoundCount || 0,
-		gameOverReason: gameState.gameOverReason || '',
-	},
-	updatedPlayers,
-	updatedSentenceHistory: gameState.sentenceHistory || [],
-	lastWord: gameState.currentWord || 'START',
-	nextPlayer,
-	GAME_PHASES,
-});
+			currentState: {
+				roomCode,
+				gamePhase: gameState.gamePhase,
+				winner: gameState.winner || null,
+				finalStandings: gameState.finalStandings || [],
+				suddenDeathPlayerNames:
+				gameState.suddenDeathPlayerNames || [],
+				finalRoundStarterIndex:
+				gameState.finalRoundStarterIndex ?? null,
+				drawPlayers: gameState.drawPlayers || [],
+				suddenDeathRoundCount:
+				gameState.suddenDeathRoundCount || 0,
+				gameOverReason: gameState.gameOverReason || '',
+			},
+			updatedPlayers,
+			updatedSentenceHistory: gameState.sentenceHistory || [],
+			lastWord: gameState.currentWord || 'START',
+			nextPlayer,
+			GAME_PHASES,
+		});
 
-const evaluatedGameState = buildTimeoutGameState({
-	gameState,
-	evaluatedGameState: evaluatedState,
-	updatedPlayers,
-	nextPlayer,
-	timeoutNotification,
-	nextConsecutiveTimeouts,
-	now: Date.now(),
-});
+		const evaluatedGameState = buildTimeoutGameState({
+			gameState,
+			evaluatedGameState: evaluatedState,
+			updatedPlayers,
+			nextPlayer,
+			timeoutNotification,
+			nextConsecutiveTimeouts,
+			now: Date.now(),
+		});
 
 		try {
 			await updateRoomGameState(roomCode, evaluatedGameState);
