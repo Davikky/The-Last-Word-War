@@ -258,3 +258,44 @@ textarea::placeholder {
 .quick-rules p {
         margin: 0.4rem 0;
 }
+
+.welcome-card {
+        max-width: 760px;
+}
+
+.welcome-card h1 sup {
+        font-size: 0.45em;
+}
+
+.welcome-message {
+        margin: 1.5rem 0;
+        line-height: 1.6;
+}
+
+.welcome-message h3 {
+        margin-top: 0;
+        text-align: center;
+}
+
+.welcome-message p {
+        margin: 0.75rem 0;
+}
+
+.project-status {
+        margin-top: 1.5rem;
+        text-align: left;
+}
+
+.project-status p {
+        margin: 0.4rem 0;
+}
+
+.research-note {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #d1d5db;
+        font-style: italic;
+        line-height: 1.5;
+}
+
+

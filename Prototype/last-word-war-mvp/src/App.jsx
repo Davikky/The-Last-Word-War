@@ -23,6 +23,7 @@ import {
 } from './services/roomService';
 
 import { generateRoomCode } from './utils/roomCode';
+import WelcomeScreen from './components/WelcomeScreen';
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -51,6 +52,7 @@ function App() {
 	const [gameOverReason, setGameOverReason] = useState('');
 	const [drawPlayers, setDrawPlayers] = useState([]);
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
+	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
 
 
@@ -572,19 +574,13 @@ if (
 			-1
 		);
 
-		let nextPlayer = (activePlayerIndex + 1) % currentPlayers.length;
-
-		if (gameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-			const activeSuddenDeathNames = gameState.suddenDeathPlayerNames || [];
-
-			while (
-				activeSuddenDeathNames.length > 0 &&
-				!activeSuddenDeathNames.includes(currentPlayers[nextPlayer].name)
-			) {
-				nextPlayer = (nextPlayer + 1) % currentPlayers.length;
-			}
-		}
-
+const nextPlayer = determineNextPlayerIndex({
+	currentPlayerIndex: activePlayerIndex,
+	playerList: currentPlayers,
+	gamePhase: gameState.gamePhase,
+	suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
+	GAME_PHASES,
+});
 
 		const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
 
@@ -738,10 +734,16 @@ if (
 	}
 
 
-
-
+if (showWelcomeScreen) {
 	return (
-		<main className="app-container">
+		<WelcomeScreen
+		onContinue={() => setShowWelcomeScreen(false)}
+		/>
+	);
+}
+
+return (
+	<main className="app-container">
 		<section className="hero-card">
 
 		<h1>The Last Word War™</h1>
@@ -1073,14 +1075,6 @@ if (
 			))}
 			</ul>
 		)}
-		</div>
-
-
-		<div className="status-box">
-		<p><strong>Version:</strong> v0.1.1</p>
-		<p><strong>Stage:</strong> Feature Complete Alpha</p>
-		<p><strong>Mode:</strong> Human ↔ Human Multiplayer</p>
-		<p><strong>Author:</strong> Victor A. Adeyemi</p>
 		</div>
 
 		</section>
