@@ -48,6 +48,33 @@ function App() {
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
 
+useEffect(() => {
+	if (roomCode) {
+		localStorage.setItem('tlww_roomCode', roomCode);
+	} else {
+		localStorage.removeItem('tlww_roomCode');
+	}
+}, [roomCode]);
+
+useEffect(() => {
+	if (localPlayerName) {
+		localStorage.setItem('tlww_localPlayerName', localPlayerName);
+	} else {
+		localStorage.removeItem('tlww_localPlayerName');
+	}
+}, [localPlayerName]);
+
+useEffect(() => {
+	localStorage.setItem('tlww_isHost', JSON.stringify(isHost));
+}, [isHost]);
+
+useEffect(() => {
+	localStorage.setItem(
+		'tlww_hasJoinedLobby',
+		JSON.stringify(hasJoinedLobby)
+	);
+}, [hasJoinedLobby]);
+
 
 
 	async function createRoom() {
