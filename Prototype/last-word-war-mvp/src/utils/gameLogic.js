@@ -547,3 +547,87 @@ export function buildOnlineSubmissionGameState({
 		gameOverReason: '',
 	};
 }
+
+/**
+ * Online submission state is prepared outside App.jsx so
+ * the multiplayer turn transition can be reasoned about
+ * independently from React event handling.
+ *
+ * React still owns alerts, form clearing, and persistence.
+ */
+export function prepareOnlineSubmissionState({
+	players,
+	currentPlayerIndex,
+	sentenceHistory,
+	currentPlayer,
+	trimmedSentence,
+	lastWord,
+	gamePhase,
+	suddenDeathPlayerNames,
+	roomCode,
+	winner,
+	finalStandings,
+	finalRoundStarterIndex,
+	drawPlayers,
+	suddenDeathRoundCount,
+	gameOverReason,
+	GAME_PHASES,
+	now,
+}) {
+	const updatedPlayers = applyScoreChange(
+		players,
+		currentPlayerIndex,
+		1
+	);
+
+	const updatedSentenceHistory = appendSentenceHistoryEntry({
+		sentenceHistory,
+		playerName: currentPlayer.name,
+		sentence: trimmedSentence,
+		extractedWord: lastWord,
+	});
+
+	let nextPlayer = determineNextPlayerIndex({
+		currentPlayerIndex,
+		playerList: updatedPlayers,
+		gamePhase,
+		suddenDeathPlayerNames,
+		GAME_PHASES,
+	});
+
+	const evaluatedGameState = evaluateOnlineGameState({
+		currentState: {
+			roomCode,
+			gamePhase,
+			winner,
+			finalStandings,
+			suddenDeathPlayerNames,
+			finalRoundStarterIndex,
+			drawPlayers,
+			suddenDeathRoundCount,
+			gameOverReason,
+		},
+		updatedPlayers,
+		updatedSentenceHistory,
+		lastWord,
+		nextPlayer,
+		GAME_PHASES,
+	});
+
+	if (evaluatedGameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+		nextPlayer = getNextEligiblePlayerIndex(
+			updatedPlayers,
+			nextPlayer,
+			evaluatedGameState.suddenDeathPlayerNames
+		);
+	}
+
+	const updatedGameState = buildOnlineSubmissionGameState({
+		evaluatedGameState,
+		lastWord,
+		nextPlayer,
+		now,
+	});
+
+	return updatedGameState;
+}

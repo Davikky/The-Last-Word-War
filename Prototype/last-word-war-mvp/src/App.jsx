@@ -6,7 +6,7 @@ import { GAME_PHASES } from './constants/gamePhases';
 import {
 	calculateStandings, evaluateOnlineGameState, getNextEligiblePlayerIndex, applyScoreChange, parseSentenceWords, buildResetGameState,
 	resolveFinalRoundWinner, resolveSuddenDeathWinner, appendSentenceHistoryEntry, 	determineNextPlayerIndex, buildInactivityGameState,
-	buildTimeoutGameState, buildOnlineSubmissionGameState,
+	buildTimeoutGameState, buildOnlineSubmissionGameState, prepareOnlineSubmissionState,
 } from './utils/gameLogic';
 
 import {
@@ -387,59 +387,23 @@ function App() {
 				return;
 			}
 
-			const updatedPlayers = applyScoreChange(
+			const updatedGameState = prepareOnlineSubmissionState({
 				players,
 				currentPlayerIndex,
-				1
-			);
-
-			const updatedSentenceHistory = appendSentenceHistoryEntry({
 				sentenceHistory,
-				playerName: currentPlayer.name,
-				sentence: trimmedSentence,
-				extractedWord: lastWord,
-			});
-
-
-			let nextPlayer = determineNextPlayerIndex({
-				currentPlayerIndex,
-				playerList: updatedPlayers,
+				currentPlayer,
+				trimmedSentence,
+				lastWord,
 				gamePhase,
 				suddenDeathPlayerNames,
+				roomCode,
+				winner,
+				finalStandings,
+				finalRoundStarterIndex,
+				drawPlayers,
+				suddenDeathRoundCount,
+				gameOverReason,
 				GAME_PHASES,
-			});
-
-			const evaluatedGameState = evaluateOnlineGameState({
-				currentState: {
-					roomCode,
-					gamePhase,
-					winner,
-					finalStandings,
-					suddenDeathPlayerNames,
-					finalRoundStarterIndex,
-					drawPlayers,
-					suddenDeathRoundCount,
-					gameOverReason,
-				},
-				updatedPlayers,
-				updatedSentenceHistory,
-				lastWord,
-				nextPlayer,
-				GAME_PHASES,
-			});
-
-			if (evaluatedGameState.gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-				nextPlayer = getNextEligiblePlayerIndex(
-					updatedPlayers,
-					nextPlayer,
-					evaluatedGameState.suddenDeathPlayerNames
-				);
-			}
-
-			const updatedGameState = buildOnlineSubmissionGameState({
-				evaluatedGameState,
-				lastWord,
-				nextPlayer,
 				now: Date.now(),
 			});
 
