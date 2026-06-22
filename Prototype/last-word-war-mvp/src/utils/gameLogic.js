@@ -34,33 +34,33 @@
  * - Inactivity and draw outcomes
  */
 export function calculateStandings(playerList) {
-        const sortedPlayers = [...playerList].sort(
-                (a, b) => b.score - a.score
-        );
+	const sortedPlayers = [...playerList].sort(
+		(a, b) => b.score - a.score
+	);
 
-        let previousScore = null;
-        let previousRank = 0;
+	let previousScore = null;
+	let previousRank = 0;
 
-        return sortedPlayers.map((player, index) => {
-                let rank;
+	return sortedPlayers.map((player, index) => {
+		let rank;
 
-                if (player.score === previousScore) {
-                        rank = previousRank;
-                } else {
-                        rank = index + 1;
-                }
+		if (player.score === previousScore) {
+			rank = previousRank;
+		} else {
+			rank = index + 1;
+		}
 
-                previousScore = player.score;
-                previousRank = rank;
+		previousScore = player.score;
+		previousRank = rank;
 
-                return {
-                        ...player,
-                        rank,
-                        isTied: sortedPlayers.filter(
-                                (otherPlayer) => otherPlayer.score === player.score
-                        ).length > 1,
-                };
-        });
+		return {
+			...player,
+			rank,
+			isTied: sortedPlayers.filter(
+				(otherPlayer) => otherPlayer.score === player.score
+			).length > 1,
+		};
+	});
 }
 
 
@@ -95,121 +95,121 @@ export function calculateStandings(playerList) {
 
 
 export function evaluateOnlineGameState({
-        currentState,
-        updatedPlayers,
-        updatedSentenceHistory,
-        lastWord,
-        nextPlayer,
-        GAME_PHASES,
+	currentState,
+	updatedPlayers,
+	updatedSentenceHistory,
+	lastWord,
+	nextPlayer,
+	GAME_PHASES,
 }) {
-        const {
-                roomCode,
-                gamePhase,
-                winner,
-                finalStandings,
-                suddenDeathPlayerNames,
-                finalRoundStarterIndex,
-                drawPlayers,
-                suddenDeathRoundCount,
-                gameOverReason,
-        } = currentState;
+	const {
+		roomCode,
+		gamePhase,
+		winner,
+		finalStandings,
+		suddenDeathPlayerNames,
+		finalRoundStarterIndex,
+		drawPlayers,
+		suddenDeathRoundCount,
+		gameOverReason,
+	} = currentState;
 
-        let updatedGamePhase = gamePhase;
-        let updatedWinner = winner;
-        let updatedFinalStandings = finalStandings;
-        let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
-        let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
-        let updatedDrawPlayers = drawPlayers;
-        let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
-        let updatedGameOverReason = gameOverReason;
+	let updatedGamePhase = gamePhase;
+	let updatedWinner = winner;
+	let updatedFinalStandings = finalStandings;
+	let updatedSuddenDeathPlayerNames = suddenDeathPlayerNames;
+	let updatedFinalRoundStarterIndex = finalRoundStarterIndex;
+	let updatedDrawPlayers = drawPlayers;
+	let updatedSuddenDeathRoundCount = suddenDeathRoundCount;
+	let updatedGameOverReason = gameOverReason;
 
-        if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
-                const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
-                        suddenDeathPlayerNames.includes(player.name)
-                );
+	if (gamePhase === GAME_PHASES.SUDDEN_DEATH) {
+		const activeSuddenDeathPlayers = updatedPlayers.filter((player) =>
+			suddenDeathPlayerNames.includes(player.name)
+		);
 
-                const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
-                        (a, b) => b.score - a.score
-                );
+		const sortedSuddenDeathPlayers = [...activeSuddenDeathPlayers].sort(
+			(a, b) => b.score - a.score
+		);
 
-                const leader = sortedSuddenDeathPlayers[0];
-                const secondPlace = sortedSuddenDeathPlayers[1];
+		const leader = sortedSuddenDeathPlayers[0];
+		const secondPlace = sortedSuddenDeathPlayers[1];
 
-                if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
-                        updatedWinner = leader;
-                        updatedFinalStandings = calculateStandings(updatedPlayers);
-                        updatedGamePhase = GAME_PHASES.GAME_OVER;
-                        updatedDrawPlayers = [];
-                        updatedGameOverReason = '';
-                } else if (nextPlayer === finalRoundStarterIndex) {
-                        updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
+		if (leader && secondPlace && leader.score - secondPlace.score >= 2) {
+			updatedWinner = leader;
+			updatedFinalStandings = calculateStandings(updatedPlayers);
+			updatedGamePhase = GAME_PHASES.GAME_OVER;
+			updatedDrawPlayers = [];
+			updatedGameOverReason = '';
+		} else if (nextPlayer === finalRoundStarterIndex) {
+			updatedSuddenDeathRoundCount = suddenDeathRoundCount + 1;
 
-                        if (updatedSuddenDeathRoundCount >= 5) {
-                                updatedWinner = null;
-                                updatedFinalStandings = calculateStandings(updatedPlayers);
-                                updatedDrawPlayers = activeSuddenDeathPlayers;
-                                updatedGamePhase = GAME_PHASES.GAME_OVER;
-                                updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
-                        }
-                }
-        }
+			if (updatedSuddenDeathRoundCount >= 5) {
+				updatedWinner = null;
+				updatedFinalStandings = calculateStandings(updatedPlayers);
+				updatedDrawPlayers = activeSuddenDeathPlayers;
+				updatedGamePhase = GAME_PHASES.GAME_OVER;
+				updatedGameOverReason = 'SUDDEN_DEATH_DRAW';
+			}
+		}
+	}
 
-        if (
-                gamePhase === GAME_PHASES.FINAL_ROUND &&
-                nextPlayer === finalRoundStarterIndex
-        ) {
-                const standings = calculateStandings(updatedPlayers);
-                updatedFinalStandings = standings;
+	if (
+		gamePhase === GAME_PHASES.FINAL_ROUND &&
+		nextPlayer === finalRoundStarterIndex
+	) {
+		const standings = calculateStandings(updatedPlayers);
+		updatedFinalStandings = standings;
 
-                const highestScore = Math.max(
-                        ...updatedPlayers.map((player) => player.score)
-                );
+		const highestScore = Math.max(
+			...updatedPlayers.map((player) => player.score)
+		);
 
-                const topPlayers = updatedPlayers.filter(
-                        (player) => player.score === highestScore
-                );
+		const topPlayers = updatedPlayers.filter(
+			(player) => player.score === highestScore
+		);
 
-                if (topPlayers.length === 1) {
-                        updatedWinner = topPlayers[0];
-                        updatedGamePhase = GAME_PHASES.GAME_OVER;
-                } else {
-                        updatedSuddenDeathPlayerNames = topPlayers.map(
-                                (player) => player.name
-                        );
-                        updatedWinner = null;
-                        updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
-                        updatedSuddenDeathRoundCount = 0;
-                        updatedDrawPlayers = [];
-                        updatedGameOverReason = '';
-                }
-        }
+		if (topPlayers.length === 1) {
+			updatedWinner = topPlayers[0];
+			updatedGamePhase = GAME_PHASES.GAME_OVER;
+		} else {
+			updatedSuddenDeathPlayerNames = topPlayers.map(
+				(player) => player.name
+			);
+			updatedWinner = null;
+			updatedGamePhase = GAME_PHASES.SUDDEN_DEATH;
+			updatedSuddenDeathRoundCount = 0;
+			updatedDrawPlayers = [];
+			updatedGameOverReason = '';
+		}
+	}
 
-        if (gamePhase === GAME_PHASES.ACTIVE) {
-                const winningPlayerIndex = updatedPlayers.findIndex(
-                        (player) => player.score >= 10
-                );
+	if (gamePhase === GAME_PHASES.ACTIVE) {
+		const winningPlayerIndex = updatedPlayers.findIndex(
+			(player) => player.score >= 10
+		);
 
-                if (winningPlayerIndex !== -1) {
-                        updatedGamePhase = GAME_PHASES.FINAL_ROUND;
-                        updatedFinalRoundStarterIndex = winningPlayerIndex;
-                }
-        }
+		if (winningPlayerIndex !== -1) {
+			updatedGamePhase = GAME_PHASES.FINAL_ROUND;
+			updatedFinalRoundStarterIndex = winningPlayerIndex;
+		}
+	}
 
-        return {
-                roomCode,
-                players: updatedPlayers,
-                gamePhase: updatedGamePhase,
-                currentPlayerIndex: nextPlayer,
-                currentWord: lastWord,
-                sentenceHistory: updatedSentenceHistory,
-                winner: updatedWinner,
-                finalStandings: updatedFinalStandings,
-                suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
-                finalRoundStarterIndex: updatedFinalRoundStarterIndex,
-                drawPlayers: updatedDrawPlayers,
-                suddenDeathRoundCount: updatedSuddenDeathRoundCount,
-                gameOverReason: updatedGameOverReason,
-        };
+	return {
+		roomCode,
+		players: updatedPlayers,
+		gamePhase: updatedGamePhase,
+		currentPlayerIndex: nextPlayer,
+		currentWord: lastWord,
+		sentenceHistory: updatedSentenceHistory,
+		winner: updatedWinner,
+		finalStandings: updatedFinalStandings,
+		suddenDeathPlayerNames: updatedSuddenDeathPlayerNames,
+		finalRoundStarterIndex: updatedFinalRoundStarterIndex,
+		drawPlayers: updatedDrawPlayers,
+		suddenDeathRoundCount: updatedSuddenDeathRoundCount,
+		gameOverReason: updatedGameOverReason,
+	};
 }
 
 /**
@@ -487,7 +487,7 @@ export function buildInactivityGameState({
 		currentPlayerIndex: nextPlayer,
 		turnDeadline: null,
 		notification:
-			'⏰ Match ended after 5 consecutive timeouts.',
+		'⏰ Match ended after 5 consecutive timeouts.',
 		consecutiveTimeouts: nextConsecutiveTimeouts,
 		gameOverReason: 'INACTIVITY',
 	};
@@ -516,6 +516,7 @@ export function buildTimeoutGameState({
 		players: updatedPlayers,
 		currentWord: gameState.currentWord || 'START',
 		currentPlayerIndex: nextPlayer,
+		turnNumber: (gameState.turnNumber || 0) + 1,
 		turnDeadline: now + 60000,
 		notification: timeoutNotification,
 		consecutiveTimeouts: nextConsecutiveTimeouts,
@@ -537,10 +538,12 @@ export function buildOnlineSubmissionGameState({
 	nextPlayer,
 	now,
 }) {
+
 	return {
 		...evaluatedGameState,
 		currentWord: lastWord,
 		currentPlayerIndex: nextPlayer,
+		turnNumber: (evaluatedGameState.turnNumber || 0) + 1,
 		turnDeadline: now + 60000,
 		notification: '',
 		consecutiveTimeouts: 0,

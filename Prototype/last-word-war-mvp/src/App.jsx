@@ -128,6 +128,7 @@ function App() {
 			currentWord: 'START',
 			sentenceHistory: [],
 			winner: null,
+			turnNumber: 0,
 		};
 
 
@@ -602,6 +603,7 @@ function App() {
 		}
 
 		const gameState = data.game_state;
+		const observedTurnNumber = gameState.turnNumber || 0;
 		const currentPlayers = gameState.players || [];
 		const activePlayerIndex = gameState.currentPlayerIndex ?? 0;
 		const activePlayer = currentPlayers[activePlayerIndex];
@@ -636,6 +638,13 @@ function App() {
 				nextConsecutiveTimeouts,
 				GAME_PHASES,
 			});
+
+			const latestRoom = await fetchRoomByCode(roomCode);
+			const latestTurnNumber = latestRoom.game_state.turnNumber || 0;
+
+			if (latestTurnNumber !== observedTurnNumber) {
+				return;
+			}
 
 			try {
 				await updateRoomGameState(roomCode, inactivityGameState);
@@ -679,6 +688,14 @@ function App() {
 			nextConsecutiveTimeouts,
 			now: Date.now(),
 		});
+
+		const latestRoomBeforeTimeoutUpdate = await fetchRoomByCode(roomCode);
+		const latestTurnNumberBeforeTimeoutUpdate =
+			latestRoomBeforeTimeoutUpdate.game_state.turnNumber || 0;
+
+		if (latestTurnNumberBeforeTimeoutUpdate !== observedTurnNumber) {
+			return;
+		}
 
 		try {
 			await updateRoomGameState(roomCode, evaluatedGameState);
