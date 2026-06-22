@@ -261,7 +261,7 @@ function App() {
 		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
 		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
 		setTurnDeadline(gameState.turnDeadline || null);
-		setNotification(updatedGameState.notification || '');
+		setNotification(gameState.notification || '');
 		setGameOverReason(gameState.gameOverReason || '');
 	}
 
@@ -472,6 +472,7 @@ function App() {
 				suddenDeathRoundCount,
 				gameOverReason,
 				GAME_PHASES,
+				turnNumber: roomData?.game_state?.turnNumber || 0,
 				now: Date.now(),
 			});
 
@@ -604,6 +605,7 @@ function App() {
 
 		const gameState = data.game_state;
 		const observedTurnNumber = gameState.turnNumber || 0;
+
 		const currentPlayers = gameState.players || [];
 		const activePlayerIndex = gameState.currentPlayerIndex ?? 0;
 		const activePlayer = currentPlayers[activePlayerIndex];
@@ -689,14 +691,19 @@ function App() {
 			now: Date.now(),
 		});
 
-		const latestRoomBeforeTimeoutUpdate = await fetchRoomByCode(roomCode);
+		const latestRoomBeforeTimeoutUpdate =
+			await fetchRoomByCode(roomCode);
+
 		const latestTurnNumberBeforeTimeoutUpdate =
 			latestRoomBeforeTimeoutUpdate.game_state.turnNumber || 0;
 
-		if (latestTurnNumberBeforeTimeoutUpdate !== observedTurnNumber) {
+		if (
+			latestTurnNumberBeforeTimeoutUpdate !==
+			observedTurnNumber
+		) {
+
 			return;
 		}
-
 		try {
 			await updateRoomGameState(roomCode, evaluatedGameState);
 		} catch (error) {

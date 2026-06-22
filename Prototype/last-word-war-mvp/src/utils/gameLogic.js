@@ -112,6 +112,7 @@ export function evaluateOnlineGameState({
 		drawPlayers,
 		suddenDeathRoundCount,
 		gameOverReason,
+		turnNumber,
 	} = currentState;
 
 	let updatedGamePhase = gamePhase;
@@ -199,6 +200,7 @@ export function evaluateOnlineGameState({
 		roomCode,
 		players: updatedPlayers,
 		gamePhase: updatedGamePhase,
+		turnNumber,
 		currentPlayerIndex: nextPlayer,
 		currentWord: lastWord,
 		sentenceHistory: updatedSentenceHistory,
@@ -538,7 +540,6 @@ export function buildOnlineSubmissionGameState({
 	nextPlayer,
 	now,
 }) {
-
 	return {
 		...evaluatedGameState,
 		currentWord: lastWord,
@@ -558,7 +559,7 @@ export function buildOnlineSubmissionGameState({
  *
  * React still owns alerts, form clearing, and persistence.
  */
-export function prepareOnlineSubmissionState({
+	export function prepareOnlineSubmissionState({
 	players,
 	currentPlayerIndex,
 	sentenceHistory,
@@ -574,10 +575,11 @@ export function prepareOnlineSubmissionState({
 	drawPlayers,
 	suddenDeathRoundCount,
 	gameOverReason,
+	turnNumber,
 	GAME_PHASES,
 	now,
 }) {
-	const updatedPlayers = applyScoreChange(
+		const updatedPlayers = applyScoreChange(
 		players,
 		currentPlayerIndex,
 		1
@@ -600,17 +602,19 @@ export function prepareOnlineSubmissionState({
 
 	const evaluatedGameState = evaluateOnlineGameState({
 		currentState: {
-			roomCode,
-			gamePhase,
-			winner,
-			finalStandings,
-			suddenDeathPlayerNames,
-			finalRoundStarterIndex,
-			drawPlayers,
-			suddenDeathRoundCount,
-			gameOverReason,
-		},
-		updatedPlayers,
+	roomCode,
+	gamePhase,
+	winner,
+	finalStandings,
+	suddenDeathPlayerNames,
+	finalRoundStarterIndex,
+	drawPlayers,
+	suddenDeathRoundCount,
+	gameOverReason,
+	turnNumber,
+},
+
+	updatedPlayers,
 		updatedSentenceHistory,
 		lastWord,
 		nextPlayer,
