@@ -673,6 +673,7 @@ function App() {
 				suddenDeathRoundCount:
 				gameState.suddenDeathRoundCount || 0,
 				gameOverReason: gameState.gameOverReason || '',
+		turnNumber: gameState.turnNumber || 0,
 			},
 			updatedPlayers,
 			updatedSentenceHistory: gameState.sentenceHistory || [],
