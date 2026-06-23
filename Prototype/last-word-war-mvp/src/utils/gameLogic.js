@@ -512,20 +512,28 @@ export function buildTimeoutGameState({
 	nextConsecutiveTimeouts,
 	now,
 }) {
-	return {
-		...gameState,
-		...evaluatedGameState,
-		players: updatedPlayers,
-		currentWord: gameState.currentWord || 'START',
-		currentPlayerIndex: nextPlayer,
-		turnNumber: (gameState.turnNumber || 0) + 1,
-		turnDeadline: now + 60000,
-		notification: timeoutNotification,
-		consecutiveTimeouts: nextConsecutiveTimeouts,
-		gameOverReason: '',
-	};
-}
 
+	return {
+	...gameState,
+	...evaluatedGameState,
+	players: updatedPlayers,
+	finalStandings:
+		evaluatedGameState.gamePhase === 'GAME_OVER'
+			? calculateStandings(updatedPlayers)
+			: evaluatedGameState.finalStandings,
+	currentWord: gameState.currentWord || 'START',
+	currentPlayerIndex: nextPlayer,
+	turnNumber: (gameState.turnNumber || 0) + 1,
+	turnDeadline:
+		evaluatedGameState.gamePhase === 'GAME_OVER'
+			? null
+			: now + 60000,
+	notification: timeoutNotification,
+	consecutiveTimeouts: nextConsecutiveTimeouts,
+	gameOverReason: evaluatedGameState.gameOverReason || '',
+};
+
+}
 
 /**
  * Builds the next multiplayer game state after a successful
