@@ -19,6 +19,9 @@
  * - validate
  */
 
+import {
+	TURN_DURATION_MS,
+} from '../constants/gameConfig';
 
 
 /**
@@ -327,7 +330,7 @@ export function buildResetGameState({
 		suddenDeathPlayerNames: [],
 		finalRoundStarterIndex: null,
 		matchStarterIndex: nextStarterIndex,
-		turnDeadline: now + 60000,
+		turnDeadline: now + TURN_DURATION_MS,
 		consecutiveTimeouts: 0,
 		gameOverReason: '',
 		notification: '',
@@ -527,7 +530,7 @@ export function buildTimeoutGameState({
 	turnDeadline:
 		evaluatedGameState.gamePhase === 'GAME_OVER'
 			? null
-			: now + 60000,
+			: now + TURN_DURATION_MS,
 	notification: timeoutNotification,
 	consecutiveTimeouts: nextConsecutiveTimeouts,
 	gameOverReason: evaluatedGameState.gameOverReason || '',
@@ -553,7 +556,7 @@ export function buildOnlineSubmissionGameState({
 		currentWord: lastWord,
 		currentPlayerIndex: nextPlayer,
 		turnNumber: (evaluatedGameState.turnNumber || 0) + 1,
-		turnDeadline: now + 60000,
+		turnDeadline: now + TURN_DURATION_MS,
 		notification: '',
 		consecutiveTimeouts: 0,
 		gameOverReason: '',

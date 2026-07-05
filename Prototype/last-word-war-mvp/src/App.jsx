@@ -27,6 +27,11 @@ import  WelcomeScreen  from './components/WelcomeScreen';
 import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 import PlayerListPanel from './components/PlayerListPanel';
 
+import {
+	TURN_DURATION_MS,
+	INITIAL_TIME_LEFT,
+} from './constants/gameConfig';
+
 
 function App() {
 	const [playerName, setPlayerName] = useState('');
@@ -37,7 +42,7 @@ function App() {
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
-	const [timeLeft, setTimeLeft] = useState(60);
+	const [timeLeft, setTimeLeft] = useState(INITIAL_TIME_LEFT);
 	const [turnDeadline, setTurnDeadline] = useState(null);
 	const [winner, setWinner] = useState(null);
 	const [finalStandings, setFinalStandings] = useState([]);
@@ -281,7 +286,7 @@ function App() {
 		const updatedGameState = {
 			...data.game_state,
 			gamePhase: GAME_PHASES.ACTIVE,
-			turnDeadline: Date.now() + 60000,
+			turnDeadline: Date.now() + TURN_DURATION_MS,
 		};
 
 		try {
@@ -487,7 +492,7 @@ function App() {
 
 
 			setSentence('');
-			setTimeLeft(60);
+			setTimeLeft(INITIAL_TIME_LEFT);
 			return;
 		}
 
@@ -532,13 +537,13 @@ function App() {
 			nextPlayer === finalRoundStarterIndex
 		) {
 			determineWinner();
-			setTimeLeft(60);
+			setTimeLeft(INITIAL_TIME_LEFT);
 			setSentence('');
 			return;
 		}
 
 		setCurrentPlayerIndex(nextPlayer);
-		setTimeLeft(60);
+		setTimeLeft(INITIAL_TIME_LEFT);
 		setSentence('');
 	}
 
@@ -578,7 +583,7 @@ function App() {
 		setIsHost(false);
 		setCurrentWord('START');
 		setCurrentPlayerIndex(0);
-		setTimeLeft(60);
+		setTimeLeft(INITIAL_TIME_LEFT);
 		setSentence('');
 		setGamePhase(GAME_PHASES.SETUP);
 
@@ -784,7 +789,7 @@ function App() {
 		setWinner(null);
 		setCurrentWord('START');
 		setCurrentPlayerIndex(nextStarterIndex);
-		setTimeLeft(60);
+		setTimeLeft(INITIAL_TIME_LEFT);
 		setSentence('');
 		setLastSubmittedPlayerIndex(null);
 		setFinalRoundStarterIndex(null);
@@ -893,7 +898,7 @@ function App() {
 			className="start-button"
 			onClick={startNewPlayFromActiveSession}
 			>
-			Reset to Start New Play
+			Reset 
 			</button>
 			</div>
 		)}
@@ -1101,15 +1106,15 @@ function App() {
 		/>
 
 
-	<p className="research-note">
-	A human-centered multiplayer experiment in
-	conversation, learning, and collaborative creativity.
-	</p>
+		<p className="research-note">
+		A human-centered multiplayer experiment in
+		conversation, learning, and collaborative creativity.
+		</p>
 
 
-	</section>
-	</main>
-);
+		</section>
+		</main>
+	);
 }
 
 
