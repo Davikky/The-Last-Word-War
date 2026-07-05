@@ -25,6 +25,7 @@ import { generateRoomCode } from './utils/roomCode';
 
 import  WelcomeScreen  from './components/WelcomeScreen';
 import SentenceHistoryPanel from './components/SentenceHistoryPanel';
+import PlayerListPanel from './components/PlayerListPanel';
 
 
 function App() {
@@ -673,7 +674,7 @@ function App() {
 				suddenDeathRoundCount:
 				gameState.suddenDeathRoundCount || 0,
 				gameOverReason: gameState.gameOverReason || '',
-		turnNumber: gameState.turnNumber || 0,
+				turnNumber: gameState.turnNumber || 0,
 			},
 			updatedPlayers,
 			updatedSentenceHistory: gameState.sentenceHistory || [],
@@ -961,7 +962,7 @@ function App() {
 
 
 
-<SentenceHistoryPanel sentenceHistory={sentenceHistory} />
+		<SentenceHistoryPanel sentenceHistory={sentenceHistory} />
 
 		{notification && (
 			<div className="notification-banner">
@@ -1088,67 +1089,27 @@ function App() {
 		)}
 
 
-
-		<div className="players-section">
-		<h2>Players</h2>
-
-
-		{roomCode && hasJoinedLobby && gamePhase === GAME_PHASES.SETUP && (
-			<div className="lobby-status">
-			{isHost ? (
-				<p>
-				<strong>You are the Host.</strong>
-				<br />
-				Start the game when everyone has joined.
-				</p>
-			) : (
-				<p>
-				<strong>
-				Waiting for {hostName || 'Host'} to Start the Game...
-				</strong>	
-				</p>
-			)}
-			</div>
-		)}
+		<PlayerListPanel
+		players={players}
+		roomCode={roomCode}
+		hasJoinedLobby={hasJoinedLobby}
+		gamePhase={gamePhase}
+		isHost={isHost}
+		hostName={hostName}
+		removePlayer={removePlayer}
+		GAME_PHASES={GAME_PHASES}
+		/>
 
 
-		{players.length === 0 ? (
-			<p>No players added yet.</p>
-		) : (
-			<ul>
-			{players.map((player, index) => (
-
-				<li key={index}>
-				<span>
-				{index + 1}. {player.name} — {player.score} points
-				</span>
+	<p className="research-note">
+	A human-centered multiplayer experiment in
+	conversation, learning, and collaborative creativity.
+	</p>
 
 
-
-				{gamePhase === GAME_PHASES.SETUP &&
-					(!roomCode || isHost) &&
-					player.name !== hostName && (
-						<button onClick={() => removePlayer(index)}>
-						Remove
-						</button>
-					)}
-
-
-				</li>
-			))}
-			</ul>
-		)}
-		</div>
-
-		<p className="research-note">
-		A human-centered multiplayer experiment in
-		conversation, learning, and collaborative creativity.
-		</p>
-
-
-		</section>
-		</main>
-	);
+	</section>
+	</main>
+);
 }
 
 
