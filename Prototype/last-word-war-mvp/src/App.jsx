@@ -893,7 +893,7 @@ function App() {
 			className="start-button"
 			onClick={startNewPlayFromActiveSession}
 			>
-			Start New Play
+			Reset to Start New Play
 			</button>
 			</div>
 		)}
@@ -909,7 +909,7 @@ function App() {
 			/>
 
 			<button className="start-button" onClick={joinLobby}>
-			Enter Lobby
+			Enter Lobby to continue...
 			</button>
 			</div>
 		)}
