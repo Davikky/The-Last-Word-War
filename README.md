@@ -8,15 +8,15 @@
 
 ## Overview
 
-The Last Word War™ is a multiplayer conversational game in which players build a shared dialogue by beginning each sentence with the **last word** of the previous sentence.
+The Last Word War™ is a multiplayer conversational game in which players collaboratively build a shared dialogue by beginning each sentence with the **last word** of the previous sentence.
 
 The project is intentionally designed around:
 
 > **Human ↔ Human Interaction**
 
-Technology exists only to facilitate meaningful human communication.
+Technology serves only to facilitate meaningful human communication.
 
-Unlike many modern digital systems that prioritize Human ↔ AI interaction, The Last Word War™ places human conversation at the center of the experience.
+Unlike many modern digital systems that prioritize Human ↔ AI interaction, The Last Word War™ places authentic human conversation at the center of the experience.
 
 ---
 
@@ -26,7 +26,7 @@ Unlike many modern digital systems that prioritize Human ↔ AI interaction, The
 > All it seeks is to promote HUMAN interactions;
 > interactions built firmly upon the previous LAST WORD.
 
-Artificial intelligence assists project development and research activities only. Humans remain the primary participants.
+Artificial intelligence assists project development and research only. Humans remain the primary participants.
 
 ---
 
@@ -37,7 +37,7 @@ Artificial intelligence assists project development and research activities only
 3. Each sentence must begin with the **last word** of the previous sentence.
 4. Valid sentence = **+1 point**.
 5. Timeout = **−1 point**.
-6. First player to reach 10 points triggers the **Final Round**.
+6. First player to reach **10 points** triggers the **Final Round**.
 7. Tied leaders enter **Sudden Death**.
 8. Five consecutive timeouts end the match due to inactivity.
 
@@ -66,40 +66,44 @@ Artificial intelligence assists project development and research activities only
 * Sentence-chain mechanics
 * Automatic rule validation
 * Automatic scoring
-* Final Round and Sudden Death systems
+* Final Round
+* Sudden Death
 * Tie-aware standings
 * Inactivity resolution
 
 ### Multiplayer
 
 * Online room creation and joining
-* Realtime synchronization
+* Host-authoritative synchronization
+* Realtime game synchronization
 * Shared countdown timers
-* Host-authoritative timeout processing
 * Online rematch support
+* Session persistence and recovery
 
 ### User Experience
 
-* Quick Rules onboarding
-* Session persistence and recovery
+* Welcome screen onboarding
+* Quick Rules guide
 * Timeout notifications
-* Public feedback collection
+* Feedback collection
+* Browser session recovery
 
 ---
 
 ## Current Status
 
-**Version:** v0.1.1
+**Version:** v0.1.2
 
-**Status:** Feature Complete Alpha
+**Stage:** Feature Complete Alpha
 
 ### Current Focus
 
-* Playtest #2
-* UX refinement
 * Codebase refactoring
+* Component extraction
+* UX refinement
+* Playtest #2
 * Feedback analysis
-* AI referee planning
+* AI referee research
 
 ---
 
@@ -135,13 +139,13 @@ Website/
 
 ## Documentation
 
-Detailed project documentation can be found in:
+Project documentation is organized into dedicated directories:
 
-* `Design_Documents/`
-* `Research/`
-* `Releases/`
-* `Rulebook/`
-* `Papers/`
+* `Design_Documents/` — Architecture and technical specifications.
+* `Research/` — Development journal, playtesting, and project state.
+* `Releases/` — Version history and release notes.
+* `Rulebook/` — Official game rules.
+* `Papers/` — Research manuscripts and publications.
 
 ---
 
@@ -159,18 +163,19 @@ The Last Word War™ also serves as a research initiative exploring:
 
 ## Roadmap
 
-### In Progress
+### Current Phase
 
-* Playtest #2
-* UX refinement
-* AI referee groundwork
+* Component refactoring
+* App.jsx simplification
+* Continued codebase modularization
+* Playtest #2 preparation
 
 ### Planned
 
-* AI referee
+* AI Referee
 * Tournament support
+* Educational mode
 * Spectator mode
-* Educational modes
 * Analytics dashboard
 
 ---
@@ -180,6 +185,8 @@ The Last Word War™ also serves as a research initiative exploring:
 **Project Steward:** Victor A. Adeyemi
 
 **Organization:** Da-aim Services
+
+**Contact:** [daaim4you@gmail.com](mailto:daaim4you@gmail.com)
 
 ---
 
