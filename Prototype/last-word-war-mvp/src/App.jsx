@@ -23,8 +23,8 @@ import {
 
 import { generateRoomCode } from './utils/roomCode';
 
-import WelcomeScreen from './components/WelcomeScreen';
-
+import  WelcomeScreen  from './components/WelcomeScreen';
+import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 
 
 function App() {
@@ -961,21 +961,7 @@ function App() {
 
 
 
-		{sentenceHistory.length > 0 && (
-			<div className="history-panel">
-			<h2>Sentence History</h2>
-
-			<ol>
-			{sentenceHistory.map((entry, index) => (
-				<li key={index}>
-				<strong>{entry.player}:</strong> {entry.sentence}
-				<br />
-				</li>
-			))}
-			</ol>
-			</div>
-		)}
-
+<SentenceHistoryPanel sentenceHistory={sentenceHistory} />
 
 		{notification && (
 			<div className="notification-banner">
