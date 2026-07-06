@@ -18,25 +18,33 @@ Date: 2026
 
 This document defines the gameplay philosophy of The Last Word War™.
 
-It records a fundamental design decision: the game shall preserve human judgment, human interpretation, and human responsibility during play.
+It records a fundamental design decision of the project:
 
-The software shall facilitate interaction, but it shall not attempt to perfect, police, or fully govern human behavior.
+Human judgment, interpretation, and responsibility shall remain central to gameplay.
+
+The software exists to facilitate interaction, not to perfect, police, or govern human behaviour.
 
 ---
 
 # Core Gameplay Principle
 
-The Last Word War™ is a Human ↔ Human interaction game.
+The Last Word War™ is fundamentally a Human ↔ Human interaction game.
 
-The purpose of the game is not to produce perfect sentences, perfect validation, or perfect rule enforcement.
+Its purpose is not to produce perfect sentences, perfect validation, or perfect rule enforcement.
 
-The purpose is to create a shared space where human beings interact through language, time, creativity, trust, and judgment.
+Its purpose is to create a shared space where people interact through language, creativity, trust, judgment, and time.
+
+Conversation is the objective.
+
+The game merely provides its structure.
 
 ---
 
 # The Role of Software
 
-The software is responsible for:
+The software is responsible for providing a reliable environment in which gameplay can occur.
+
+Its responsibilities include:
 
 * creating rooms;
 * connecting players;
@@ -44,11 +52,12 @@ The software is responsible for:
 * managing turn order;
 * recording sentence history;
 * recording scores;
-* managing timeout constraints;
+* enforcing timeout constraints;
 * supporting rematches;
+* recovering interrupted sessions;
 * maintaining technical reliability.
 
-The software is not responsible for deciding the full meaning, honesty, quality, or social acceptability of every human action during gameplay.
+The software intentionally avoids determining the complete meaning, honesty, quality, or social acceptability of every human action during gameplay.
 
 ---
 
@@ -56,145 +65,177 @@ The software is not responsible for deciding the full meaning, honesty, quality,
 
 Players are responsible for the culture of play.
 
-Players decide what they accept, challenge, ignore, tolerate, or reject during a specific match.
+During each game, players collectively determine what they choose to accept, challenge, ignore, tolerate, or reject.
 
-This includes:
+This may include:
 
 * questionable sentence construction;
-* weak use of the last word;
-* playful exploitation of loopholes;
-* disputes over meaning;
-* local house rules;
-* acceptable levels of strictness.
+* weak use of the previous last word;
+* playful exploitation of rule boundaries;
+* disagreements over meaning;
+* locally agreed house rules;
+* varying levels of competitiveness.
 
 The software defines the framework of play.
 
-The players define the culture of play.
+**The players define the culture of play.**
 
 ---
 
 # Human Judgment
 
-The Last Word War™ intentionally preserves human judgment.
+Human judgment is intentionally preserved.
 
-The game does not seek to remove ambiguity from human interaction.
+Language is inherently flexible.
 
-Ambiguity, disagreement, negotiation, and interpretation are treated as part of the human experience of play.
+Meaning depends upon context, culture, experience, humour, intention, and interpretation.
+
+Rather than attempting to eliminate every ambiguity through software, The Last Word War™ embraces these aspects as part of genuine human interaction.
+
+Disagreement is not necessarily a failure of the game.
+
+It is often part of the game itself.
 
 ---
 
 # Interpretive Freedom
 
-The game allows interpretive freedom within its basic structure.
+The game intentionally preserves interpretive freedom.
 
-A player may technically exploit a rule boundary.
+Players may occasionally discover unconventional strategies, exploit rule boundaries, or interpret situations differently.
 
-Other players may respond socially, strategically, or competitively.
+Such situations are expected.
 
-This is not treated as a failure of the game.
+The software does not attempt to eliminate every possible loophole.
 
-It is treated as part of human-governed gameplay.
+Instead, players remain free to negotiate, challenge, adapt, and establish the norms that govern a particular match.
+
+This preserves the social nature of gameplay.
 
 ---
 
-# No AI Referee Decision
+# No AI Referee
 
-The Last Word War™ shall not require an AI referee.
+The Last Word War™ intentionally does not require an AI referee.
 
-Artificial intelligence shall not be used as the final authority for sentence validity, meaning, or player honesty.
+Artificial intelligence is not used as the final authority for:
 
-This decision is intentional.
+* sentence validity;
+* creativity;
+* meaning;
+* honesty;
+* interpretation.
 
-The absence of an AI referee preserves:
+This decision is philosophical rather than technical.
+
+Removing AI governance preserves:
 
 * human judgment;
-* player negotiation;
+* player responsibility;
+* social negotiation;
 * local rule culture;
-* social responsibility;
 * interpretive freedom.
 
-AI may assist project development and research, but it shall not become the governing authority of gameplay.
+Artificial intelligence may assist project development, research, documentation, and education, but it is intentionally excluded from governing gameplay.
 
 ---
 
-# Minimal Computational Governance
+# Computational Facilitation
 
-The Last Word War™ adopts a principle of Minimal Computational Governance.
+The Last Word War™ adopts the principle of Computational Facilitation.
 
-Minimal Computational Governance means that the software enforces only the minimum rules necessary to coordinate play while leaving interpretation, negotiation, and social governance to the participants.
+Computing exists to facilitate interaction rather than govern it.
 
-The system enforces structure.
+The software provides only the computational infrastructure necessary for coordinated play while leaving interpretation, negotiation, and social responsibility to the participants.
 
-Humans govern meaning.
+The system facilitates interaction.
 
----
-
-# The Role of Time
-
-Time is the fundamental gameplay constraint.
-
-The game provides:
-
-* a shared space for interaction;
-* a limited time window for response.
-
-Time gives urgency, pressure, rhythm, consequence, and life to gameplay.
-
-The timeout constraint is therefore not merely a technical feature.
-
-It is central to the philosophy of the game.
+**Humans create meaning.**
 
 ---
 
 # Space and Time
 
-The Last Word War™ creates a digital space for human interaction.
+The Last Word War™ creates a shared digital space for human interaction.
 
-Within that space, time limits each player's opportunity to act.
+Within this space, every player receives only a limited opportunity to act.
 
 The game therefore emerges from two simple conditions:
 
 * shared interaction space;
 * limited response time.
 
-From these conditions arise conversation, pressure, creativity, hesitation, failure, recovery, and play.
+From these arise conversation, pressure, hesitation, creativity, failure, recovery, humour, competition, cooperation, and play.
+
+The software provides the environment.
+
+The players provide the interaction.
+
+---
+
+# Time as the Fundamental Constraint
+
+Time is the primary gameplay constraint.
+
+Unlike most game rules, time cannot be negotiated once a turn begins.
+
+The timeout introduces urgency, rhythm, consequence, anticipation, and emotional investment.
+
+Time gives significance to every decision.
+
+For this reason, timeout is not merely a technical feature.
+
+It is one of the philosophical foundations of gameplay.
 
 ---
 
 # Gameplay Over Perfection
 
-The Last Word War™ does not seek algorithmic perfection.
+The Last Word War™ does not pursue algorithmic perfection.
 
-The software should be reliable, clear, and carefully implemented.
+The software should be reliable, predictable, and carefully implemented.
 
-However, gameplay itself should remain human, raw, negotiable, and socially alive.
+Gameplay, however, should remain human.
 
-The goal is not to remove every loophole.
+The project deliberately preserves opportunities for:
 
-The goal is to allow humans to decide how to play with, around, through, or against those loopholes.
+* creativity;
+* negotiation;
+* disagreement;
+* trust;
+* strategic thinking;
+* playful experimentation.
+
+The objective is not to eliminate every loophole.
+
+The objective is to preserve authentic human interaction.
 
 ---
 
 # Implications for Future Development
 
-Future development should avoid features that over-govern human interaction.
+Future development should strengthen the computational infrastructure while preserving human responsibility.
 
 The project should prioritize:
 
 * reliable multiplayer infrastructure;
 * smooth user experience;
 * clear onboarding;
-* timeout control;
+* timeout management;
 * session recovery;
-* player freedom;
-* human judgment.
+* accessibility;
+* player freedom.
 
 The project should avoid:
 
 * compulsory AI refereeing;
 * excessive automated policing;
 * over-engineered sentence validation;
-* gameplay systems that remove human negotiation.
+* systems that replace human judgment.
+
+Every future feature should be evaluated by asking:
+
+> Does this strengthen human interaction without replacing human responsibility?
 
 ---
 
@@ -208,7 +249,21 @@ This document complements:
 * The_Last_Word_War_Rulebook_v1_0.tex
 * HUMAN_CENTERED_AI_FRAMEWORK_PAPER_v0_1.md
 
-This document supersedes any earlier assumption that an AI referee is required for the long-term identity of the game.
+It supersedes earlier assumptions that an AI referee forms part of the long-term architecture of The Last Word War™.
+
+---
+
+# Closing Statement
+
+The Last Word War™ is not designed to determine how humans should interact.
+
+It is designed to provide a space in which humans choose how to interact.
+
+Technology provides the structure.
+
+Time provides the urgency.
+
+Humans provide the meaning.
 
 ---
 
@@ -216,9 +271,8 @@ This document supersedes any earlier assumption that an AI referee is required f
 
 ## Version 1.0
 
-Initial documentation of the gameplay philosophy, including the decision to preserve human judgment, reject compulsory AI refereeing, and establish time as the primary gameplay constraint.
+Initial gameplay philosophy documenting the preservation of human judgment, the rejection of compulsory AI governance, the principle of Computational Facilitation, and the recognition of shared space and limited time as the fundamental conditions from which gameplay emerges.
 
 ---
 
 End of Document
-

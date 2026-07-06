@@ -3,7 +3,9 @@
 % =========================================================
 % THE LAST WORD WAR
 % Official Game Archive and Implementation Rulebook
-% Author: Victor A. Adeyemi
+% Steward: Victor A. Adeyemi
+% Organization: Da-aim Services
+% Version: 1.1
 % Year: 2026
 % =========================================================
 
@@ -58,7 +60,7 @@ Da-aim Services research and development ecosystem.
 \end{center}
 
 \begin{center}
-\textbf{Version 1.0}
+\textbf{Version 1.1}
 
 Official Rulebook and Historical Archive
 
@@ -72,7 +74,6 @@ Da-aim Services
 \vspace{1em}
 
 \tableofcontents
-
 
 \newpage
 
@@ -103,41 +104,75 @@ All it seeks is to promote HUMAN interactions;
 Interactions built firmly upon the previous LAST WORD.
 \end{quote}
 
-These statements define both the gameplay philosophy and the broader development philosophy of the project.
+These statements define the gameplay philosophy, development philosophy, and research philosophy of the project.
 
 \subsection{Game Category}
 
-\textbf{The Last Word War} is a turn-based language and reasoning game designed for:
+\textbf{The Last Word War\texttrademark} is a turn-based language, reasoning, and conversational game designed for:
 
 \begin{itemize}
-    \item chat platforms;
+    \item digital multiplayer platforms;
     \item classrooms;
     \item study groups;
     \item social gatherings;
     \item language-learning sessions;
     \item debate and communication training;
     \item competitive tournaments;
-    \item AI-assisted educational platforms.
+    \item digital educational platforms.
 \end{itemize}
 
 \subsection{Core Concept}
 
-Players construct meaningful sentences under a time limit. Each new sentence must begin conceptually from the last word of the previous player's sentence. The game rewards coherence, creativity, logical continuity, subject knowledge, and linguistic control.
+Players construct sentences under a shared time constraint. Each new sentence begins from the last word of the previous player's sentence.
+
+The software coordinates play.
+
+The players determine the quality, interpretation, and culture of gameplay.
+
+% =========================================================
+\section{Gameplay Philosophy}
+
+The Last Word War\texttrademark\ is founded upon a simple principle:
+
+\begin{quote}
+The software provides the framework for interaction.
+
+The players provide the meaning.
+\end{quote}
+
+Rather than attempting to algorithmically govern every aspect of play, the game intentionally preserves human judgment, interpretation, negotiation, and responsibility.
+
+The software facilitates interaction.
+
+Humans create meaning.
+
+\subsection{Computational Facilitation}
+
+The Last Word War\texttrademark\ adopts the principle of Computational Facilitation.
+
+Computing exists to facilitate interaction rather than govern it. The software provides only the computational infrastructure necessary for coordinated play while leaving interpretation, negotiation, and social responsibility to the participants.
+
+\subsection{Time as the Fundamental Constraint}
+
+Time is the central gameplay constraint.
+
+The game provides a shared interaction space and limits each player's opportunity to act. From these two conditions arise pressure, hesitation, creativity, failure, recovery, humour, competition, cooperation, and play.
+
+Timeout is therefore not merely a technical feature. It is one of the philosophical foundations of the game.
 
 % =========================================================
 \section{Game Objective}
 
-The objective is to achieve the highest score or remain the final surviving participant, depending on the selected game mode.
+The objective is to participate in a structured chain of interaction and, where scoring is enabled, to achieve the highest score or win according to the selected endgame format.
 
-Players must:
+Players should:
 
 \begin{itemize}
-    \item respond within the allotted time;
-    \item construct grammatically meaningful sentences;
-    \item use the previous participant's last word appropriately;
-    \item maintain logical or thematic continuity where required;
-    \item satisfy all active difficulty rules;
-    \item avoid repetition, loopholes, and invalid constructions.
+    \item respond before the timer expires;
+    \item begin from the previous player's last word;
+    \item contribute to the ongoing interaction;
+    \item follow any rules agreed upon before the match begins;
+    \item respect the culture of play established by the participants.
 \end{itemize}
 
 % =========================================================
@@ -153,32 +188,32 @@ For more than two players, a fixed turn order must be established before the gam
 % =========================================================
 \section{Game Setup}
 
-Before play begins, participants must agree on:
+Before play begins, participants may agree on:
 
 \begin{enumerate}
-    \item game duration;
     \item response timer;
-    \item difficulty level;
     \item scoring method;
-    \item challenge procedure;
+    \item strictness of sentence interpretation;
+    \item whether challenges are allowed;
     \item endgame format;
-    \item permitted themes or special modes.
+    \item permitted themes or special modes;
+    \item local house rules.
 \end{enumerate}
 
 \subsection{Example Setup}
 
 \begin{itemize}
-    \item Duration: 30 minutes
-    \item Timer: 60 seconds per turn
-    \item Difficulty: Medium
+    \item Timer: 30 seconds per turn
     \item Mode: Standard Chain Mode
-    \item Endgame: Highest Score Wins
+    \item Scoring: Submitted turn = +1
+    \item Timeout: $-1$
+    \item Endgame: First to 10 triggers Final Round
 \end{itemize}
 
 % =========================================================
 \section{Core Rule}
 
-Each participant must create a meaningful sentence using the last word of the previous participant's sentence as the starting concept for the next sentence.
+Each participant must create a sentence beginning from the last word of the previous participant's sentence.
 
 \subsection{Example}
 
@@ -207,7 +242,7 @@ The new last word is:
 % =========================================================
 \section{Determining the Last Word}
 
-The last word is extracted from the previous sentence after removing:
+The software may extract the last word from the previous sentence after removing:
 
 \begin{itemize}
     \item punctuation marks;
@@ -239,40 +274,99 @@ Example:
 Machine-learning improves prediction.
 \end{quote}
 
-The first word may be treated as \textbf{Machine-learning}, while the last word is \textbf{prediction}.
+The last word is:
+
+\begin{quote}
+\textbf{prediction}
+\end{quote}
 
 % =========================================================
-\section{Validity of Sentences}
+\section{Player Responsibility}
 
-A sentence is considered valid if it satisfies all of the following conditions:
+The Last Word War\texttrademark\ intentionally preserves human judgment.
 
-\begin{enumerate}
-    \item It is grammatically meaningful.
-    \item It conveys a coherent idea.
-    \item It uses the required word or concept appropriately.
-    \item It satisfies all active game restrictions.
-    \item It is submitted before the timer expires.
-    \item It does not violate repetition rules.
-\end{enumerate}
+The software does not determine whether a sentence is creative, meaningful, grammatically correct, humorous, strategic, or socially acceptable.
 
-\subsection{Valid Example}
+These decisions belong to the players.
 
-\begin{quote}
-Preparation improves performance under pressure.
-\end{quote}
+Participants may agree before each match on how strictly they wish to evaluate gameplay.
 
-\subsection{Invalid Example}
+\subsection{Interpretive Freedom}
 
-\begin{quote}
-Books quickly orange happy.
-\end{quote}
+Players may discover unconventional strategies, exploit rule boundaries, or interpret situations differently.
 
-This is invalid because it is grammatically and semantically incoherent.
+Such situations are not treated as failures of the game.
+
+They are treated as part of human-governed gameplay.
+
+\subsection{Culture of Play}
+
+The software defines the framework of play.
+
+The players define the culture of play.
+
+% =========================================================
+\section{Software Responsibility}
+
+The software is responsible for objective computational tasks, including:
+
+\begin{itemize}
+    \item creating rooms;
+    \item connecting players;
+    \item preserving shared game state;
+    \item managing turn order;
+    \item recording sentence history;
+    \item extracting the current word;
+    \item recording scores;
+    \item enforcing timeout constraints;
+    \item supporting rematches;
+    \item recovering interrupted sessions;
+    \item maintaining technical reliability;
+
+    \item removing inactive players after three consecutive timeouts;
+    \item preventing new players from joining once a match has started.
+    
+\end{itemize}
+
+The software intentionally avoids deciding the full meaning, honesty, quality, or social acceptability of every human action during gameplay.
+
+\subsection{Player Inactivity Removal}
+
+To preserve the continuity of multiplayer gameplay, a player who accumulates three consecutive timeout penalties shall be automatically removed from the current match.
+
+A timeout is considered consecutive only if the player fails to submit a sentence on each of their successive turns.
+
+Once removed:
+
+\begin{itemize}
+    \item the player no longer participates in the current match;
+    \item turn order is automatically adjusted;
+    \item scores earned before removal remain part of the match record;
+    \item the player may participate again only by joining a new match or a subsequent rematch.
+\end{itemize}
+
+This rule exists solely to maintain the flow of gameplay and should not be interpreted as a punishment.
+
+\subsection{Closed Match Rule}
+
+A multiplayer match becomes closed once gameplay has officially started.
+
+After the first turn begins:
+
+\begin{itemize}
+    \item no additional players may join the current match;
+    \item spectators may observe if supported by the platform;
+    \item new participants must wait until a rematch or a newly created room begins.
+\end{itemize}
+
+This rule preserves fairness by ensuring that all competitors begin under identical conditions.
 
 % =========================================================
 \section{Continuity Types}
 
-Continuity determines how strongly a player's sentence connects to the previous sentence.
+Continuity describes how a player's sentence relates to the previous sentence.
+
+The interpretation of continuity belongs to the players.
 
 \subsection{Literal Continuity}
 
@@ -301,18 +395,20 @@ The response advances the previous idea logically, scientifically, narratively, 
 \textbf{Next sentence:} Systems exchange energy through work, heat, or radiation.
 \end{quote}
 
-Advanced continuity may receive bonus points.
+Players may choose to reward stronger continuity when playing with advanced or educational rules.
 
 % =========================================================
 \section{Difficulty Levels}
+
+Difficulty levels define how strictly players agree to interpret the rules.
 
 \subsection{Easy Mode}
 
 Requirements:
 
 \begin{itemize}
-    \item meaningful sentence;
-    \item correct use of the previous last word;
+    \item begin with the previous last word;
+    \item respond before timeout;
     \item no strict thematic requirement.
 \end{itemize}
 
@@ -322,9 +418,8 @@ Requirements:
 
 \begin{itemize}
     \item all Easy Mode requirements;
-    \item logical continuity with the previous sentence;
-    \item avoidance of obviously false statements;
-    \item basic repetition restriction.
+    \item reasonable continuity with the previous sentence;
+    \item basic avoidance of repetitive play.
 \end{itemize}
 
 \subsection{Hard Mode}
@@ -334,8 +429,8 @@ Requirements:
 \begin{itemize}
     \item all Medium Mode requirements;
     \item additional thematic restriction;
-    \item stronger penalty for weak continuity;
-    \item possible use of expert judging or AI moderation.
+    \item stricter player-governed evaluation;
+    \item stronger penalty rules if agreed before play.
 \end{itemize}
 
 \subsection{Expert Mode}
@@ -344,16 +439,16 @@ Requirements:
 
 \begin{itemize}
     \item all Hard Mode requirements;
-    \item responses must remain within a specialized knowledge domain;
+    \item responses remain within a specialized knowledge domain;
     \item claims should be defensible or factually reasonable;
-    \item vague filler sentences are invalid;
+    \item vague filler sentences may be rejected by players;
     \item technical vocabulary may receive additional points.
 \end{itemize}
 
 % =========================================================
 \section{Thematic Modes}
 
-The game may be played under a theme. In thematic modes, each sentence must remain relevant to the chosen domain.
+The game may be played under a theme. In thematic modes, players agree that each sentence should remain relevant to the chosen domain.
 
 \begin{itemize}
     \item Physics Mode
@@ -388,38 +483,54 @@ Last word:
 % =========================================================
 \section{Scoring System}
 
+The current digital implementation uses a simple scoring system.
+
 \begin{center}
 \begin{tabular}{lc}
 \toprule
 \textbf{Action} & \textbf{Score} \\
 \midrule
-Valid sentence & +1 \\
+Submitted turn & +1 \\
+Timeout & $-1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Players may agree to additional scoring rules for advanced, educational, or tournament play.
+
+\subsection{Optional Advanced Scoring}
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+\textbf{Action} & \textbf{Optional Score} \\
+\midrule
 Strong continuity & +1 \\
 Creative contribution & +1 \\
 Thematic accuracy & +1 \\
 Advanced vocabulary or technical use & +1 \\
-Timeout & $-1$ \\
-Invalid sentence & $-2$ \\
-Rule violation & $-2$ \\
+Invalid sentence by player agreement & $-1$ or $-2$ \\
 Failed challenge & $-1$ \\
-Successful challenge against opponent & +1 \\
+Successful challenge & +1 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \subsection{Recommended Scoring Principle}
 
-The base score should remain simple. Bonus points should reward quality without making the game slow. For casual games, use only valid sentence points and penalties. For tournaments, use the full scoring table.
+The base score should remain simple.
+
+Additional scoring should be used only when players want a stricter or more educational match.
 
 % =========================================================
 \section{Continuity Bonuses}
 
-Players are rewarded for maintaining long coherent chains.
+Players may optionally reward long coherent chains.
 
 \begin{center}
 \begin{tabular}{lc}
 \toprule
-\textbf{Coherent Chain Length} & \textbf{Bonus} \\
+\textbf{Coherent Chain Length} & \textbf{Optional Bonus} \\
 \midrule
 5 turns & +2 \\
 10 turns & +5 \\
@@ -428,26 +539,16 @@ Players are rewarded for maintaining long coherent chains.
 \end{tabular}
 \end{center}
 
-A chain is broken when a player submits an invalid sentence, times out, or violates the active rules.
+A chain is broken when players agree that continuity has failed, a player times out, or a locally agreed rule is violated.
 
 % =========================================================
 \section{Repetition Rule}
 
-To prevent circular gameplay, a word may not be reused within a fixed recent-window history.
+To prevent circular gameplay, players may agree that a final word cannot be reused within a recent-window history.
 
 \subsection{Recommended Rule}
 
-A final word may not reappear within the previous \textbf{10 turns}.
-
-\subsection{Example}
-
-If the recent final-word history is:
-
-\begin{quote}
-knowledge, opportunity, preparation, discipline, success
-\end{quote}
-
-then a player should avoid ending their sentence with any of these words unless the agreed repetition window has expired.
+A final word should not reappear within the previous \textbf{10 turns}, unless players agree otherwise.
 
 \subsection{Purpose}
 
@@ -484,6 +585,7 @@ Players may choose one of the following options:
     \item Ban weak words completely.
     \item Allow weak words but give no bonus points.
     \item Penalize repeated weak-word usage.
+    \item Accept weak words as part of casual play.
 \end{enumerate}
 
 % =========================================================
@@ -505,22 +607,6 @@ Interdisciplinary or high-level concept & 5 \\
 \end{tabular}
 \end{center}
 
-\subsection{Example}
-
-\begin{center}
-\begin{tabular}{lc}
-\toprule
-\textbf{Word} & \textbf{Energy Value} \\
-\midrule
-chair & 1 \\
-migration & 2 \\
-photosynthesis & 3 \\
-superconductivity & 4 \\
-Hamiltonian & 5 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
 \subsection{Strategic Purpose}
 
 Players may deliberately end their sentences with difficult words to challenge the next participant. This creates a balance between scoring, creativity, and competitive pressure.
@@ -530,63 +616,63 @@ Players may deliberately end their sentences with difficult words to challenge t
 
 Any player may issue a challenge when a rule violation is suspected.
 
+Challenges are resolved by the participating players or by a mutually accepted human moderator.
+
+The software does not determine challenge outcomes.
+
 \subsection{Grounds for Challenge}
 
 A challenge may be issued for:
 
 \begin{itemize}
-    \item grammatical incoherence;
     \item weak or false continuity;
     \item failure to use the required word;
     \item thematic violation;
     \item repetition violation;
-    \item timeout;
     \item use of banned words;
-    \item fabricated or obviously false technical claims.
+    \item fabricated or obviously false technical claims;
+    \item locally agreed rule violations.
 \end{itemize}
 
-\subsection{Successful Challenge}
+\subsection{Challenge Outcomes}
 
-If the challenge is successful:
-
-\begin{itemize}
-    \item the offending player loses 1 point;
-    \item the challenger gains 1 point, if tournament rules allow it;
-    \item the chain may be reset or continued from the last valid word.
-\end{itemize}
-
-\subsection{Failed Challenge}
-
-If the challenge fails:
+Players may agree on one of the following outcomes:
 
 \begin{itemize}
-    \item the challenger loses 1 point;
-    \item the challenged sentence remains valid;
-    \item play continues normally.
+    \item the challenged sentence remains accepted;
+    \item the sentence is rejected;
+    \item the player loses a point;
+    \item the challenger gains a point;
+    \item the chain resets from the last accepted word;
+    \item play continues without penalty.
 \end{itemize}
 
 % =========================================================
 \section{Endgame Formats}
 
-\subsection{Format A: Last Man Standing}
+\subsection{Format A: First to Target Score}
 
-At predetermined checkpoints, the lowest-scoring participant is eliminated. The process continues until only one participant remains.
+A player reaching a target score triggers the endgame condition.
 
-\subsection{Format B: Highest Score Wins}
+\subsection{Format B: Final Round}
+
+The first player to reach the target score triggers a final round, allowing other players one final opportunity to respond.
+
+\subsection{Format C: Sudden Death}
+
+Tied leaders may enter Sudden Death until a winner emerges or a draw condition is reached.
+
+\subsection{Format D: Highest Score Wins}
 
 The game ends when the agreed duration expires. The participant with the highest score is declared the winner.
 
-\subsection{Format C: Tournament Structure}
-
-Participants advance through successive rounds until a final winner emerges.
-
-\subsection{Format D: Team Battle}
+\subsection{Format E: Team Battle}
 
 Players are divided into teams. Each team collaborates internally, but only the assigned player may submit the official sentence during a turn.
 
-\subsection{Format E: Classroom Assessment}
+\subsection{Format F: Classroom Assessment}
 
-The instructor selects a theme and evaluates students based on accuracy, vocabulary, continuity, and creativity.
+The instructor selects a theme and evaluates students based on agreed learning objectives.
 
 % =========================================================
 \section{Special Modes}
@@ -613,7 +699,7 @@ No final word may be repeated during the entire round.
 
 \subsection{Expert Citation Mode}
 
-For academic or scientific themes, players may be required to make statements that are factually defensible. In formal settings, the referee may request a short explanation.
+For academic or scientific themes, players may be required to make factually defensible statements. In formal settings, a human moderator may request a short explanation.
 
 % =========================================================
 \section{Attack and Defense Cards}
@@ -645,13 +731,12 @@ Attack and Defense Cards are optional mechanics for competitive versions of the 
 \begin{verbatim}
 THE LAST WORD WAR
 
-Mode: Medium
-Duration: 30 Minutes
-Timer: 60 Seconds
-Theme: General Knowledge
+Mode: Standard
+Timer: 30 Seconds
+Theme: General
 
-Victor .......... 12
-Sarah ........... 10
+Oasis .......... 12
+Victor ........... 10
 Ahmed ........... 8
 Grace ........... 7
 
@@ -661,8 +746,10 @@ OPPORTUNITY
 Current Turn:
 Ahmed
 
-Recent Word History:
-knowledge | opportunity | preparation | discipline | success
+Recent Sentence History:
+Science helps us understand nature.
+Nature inspires technological innovation.
+Innovation drives economic growth.
 
 =================================
 \end{verbatim}
@@ -670,11 +757,11 @@ knowledge | opportunity | preparation | discipline | success
 % =========================================================
 \section{Implementation Logic}
 
-This section describes a possible digital implementation structure.
+This section describes the digital implementation philosophy.
 
 \subsection{Core Data Structures}
 
-A simple implementation may track:
+The software may track:
 
 \begin{itemize}
     \item player names;
@@ -682,95 +769,67 @@ A simple implementation may track:
     \item current turn index;
     \item previous sentence;
     \item current required word;
-    \item recent word history;
+    \item sentence history;
     \item timer status;
-    \item active game mode;
-    \item challenge records.
+    \item game phase;
+    \item room state.
 \end{itemize}
 
 \subsection{Turn Algorithm}
 
 \begin{enumerate}
     \item Display the current required word.
-    \item Start the timer.
+    \item Start or synchronize the timer.
     \item Receive player sentence.
-    \item Stop the timer.
-    \item Extract the first relevant word and final word.
-    \item Validate grammar and meaning.
-    \item Validate continuity with the required word.
-    \item Check repetition history.
-    \item Check theme compliance.
-    \item Assign score.
-    \item Update word history.
-    \item Move to next player.
+    \item If timeout occurs, apply timeout penalty. If the current player reaches three consecutive timeouts, remove the player from the match and update the turn order.
+    
+    \item Extract the final word from the submitted sentence.
+    \item Record the sentence.
+    \item Update the score.
+    \item Update the current word.
+    \item Advance to the next player.
+    \item Persist the shared game state.
 \end{enumerate}
+
+
 
 \subsection{Pseudocode}
 
 \begin{verbatim}
+initialize room
 initialize players
 initialize scores
-choose mode, timer, and theme
-set starting sentence or starting word
+set starting word
 
 while game_not_over:
     current_player = players[current_turn]
     display current_word
-    start timer
+    synchronize timer
+
     sentence = receive_input(current_player)
-    stop timer
 
     if timeout:
         scores[current_player] -= 1
-        move_to_next_player()
+        advance_turn()
+        persist_state()
         continue
 
-    if is_valid(sentence, current_word, mode, theme):
-        scores[current_player] += base_score
-        scores[current_player] += bonus_score(sentence)
-        current_word = extract_last_word(sentence)
-        update_word_history(current_word)
-    else:
-        scores[current_player] -= penalty
+    
+    record_sentence(sentence)
+    current_word = extract_last_word(sentence)
+    scores[current_player] += 1
 
-    resolve_challenges_if_any()
-    move_to_next_player()
+    evaluate_endgame_state()
+    advance_turn()
+    persist_state()
 
-announce_winner(scores)
+announce_result()
 \end{verbatim}
 
-% =========================================================
-\section{AI Referee Implementation}
+If the match has started,
+reject all requests to join the room as an active player.
 
-An AI-assisted referee can be used to evaluate:
-
-\begin{itemize}
-    \item grammatical correctness;
-    \item semantic coherence;
-    \item continuity strength;
-    \item thematic relevance;
-    \item technical accuracy;
-    \item repetition violations;
-    \item scoring suggestions.
-\end{itemize}
-
-\subsection{Recommended AI Referee Output}
-
-For each turn, the referee may return:
-
-\begin{verbatim}
-Sentence: valid / invalid
-Required word used: yes / no
-Continuity: weak / acceptable / strong
-Theme compliance: yes / no
-Suggested score: integer
-Reason: brief explanation
-New final word: extracted word
-\end{verbatim}
-
-\subsection{Human Override}
-
-In all official games, a human moderator may override the AI referee where context, humor, idiom, or cultural meaning is not properly interpreted.
+The algorithm coordinates play but does not judge the full meaning or quality of player contributions.
 
 % =========================================================
 \section{Educational Applications}
@@ -787,7 +846,7 @@ The game can be adapted for:
     \item critical thinking exercises;
     \item classroom icebreakers;
     \item postgraduate seminar warm-ups;
-    \item AI-literacy exercises.
+    \item AI-literacy discussions.
 \end{itemize}
 
 \subsection{Classroom Example}
@@ -798,20 +857,16 @@ In a physics classroom, the instructor may begin with:
 Forces cause acceleration.
 \end{quote}
 
-Students must continue the chain while staying within mechanics, energy, momentum, waves, or another selected topic.
+Students continue the chain while staying within mechanics, energy, momentum, waves, or another selected topic.
 
 % =========================================================
 \section{Digital Product Roadmap}
 
-\subsection{Historical Note}
+\subsection{Current Product Direction}
 
-This section records the original long-term product vision of
-The Last Word War\texttrademark.
+The product direction prioritizes reliable Human--Human interaction over automated judgment.
 
-Some milestones described below may already have been achieved
-at the time this document is consulted.
-
-The section is retained as part of the project's historical archive.
+The system should strengthen multiplayer coordination, onboarding, session recovery, timing, and educational adaptation.
 
 \subsection{Minimum Viable Product}
 
@@ -823,7 +878,6 @@ The first playable digital version should include:
     \item timer;
     \item sentence input;
     \item automatic last-word extraction;
-    \item manual validation;
     \item scoreboard;
     \item game history.
 \end{itemize}
@@ -833,13 +887,13 @@ The first playable digital version should include:
 The intermediate version may include:
 
 \begin{itemize}
-    \item AI referee;
+    \item improved onboarding;
     \item theme selection;
-    \item repetition detection;
-    \item challenge system;
+    \item repetition visibility;
     \item tournament brackets;
     \item player statistics;
-    \item classroom dashboard.
+    \item classroom dashboard;
+    \item spectator support.
 \end{itemize}
 
 \subsection{Advanced Version}
@@ -848,34 +902,32 @@ The advanced version may include:
 
 \begin{itemize}
     \item mobile application;
-    \item web multiplayer;
     \item voice input;
     \item multilingual play;
     \item educational analytics;
-    \item adaptive difficulty;
-    \item AI-generated themes;
-    \item downloadable certificates for classroom use.
+    \item adaptive timer settings;
+    \item downloadable classroom materials.
 \end{itemize}
 
 % =========================================================
 \section{Possible Technology Stack}
 
-\subsection{Web Version}
+\subsection{Current Web Version}
 
 \begin{itemize}
-    \item Frontend: React, Vue, or Svelte
-    \item Backend: Node.js, Python FastAPI, or Django
-    \item Database: PostgreSQL, Firebase, or MongoDB
-    \item Real-time play: WebSockets
-    \item AI referee: Large language model API or local language model
+    \item Frontend: React and Vite
+    \item Backend: Supabase and PostgreSQL
+    \item Real-time play: Supabase Realtime
+    \item Deployment: Vercel
+    \item Version control: Git and GitHub
 \end{itemize}
 
-\subsection{Mobile Version}
+\subsection{Future Mobile Version}
 
 \begin{itemize}
     \item Flutter or React Native for cross-platform development
-    \item Firebase for authentication and real-time state
-    \item Cloud functions for moderation and scoring
+    \item Supabase or equivalent backend for authentication and realtime state
+    \item Mobile-first timer, input, and notification design
 \end{itemize}
 
 \subsection{Offline Classroom Version}
@@ -883,12 +935,11 @@ The advanced version may include:
 \begin{itemize}
     \item Printable cards
     \item Manual scoreboard
-    \item Teacher as referee
+    \item Teacher or student moderator
     \item Optional spreadsheet scoring template
 \end{itemize}
 
 % =========================================================
-
 \section{Intellectual Property Archive}
 
 \subsection{Project Steward}
@@ -903,10 +954,7 @@ under the Da-aim Services research and development ecosystem.
 
 \subsection{Archival Statement}
 
-This document records the formal design, gameplay rules,
-scoring systems, implementation concepts, educational
-applications, and historical evolution of
-\textbf{The Last Word War\texttrademark}.
+This document records the formal design, gameplay rules, scoring systems, implementation concepts, educational applications, and historical evolution of \textbf{The Last Word War\texttrademark}.
 
 \subsection{Authorship and AI Policy}
 
@@ -920,9 +968,7 @@ Human contributors remain responsible for:
     \item publication decisions.
 \end{itemize}
 
-Artificial intelligence may assist with development,
-documentation, and research activities but shall not be
-considered an author, owner, steward, or player within the game.
+Artificial intelligence may assist the project's development, documentation, and research. It does not participate in gameplay and is not considered a player, referee, steward, or author of the project.
 
 \subsection{Copyright Notice}
 
@@ -944,8 +990,10 @@ All rights reserved.
 v0.1 & 2026 & Original rulebook draft \\
 v0.2 & 2026 & Expanded implementation archive \\
 v1.0 & 2026 & Repository synchronization and governance update \\
+v1.1 & 2026 & Alignment with Gameplay Philosophy and Computational Facilitation \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 \end{document}
+

@@ -1,6 +1,6 @@
 # The Last Word War™
 
-## Project Strategy v1.1
+## Project Strategy v1.2
 
 Steward:
 
@@ -12,7 +12,7 @@ Da-aim Services
 
 Date:
 
-2026-06-20
+2026-07
 
 Status:
 
@@ -26,7 +26,7 @@ This document defines the strategic direction of The Last Word War™.
 
 While the Project Philosophy document explains why the project exists, this document explains how the project intends to evolve.
 
-The strategy should be reviewed periodically as the project matures.
+The strategy should be reviewed periodically as the project matures and as evidence emerges through development, playtesting, and research.
 
 ---
 
@@ -36,7 +36,7 @@ The Last Word War™ seeks to become:
 
 * A human-centered multiplayer conversational platform
 * An educational gaming framework
-* A human-centered AI research initiative
+* A human-centered computing research initiative
 
 while preserving meaningful Human ↔ Human interaction as its central purpose.
 
@@ -60,7 +60,7 @@ Every significant feature should be validated through observation, playtesting, 
 
 Current Version:
 
-v0.1.1
+v0.1.2
 
 Status:
 
@@ -87,10 +87,11 @@ Product Development
 
 Objectives:
 
-* Improve gameplay quality
-* Improve usability
+* Strengthen Human ↔ Human interaction
 * Improve onboarding
+* Improve usability
 * Improve player retention
+* Preserve authentic gameplay
 
 ---
 
@@ -104,6 +105,7 @@ Objectives:
 * Improve maintainability
 * Reduce technical debt
 * Establish scalable architecture
+* Improve long-term maintainability
 
 ---
 
@@ -113,10 +115,11 @@ Research and Publication
 
 Objectives:
 
-* Develop Human-Centered AI Framework
-* Publish foundational papers
+* Develop the Human-Centered Computing Framework
+* Publish foundational research
 * Document project evolution
 * Collect evidence through playtesting
+* Investigate Human ↔ Human interaction within computational environments
 
 ---
 
@@ -129,11 +132,11 @@ Objectives:
 * Preserve authorship history
 * Maintain project records
 * Protect project identity
-* Support future trademark activities
+* Support future intellectual property activities
 
 ---
 
-# Current Strategic Priority
+# Current Strategic Priorities
 
 Priority 1
 
@@ -146,6 +149,7 @@ Key Questions:
 * Is the multiplayer experience intuitive?
 * Are players willing to play again?
 * What causes confusion?
+* How do players naturally govern gameplay?
 
 Success Metric:
 
@@ -175,13 +179,16 @@ Priority 3
 
 Research Foundation
 
-Goal:
+Goals:
 
-Develop a publishable framework for Human-Centered AI-Assisted Design.
+* Document the project's evolving philosophy.
+* Study Human ↔ Human interaction within computational spaces.
+* Collect evidence from playtesting.
+* Prepare the first research publication.
 
 Success Metric:
 
-Completion of Publication #1 draft.
+Completion of Publication #1 supported by observed evidence.
 
 ---
 
@@ -210,21 +217,23 @@ Educational validation should investigate:
 
 ---
 
-# Artificial Intelligence Strategy
+# Computational Strategy
 
-Artificial intelligence should strengthen human interaction rather than replace it.
+Computing exists to facilitate human interaction rather than govern it.
 
-Permitted Roles:
+The software should provide:
 
-* Referee
-* Moderator
-* Rule Validator
-* Educational Assistant
-* Accessibility Assistant
+* reliable multiplayer infrastructure;
+* synchronization;
+* session persistence;
+* onboarding;
+* score management;
+* timeout management;
+* technical reliability.
 
-Artificial intelligence shall remain an assistant rather than a participant.
+Interpretation, negotiation, and social governance remain responsibilities of the players.
 
-The Human Contribution Principle shall guide future AI integration.
+Future computational features should strengthen human interaction without replacing human judgment.
 
 ---
 
@@ -232,11 +241,11 @@ The Human Contribution Principle shall guide future AI integration.
 
 Before implementing a feature, ask:
 
-1. Does it improve Human ↔ Human interaction?
-2. Does it improve learning or creativity?
-3. Does it improve fairness?
-4. Does it improve usability?
-5. Does it preserve human agency?
+1. Does it strengthen Human ↔ Human interaction?
+2. Does it preserve human responsibility?
+3. Does it improve usability?
+4. Does it encourage learning or creativity?
+5. Is it supported by evidence from playtesting?
 
 Features satisfying these goals should receive priority.
 
@@ -264,11 +273,13 @@ Current Publication Priorities:
 Publication #1
 
 The Last Word War™:
-A Human-Centered Framework for AI-Assisted Creative Systems
+
+A Human-Centered Framework for Computationally Facilitated Human Interaction
 
 Publication #2
 
 The Last Word War™:
+
 Design and Evaluation of a Human-Centered Multiplayer Language Game
 
 Future publications should emerge from observed evidence rather than speculative claims.
@@ -279,7 +290,6 @@ Future publications should emerge from observed evidence rather than speculative
 
 Potential Future Initiatives:
 
-* AI Referee
 * Classroom Edition
 * Tournament Platform
 * Spectator Mode
@@ -300,6 +310,10 @@ Human Interaction
 
 over Automation
 
+Human Responsibility
+
+over Computational Governance
+
 Learning
 
 over Complexity
@@ -316,6 +330,17 @@ The long-term success of The Last Word War™ depends not on the number of featu
 
 ---
 
+# Relationship to Other Documents
+
+This document implements the direction established by:
+
+* PROJECT_PHILOSOPHY_v1.2.md
+* GAMEPLAY_PHILOSOPHY_v1.0.md
+* GDD_v0_1.md
+* HUMAN_CENTERED_AI_FRAMEWORK_PAPER_v0_1.md
+
+---
+
 # Version History
 
 ## Version 1.0
@@ -326,5 +351,8 @@ Initial project strategy.
 
 Alignment with playtesting, research, governance, publication, and Human-Centered AI framework development.
 
----
+## Version 1.2
 
+Updated following the adoption of the Gameplay Philosophy. The strategy now emphasizes computational facilitation, evidence-driven development, preservation of human judgment, and Human ↔ Human interaction as the central objective of future development.
+
+---

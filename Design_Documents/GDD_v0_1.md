@@ -1,100 +1,210 @@
-# The Last Word War — Game Design Document v0.1
+# The Last Word War™ — Game Design Document v0.2
 
-Author: Victor A. Adeyemi  
-Status: Draft  
-Date: 2026-06-17  
+Steward:
 
-## 1. Game Vision
+Victor A. Adeyemi
 
-The Last Word War is a turn-based language, reasoning, and knowledge game where each player constructs a meaningful sentence using the last word of the previous player's sentence.
+Organization:
 
-The game is designed for entertainment, education, classrooms, study groups, social gatherings, and future digital implementation.
+Da-aim Services
 
-## 2. Core Gameplay Loop
+Status:
+
+Active Design Document
+
+Date:
+
+2026-07
+
+---
+
+# Purpose
+
+This document describes the design of The Last Word War™.
+
+It translates the project's philosophy into concrete gameplay and implementation decisions.
+
+While the Project Philosophy explains **why** the project exists and the Gameplay Philosophy explains **how** gameplay is intended to function, this document specifies **what** is built.
+
+---
+
+# 1. Game Vision
+
+The Last Word War™ is a turn-based multiplayer language game in which players collaboratively build an evolving chain of ideas.
+
+Each player constructs a sentence beginning with the last word of the previous player's sentence.
+
+The game is designed primarily to encourage:
+
+* Human interaction
+* Conversation
+* Creativity
+* Learning
+* Reasoning
+* Friendly competition
+
+The project intentionally places Human ↔ Human interaction at the center of the experience.
+
+---
+
+# 2. Core Gameplay Loop
 
 1. A player submits a sentence.
-2. The system or referee extracts the last word.
-3. The next player must create a meaningful sentence using that word.
-4. The sentence is judged valid or invalid.
-5. Scores are updated.
-6. The next turn begins.
+2. The software extracts the final word.
+3. The next player begins with that word.
+4. The timer determines whether the submission is made in time.
+5. Scores and history are updated.
+6. Play continues to the next participant.
 
-## 3. Current Implementation Target
+The software coordinates gameplay.
 
-The first implementation target is a simple web-based prototype.
-
-Minimum features:
-
-- Player name entry
-- Turn order
-- Current word display
-- Sentence input box
-- Timer
-- Scoreboard
-- Manual valid/invalid button
-- Automatic last-word extraction
-
-## 4. Initial Game Modes
-
-- Easy Mode
-- Medium Mode
-- Hard Mode
-- Story Mode
-- Blitz Mode
-- Lightning Mode
-- Reverse Mode
-
-## 5. Design Principles
-
-- Easy to learn
-- Difficult to master
-- Educationally useful
-- Scalable across age groups
-- Suitable for AI-assisted moderation
-- Flexible across themes and subjects
-
-## 6. Future Features
-
-- AI referee
-- Online multiplayer
-- Classroom mode
-- Tournament mode
-- Mobile app
-- User accounts
-- Leaderboards
-- Subject-specific game packs
-
-## 7. Development Notes
-
-This document will evolve as the project develops. Each new version should be archived in the repository.
+The players determine the quality and culture of play.
 
 ---
 
-# Human-Centered Onboarding Philosophy
+# 3. Current Implementation Target
 
-## Motivation
+The current implementation target is a web-based multiplayer platform.
 
-Early external playtesting revealed that a significant number of players initially expected The Last Word War™ to include an artificial intelligence opponent or a single-player mode.
+Core features include:
 
-This observation suggests that many contemporary users approach digital experiences with an implicit expectation of Human ↔ AI interaction.
-
-Because The Last Word War™ is intentionally designed as a Human ↔ Human experience, explicit onboarding is required to communicate the project's philosophy and reduce player confusion.
+* Player registration
+* Online room creation
+* Room joining
+* Turn management
+* Shared countdown timer
+* Current word display
+* Sentence submission
+* Automatic last-word extraction
+* Shared scoreboard
+* Sentence history
+* Final Round
+* Sudden Death
+* Inactivity handling
+* Session recovery
+* Online rematch
 
 ---
 
-## Design Goal
+# 4. Gameplay Philosophy
 
-The onboarding experience shall clearly communicate that:
+Gameplay intentionally preserves human judgment.
 
-* The game requires at least two human participants.
-* Artificial intelligence is not the primary participant.
-* Human interaction is the central objective of the experience.
+The software provides structure while avoiding unnecessary governance of player interaction.
+
+The software is responsible for:
+
+* multiplayer coordination;
+* timing;
+* synchronization;
+* score management;
+* session management.
+
+Players remain responsible for:
+
+* interpreting meaning;
+* evaluating sentence quality;
+* resolving disagreements;
+* defining acceptable gameplay culture.
 
 ---
 
-## Welcome Screen Layer
+# 5. Initial Game Modes
 
-A dedicated welcome screen shall appear before the main menu.
+Current modes include:
+
+* Standard Mode
+* Blitz Mode
+* Lightning Mode
+* Story Mode
+* Reverse Mode
+
+Future educational themes may include:
+
+* Physics
+* Mathematics
+* Cryptography
+* History
+* Language Learning
+* Engineering
+* Medical Sciences
+
+Themes provide context without changing the core gameplay loop.
+
+---
+
+# 6. Design Principles
+
+The project follows the following design principles:
+
+* Easy to learn
+* Difficult to master
+* Human-centered
+* Educationally valuable
+* Technically reliable
+* Scalable
+* Computationally simple
+* Socially flexible
+
+Every feature should strengthen Human ↔ Human interaction.
+
+---
+
+# 7. Computational Responsibilities
+
+The software is responsible for objective computational tasks.
+
+These include:
+
+* room management;
+* player synchronization;
+* turn rotation;
+* timeout enforcement;
+* score tracking;
+* sentence history;
+* session persistence;
+* multiplayer reliability.
+
+The software intentionally avoids making subjective judgments about language or creativity.
+
+---
+
+# 8. Human Responsibilities
+
+Human participants remain responsible for:
+
+* judging sentence quality;
+* interpreting meaning;
+* evaluating creativity;
+* resolving disagreements;
+* deciding how to respond to loopholes;
+* establishing local gameplay culture.
+
+The software defines the framework of play.
+
+The players define the culture of play.
+
+---
+
+# 9. Onboarding Philosophy
+
+External playtesting revealed that many players initially expected:
+
+* an AI opponent;
+* a single-player mode;
+* automatic gameplay validation.
+
+These expectations reflect broader trends in contemporary digital experiences.
+
+The Last Word War™ intentionally adopts a different philosophy.
+
+Players should understand before gameplay begins that the experience is fundamentally Human ↔ Human.
+
+---
+
+# 10. Welcome Screen
+
+The application begins with a dedicated welcome screen.
 
 Player Flow:
 
@@ -105,73 +215,87 @@ Welcome Screen
         ↓
 Continue
         ↓
-Main Landing Page
+Landing Page
         ↓
 Create Room / Join Room
 ```
 
----
+The welcome screen communicates:
 
-## Welcome Screen Content
+* the project's philosophy;
+* the Human ↔ Human nature of gameplay;
+* the multiplayer requirement.
 
-The welcome screen should communicate:
-
-### Project Philosophy
-
-War is not the goal of this GAME at all.
-
-All it seeks is to promote HUMAN interactions;
-
-Interactions built firmly upon the previous LAST WORD.
-
-### Human-Centered Statement
-
-The Last Word War™ is intentionally designed for two or more human players.
-
-Unlike many modern digital experiences, there is currently no AI opponent.
-
-Artificial intelligence serves only as:
-
-* Referee
-* Moderator
-* Rule Validator
-* Educational Assistant
-
-Humans remain the primary participants.
+Its purpose is to align player expectations before play begins.
 
 ---
 
-## UX Objectives
+# 11. Research Through Playtesting
 
-The welcome screen should:
+Playtesting is treated as an essential part of the design process.
 
-* Reduce onboarding confusion.
-* Align player expectations.
-* Reinforce project identity.
-* Differentiate the game from AI-centered experiences.
-* Encourage meaningful human interaction.
+The project seeks evidence regarding:
 
----
+* onboarding clarity;
+* multiplayer usability;
+* player behaviour;
+* player expectations;
+* social interaction;
+* educational engagement.
 
-## Research Significance
-
-The onboarding layer also serves as an experimental intervention for studying player expectations in an increasingly AI-mediated digital environment.
-
-Future playtesting should evaluate:
-
-* Whether explicit onboarding reduces confusion.
-* Whether players continue to request AI opponents.
-* How users respond to intentionally human-centered experiences.
-
-These observations may contribute to future research publications concerning Human-Centered AI-Assisted Design.
+Observed behaviour should guide future development.
 
 ---
 
-## Success Criteria
+# 12. Current Development Priorities
 
-The onboarding layer is considered successful if:
+Current priorities are:
 
-* Fewer players misunderstand the multiplayer requirement.
-* Players understand the Human ↔ Human philosophy before gameplay begins.
-* Confusion regarding the absence of AI opponents decreases in subsequent playtests.
+* Continue Playtest #2
+* Complete component refactoring
+* Improve onboarding
+* Improve maintainability
+* Collect gameplay observations
+* Prepare the first research publication
 
+---
+
+# 13. Future Development
+
+Future work may include:
+
+* Classroom Edition
+* Tournament Platform
+* Educational themes
+* Mobile application
+* Spectator mode
+* Analytics dashboard
+
+Future features should preserve the project's human-centered philosophy and be supported by evidence from development and playtesting.
+
+---
+
+# Relationship to Other Documents
+
+This document should be read together with:
+
+* PROJECT_PHILOSOPHY_v1_2.md
+* GAMEPLAY_PHILOSOPHY_v1_0.md
+* PROJECT_STRATEGY_v1_2.md
+* The_Last_Word_War_Rulebook_v1_0.tex
+
+---
+
+# Version History
+
+## Version 0.1
+
+Initial Game Design Document.
+
+## Version 0.2
+
+Updated to align with the project's constitutional documents. The design now emphasizes Human ↔ Human interaction, computational facilitation, preservation of human judgment, evidence-driven development, and onboarding informed by playtesting.
+
+---
+
+End of Document

@@ -1,201 +1,176 @@
-# The Last Word War
+# AI_REFEREE_SPECIFICATION_v1_1
 
-## AI Referee Specification v1.0
+Project: The Last Word War™
 
-Author: Victor A. Adeyemi
+Steward: Victor A. Adeyemi
 
-Date: 2026-06-17
+Organization: Da-aim Services
 
-Status: Foundational AI Design Document
+Version: 1.1
+
+Status: Superseded Design Decision
+
+Date: 2026-07
 
 ---
 
 # Purpose
 
-This document defines the intended role of Artificial Intelligence within The Last Word War.
+This document records the project's original proposal for an AI referee and the subsequent design decision to exclude such a system from the long-term gameplay architecture of The Last Word War™.
 
-AI is designed to support human gameplay rather than replace it.
-
----
-
-# Core Principle
-
-Humans are the players.
-
-AI is the referee.
-
-Human interaction remains the center of the experience.
+The decision reflects the project's evolving understanding of human-centered gameplay and should be regarded as an intentional philosophical choice rather than a technical limitation.
 
 ---
 
-# AI Objectives
+# Original Design Direction
 
-The AI referee exists to:
+Early versions of the project explored the possibility of an AI referee responsible for:
 
-* Improve fairness
-* Reduce ambiguity
-* Support learning
-* Resolve disputes
-* Improve accessibility
+* sentence validation;
+* grammar assistance;
+* challenge resolution;
+* educational support;
+* knowledge verification.
 
-The AI should help players enjoy interacting with one another.
-
----
-
-# Allowed Responsibilities
-
-## Rule Validation
-
-AI may verify:
-
-* Last-word compliance
-* Game-rule compliance
-* Challenge outcomes
+The objective was to improve fairness, accessibility, and learning while preserving Human ↔ Human interaction.
 
 ---
 
-## Grammar Assistance
+# Revised Design Decision
 
-AI may:
+Continued development, playtesting, and philosophical refinement led to a different conclusion.
 
-* Detect grammar errors
-* Suggest corrections
-* Explain language usage
+The Last Word War™ intentionally preserves human judgment during gameplay.
 
-The AI should educate rather than punish.
+Rather than attempting to algorithmically determine meaning, honesty, creativity, or interpretation, these responsibilities remain with the players.
 
----
-
-## Knowledge Verification
-
-AI may verify:
-
-* Scientific claims
-* Historical claims
-* Mathematical claims
-* Educational content
-
-The AI should provide transparent explanations.
+Accordingly, an AI referee is no longer considered part of the long-term identity or gameplay architecture of the project.
 
 ---
 
-## Challenge Resolution
+# Design Rationale
 
-Players may challenge:
+The decision rests on four guiding observations.
 
-* Incorrect facts
-* Rule violations
-* Invalid submissions
+## Human Judgment
 
-AI may evaluate the challenge and provide a ruling.
+Language is inherently contextual.
 
----
+Meaning, humour, creativity, sarcasm, ambiguity, and intent cannot always be reduced to deterministic computational rules.
 
-## Educational Support
-
-AI may act as:
-
-* Tutor
-* Coach
-* Subject expert
-
-Possible domains include:
-
-* Physics
-* Mathematics
-* History
-* Cryptography
-* Language learning
-* Scientific communication
+Preserving these forms of interpretation is considered part of the human experience of the game.
 
 ---
 
-## Accessibility Support
+## Human Responsibility
 
-AI may assist:
+Players remain responsible for:
 
-* Younger players
-* Language learners
-* Players with disabilities
+* honest participation;
+* resolving disagreements;
+* negotiating interpretation;
+* defining local house rules;
+* responding to strategic exploitation of gameplay.
 
-The objective is inclusion rather than competition.
-
----
-
-# Prohibited Responsibilities
-
-AI should not:
-
-* Replace human opponents
-* Dominate gameplay
-* Generate all player content
-* Remove creativity from the game
-* Become the primary attraction
-
-The game must remain human-centered.
+The software intentionally avoids replacing these responsibilities.
 
 ---
 
-# Transparency
+## Player-Governed Gameplay
 
-Whenever AI makes a decision:
+Every sufficiently rich game contains opportunities for interpretation and strategic exploitation.
 
-The AI should explain:
+Rather than attempting to eliminate every possible loophole, The Last Word War™ allows players to decide collectively how such situations should be handled during gameplay.
 
-* What rule was applied
-* Why the decision was made
-* How the ruling was reached
-
-Players should be able to understand referee decisions.
+This preserves social interaction instead of replacing it with automated governance.
 
 ---
 
-# Neutrality
+## Computational Facilitation
 
-The AI referee must remain neutral.
+The project adopts the principle of **Computational Facilitation**.
 
-The AI should:
+Computing exists to facilitate human interaction rather than govern it.
 
-* Apply rules consistently
-* Avoid favoritism
-* Avoid strategic participation
+The software coordinates gameplay while leaving interpretation, negotiation, and social responsibility to the participants.
 
-The AI is not a competitor.
+The system facilitates interaction.
 
----
-
-# Future AI Features
-
-Future versions may support:
-
-* Automated scoring
-* Educational hints
-* Difficulty adjustment
-* Topic generation
-* Tournament management
-* Learning analytics
-
-All future AI features must preserve the human-centered philosophy of the project.
+Humans create meaning.
 
 ---
 
-# Success Criteria
+# The Continuing Role of Artificial Intelligence
 
-The AI referee is successful when:
+Artificial intelligence remains valuable to the broader project.
 
-* Players trust its decisions.
-* Players understand its explanations.
-* Human interaction remains central.
-* Learning is enhanced.
-* Fairness is improved.
+AI may assist with:
+
+* software development;
+* documentation;
+* research;
+* educational materials;
+* publication preparation;
+* design exploration;
+* accessibility.
+
+Artificial intelligence does not participate in governing gameplay.
 
 ---
 
-# Guiding Principle
+# Computational Responsibilities
 
-AI should make human interaction better.
+The software remains responsible for objective and deterministic tasks, including:
 
-AI should never replace human interaction.
+* room management;
+* multiplayer synchronization;
+* turn order;
+* timeout enforcement;
+* score tracking;
+* sentence history;
+* session persistence;
+* technical reliability.
+
+These responsibilities provide the computational framework within which gameplay occurs.
+
+---
+
+# Human Responsibilities
+
+Human participants remain responsible for:
+
+* judging sentence quality;
+* interpreting meaning;
+* evaluating creativity;
+* resolving disagreements;
+* accepting or rejecting questionable play;
+* defining the culture of play.
+
+The software defines the framework of play.
+
+The players define the culture of play.
+
+---
+
+# Relationship to Other Documents
+
+This document should be read together with:
+
+* PROJECT_PHILOSOPHY_v1_2.md
+* GAMEPLAY_PHILOSOPHY_v1_0.md
+* PROJECT_STRATEGY_v1_2.md
+
+These documents formally establish the project's long-term commitment to preserving human judgment and Human ↔ Human interaction.
+
+---
+
+# Historical Significance
+
+This document preserves an important stage in the evolution of The Last Word War™.
+
+The project initially investigated AI-assisted gameplay governance before concluding that preserving human judgment better fulfilled its human-centered philosophy.
+
+Maintaining this record documents the evolution of the project's design thinking and provides transparency regarding its architectural decisions.
 
 ---
 
@@ -203,5 +178,12 @@ AI should never replace human interaction.
 
 ## Version 1.0
 
-Initial AI referee specification.
+Initial AI referee concept.
 
+## Version 1.1
+
+Repurposed as a historical design record documenting the decision to remove AI gameplay governance in favour of preserving human judgment, player responsibility, and Computational Facilitation.
+
+---
+
+End of Document
