@@ -26,6 +26,10 @@ import { generateRoomCode } from './utils/roomCode';
 import  WelcomeScreen  from './components/WelcomeScreen';
 import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 import PlayerListPanel from './components/PlayerListPanel';
+import GameStatusPanel from './components/GameStatusPanel';
+import RoomSetupPanel from './components/RoomSetupPanel';
+
+
 
 import {
 	TURN_DURATION_MS,
@@ -830,31 +834,9 @@ function App() {
 		</div>
 
 
-		{gamePhase === GAME_PHASES.SETUP && (
-
-			<div className="quick-rules">
-			<h3>📜 Quick Rules</h3>
-
-			<p>🎯 Create or Join a Room.</p>
-
-			<p>🔄 Players take turns creating sentences.</p>
-
-			<p>
-			📝 Your sentence must begin with the LAST WORD of the previous sentence.
-			</p>
-
-			<p>✅ Valid play = +1 point.</p>
-
-			<p>⏰ Timeout = -1 point.</p>
-
-			<p>🏁 First player to 10 points triggers the Final Round.</p>
-
-			<p>⚔️ Tied leaders enter Sudden Death.</p>
-
-			<p>🤝 Interact meaningfully and have fun.</p>
-			</div>
-
-		)}
+{gamePhase === GAME_PHASES.SETUP && (
+	<RoomSetupPanel />
+)}
 
 		{gamePhase === GAME_PHASES.SETUP && (
 			<div className="online-room-panel">
