@@ -361,6 +361,35 @@ After the first turn begins:
 
 This rule preserves fairness by ensuring that all competitors begin under identical conditions.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Match Inactivity Termination}
+
+A match continues for as long as meaningful multiplayer interaction remains possible.
+
+The software shall automatically terminate a match under either of the following conditions:
+
+\begin{enumerate}
+    \item Only one active player remains after automatic removal of inactive players; or
+    \item Every remaining player has become inactive through consecutive timeout penalties.
+\end{enumerate}
+
+If only one active player remains, that player is immediately declared the winner.
+
+If no active players remain, the match is declared abandoned due to inactivity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Design Rationale}
+
+The purpose of these rules is to preserve the continuity of multiplayer gameplay while avoiding unnecessary interruptions.
+
+Inactive players should not prevent active participants from continuing the game.
+
+Consequently, inactivity is handled at the player level before it is considered at the match level.
+
+This approach preserves fairness, encourages active participation, and reflects the project's philosophy that the software should coordinate play while allowing human interaction to remain central.
+
 % =========================================================
 \section{Continuity Types}
 
@@ -830,6 +859,93 @@ If the match has started,
 reject all requests to join the room as an active player.
 
 The algorithm coordinates play but does not judge the full meaning or quality of player contributions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Multiplayer Integrity Rules}
+
+The following rules preserve fairness and continuity during online multiplayer gameplay.
+
+These rules are enforced automatically by the software because they concern the coordination of play rather than the interpretation of gameplay.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Closed Match Rule}
+
+Once the first turn of a match begins, the match becomes closed.
+
+During an active match:
+
+\begin{itemize}
+    \item no additional players may join the current game;
+    \item players already participating continue until the match ends or they are removed through the inactivity rule;
+    \item new participants must wait until a rematch or a newly created room begins.
+\end{itemize}
+
+This rule ensures that every participant begins the match under the same conditions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Player Inactivity Rule}
+
+A player who fails to submit a sentence before the timeout receives a timeout penalty.
+
+If the same player accumulates three consecutive timeout penalties, that player is considered inactive.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Automatic Player Removal}
+
+When a player becomes inactive through three consecutive timeout penalties, the software automatically removes the player from the current match.
+
+Upon removal:
+
+\begin{itemize}
+    \item the player's existing score remains recorded;
+    \item the player's previous sentences remain part of the sentence history;
+    \item the remaining players continue the match;
+    \item turn order is automatically recalculated.
+\end{itemize}
+
+If only one player remains after automatic removals, that player is declared the winner.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Consecutive Timeout Counter}
+
+The inactivity counter applies only to consecutive timeout penalties.
+
+A successful turn immediately resets the player's consecutive timeout counter to zero.
+
+Example:
+
+\begin{center}
+\begin{tabular}{c c}
+\toprule
+Turn Outcome & Consecutive Timeout Count\\
+\midrule
+Timeout & 1\\
+Timeout & 2\\
+Successful Turn & 0\\
+Timeout & 1\\
+Timeout & 2\\
+Timeout & Removed\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Design Rationale}
+
+These rules exist solely to preserve the continuity of multiplayer gameplay.
+
+They are computational responsibilities rather than gameplay judgments.
+
+The software coordinates participation.
+
+Human players continue to govern interpretation, creativity, and the culture of play.
+
 
 % =========================================================
 \section{Educational Applications}

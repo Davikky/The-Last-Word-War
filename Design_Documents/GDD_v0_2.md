@@ -83,6 +83,8 @@ Core features include:
 * Inactivity handling
 * Session recovery
 * Online rematch
+* Automatic inactive-player removal
+* Closed-match enforcement
 
 ---
 

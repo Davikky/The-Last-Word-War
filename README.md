@@ -39,8 +39,8 @@ Artificial intelligence assists project development and research only. Humans re
 5. Timeout = **−1 point**.
 6. First player to reach **10 points** triggers the **Final Round**.
 7. Tied leaders enter **Sudden Death**.
-8. Five consecutive timeouts end the match due to inactivity.
-
+8. Players who accumulate three consecutive timeouts are automatically removed from the match.
+9. The match ends when only one active player remains or when all remaining players become inactive.
 ---
 
 ## Example
