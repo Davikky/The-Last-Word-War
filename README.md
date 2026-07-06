@@ -14,7 +14,7 @@ The project is intentionally designed around:
 
 > **Human ↔ Human Interaction**
 
-Technology serves only to facilitate meaningful human communication.
+Technology provides the computational framework for interaction while preserving human judgment throughout gameplay.
 
 Unlike many modern digital systems that prioritize Human ↔ AI interaction, The Last Word War™ places authentic human conversation at the center of the experience.
 
@@ -22,25 +22,29 @@ Unlike many modern digital systems that prioritize Human ↔ AI interaction, The
 
 ## Philosophy
 
-> War is not the goal of this GAME at all.
-> All it seeks is to promote HUMAN interactions;
+> War is not the goal of this GAME at all.  
+> All it seeks is to promote HUMAN interactions;  
 > interactions built firmly upon the previous LAST WORD.
 
-Artificial intelligence assists project development and research only. Humans remain the primary participants.
+Artificial intelligence assists the project's development, documentation, and research.
+
+Gameplay itself remains intentionally Human ↔ Human. Interpretation, creativity, and the culture of play belong to the players rather than the software.
 
 ---
 
 ## Quick Rules
 
 1. Create or join a room.
-2. Players take turns submitting sentences.
-3. Each sentence must begin with the **last word** of the previous sentence.
-4. Valid sentence = **+1 point**.
-5. Timeout = **−1 point**.
-6. First player to reach **10 points** triggers the **Final Round**.
-7. Tied leaders enter **Sudden Death**.
-8. Players who accumulate three consecutive timeouts are automatically removed from the match.
-9. The match ends when only one active player remains or when all remaining players become inactive.
+2. Once a match begins, no new players may join.
+3. Players take turns submitting sentences.
+4. Each sentence must begin with the **last word** of the previous sentence.
+5. Each submitted turn scores **+1 point**.
+6. A timeout incurs a **−1 point** penalty.
+7. Players who accumulate **three consecutive timeouts** are automatically removed from the match.
+8. The first player to reach **10 points** triggers the **Final Round**.
+9. Tied leaders enter **Sudden Death**.
+10. The match ends when only one active player remains or when all remaining players become inactive.
+
 ---
 
 ## Example
@@ -64,12 +68,13 @@ Artificial intelligence assists project development and research only. Humans re
 ### Gameplay
 
 * Sentence-chain mechanics
-* Automatic rule validation
-* Automatic scoring
+* Automatic last-word extraction
+* Automatic score tracking
 * Final Round
 * Sudden Death
 * Tie-aware standings
-* Inactivity resolution
+* Multiplayer integrity rules
+* Inactivity management
 
 ### Multiplayer
 
@@ -77,6 +82,8 @@ Artificial intelligence assists project development and research only. Humans re
 * Host-authoritative synchronization
 * Realtime game synchronization
 * Shared countdown timers
+* Closed-match enforcement
+* Automatic inactive-player removal
 * Online rematch support
 * Session persistence and recovery
 
@@ -87,6 +94,19 @@ Artificial intelligence assists project development and research only. Humans re
 * Timeout notifications
 * Feedback collection
 * Browser session recovery
+
+---
+
+## Gameplay Philosophy
+
+The Last Word War™ intentionally preserves human judgment.
+
+The software coordinates multiplayer interaction by managing rooms, turns, timing, synchronization, scoring, and session state.
+
+Players remain responsible for interpreting meaning, evaluating creativity, resolving disagreements, and defining the culture of play.
+
+> **The software defines the framework of play.**  
+> **The players define the culture of play.**
 
 ---
 
@@ -103,19 +123,21 @@ Artificial intelligence assists project development and research only. Humans re
 * UX refinement
 * Playtest #2
 * Feedback analysis
-* AI referee research
+* Human-centered gameplay research
+* Computational facilitation
+* Publication preparation
 
 ---
 
 ## Technology Stack
 
-| Layer           | Technology           |
-| --------------- | -------------------- |
-| Frontend        | React, Vite          |
-| Backend         | Supabase, PostgreSQL |
-| Realtime        | Supabase Realtime    |
-| Deployment      | Vercel               |
-| Version Control | Git, GitHub          |
+| Layer | Technology |
+|--------|------------|
+| Frontend | React, Vite |
+| Backend | Supabase, PostgreSQL |
+| Realtime | Supabase Realtime |
+| Deployment | Vercel |
+| Version Control | Git, GitHub |
 
 ---
 
@@ -139,13 +161,13 @@ Website/
 
 ## Documentation
 
-Project documentation is organized into dedicated directories:
+Project documentation is organized into dedicated directories.
 
-* `Design_Documents/` — Architecture and technical specifications.
-* `Research/` — Development journal, playtesting, and project state.
+* `Design_Documents/` — Philosophy, architecture, gameplay specifications, and technical design.
+* `Research/` — Development journal, playtesting, publications, and project state.
 * `Releases/` — Version history and release notes.
-* `Rulebook/` — Official game rules.
-* `Papers/` — Research manuscripts and publications.
+* `Rulebook/` — Official game rules and gameplay specification.
+* `Papers/` — Research manuscripts and academic publications.
 
 ---
 
@@ -155,9 +177,10 @@ The Last Word War™ also serves as a research initiative exploring:
 
 * Human-centered computing
 * Human ↔ Human interaction systems
+* Computational facilitation
 * Educational gaming
-* Human-in-the-loop design
-* Responsible AI integration
+* Multiplayer interaction systems
+* Responsible AI-assisted development
 
 ---
 
@@ -168,15 +191,17 @@ The Last Word War™ also serves as a research initiative exploring:
 * Component refactoring
 * App.jsx simplification
 * Continued codebase modularization
-* Playtest #2 preparation
+* Playtest #2
+* Publication preparation
 
 ### Planned
 
-* AI Referee
+* Classroom Edition
 * Tournament support
-* Educational mode
+* Educational modes
 * Spectator mode
 * Analytics dashboard
+* Mobile application
 
 ---
 
@@ -193,4 +218,3 @@ The Last Word War™ also serves as a research initiative exploring:
 ## License
 
 License to be determined.
-
