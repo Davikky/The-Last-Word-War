@@ -835,39 +835,15 @@ function App() {
 
 
 {gamePhase === GAME_PHASES.SETUP && (
-	<RoomSetupPanel />
+	<RoomSetupPanel
+		roomCode={roomCode}
+		joinRoomCode={joinRoomCode}
+		setJoinRoomCode={setJoinRoomCode}
+		createRoom={createRoom}
+		joinRoom={joinRoom}
+	/>
 )}
 
-		{gamePhase === GAME_PHASES.SETUP && (
-			<div className="online-room-panel">
-
-			<p>CREATE a room or JOIN one REMOTELY:</p>
-
-
-
-			{!roomCode && (
-				<button className="start-button" onClick={createRoom}>
-				Create Room
-				</button>
-			)}
-
-			{!roomCode && (
-				<div className="join-room-panel">
-				<input
-				type="text"
-				value={joinRoomCode}
-				onChange={(event) => setJoinRoomCode(event.target.value)}
-				placeholder="Enter room code"
-				/>
-
-				<button className="start-button" onClick={joinRoom}>
-				Join Room
-				</button>
-				</div>
-			)}
-
-			</div>
-		)}
 
 
 
