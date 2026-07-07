@@ -32,6 +32,8 @@ import LobbyPanel from './components/LobbyPanel';
 import GameOverPanel from './components/GameOverPanel';
 
 import useSessionRecovery from './hooks/useSessionRecovery';
+import useCountdown from './hooks/useCountdown';
+
 
 
 import {
@@ -49,7 +51,6 @@ function App() {
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
-	const [timeLeft, setTimeLeft] = useState(INITIAL_TIME_LEFT);
 	const [turnDeadline, setTurnDeadline] = useState(null);
 	const [winner, setWinner] = useState(null);
 	const [finalStandings, setFinalStandings] = useState([]);
@@ -69,6 +70,17 @@ function App() {
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 	const hasRestoredSessionRef = useRef(false);
+	const { timeLeft, setTimeLeft } = useCountdown({
+	gamePhase,
+	roomCode,
+	turnDeadline,
+	isHost,
+	currentPlayerIndex,
+	onTimeout: processOnlineTimeout,
+	GAME_PHASES,
+});
+
+
 
 
 	useEffect(() => {
@@ -319,43 +331,6 @@ function App() {
 		}
 
 	}
-
-	useEffect(() => {
-		if (
-			gamePhase !== GAME_PHASES.ACTIVE &&
-			gamePhase !== GAME_PHASES.FINAL_ROUND &&
-			gamePhase !== GAME_PHASES.SUDDEN_DEATH
-		) {
-			return;
-		}
-
-		const timer = setInterval(() => {
-			if (roomCode && turnDeadline) {
-				const remainingTime = Math.max(
-					0,
-					Math.ceil((turnDeadline - Date.now()) / 1000)
-				);
-
-				setTimeLeft(remainingTime);
-
-				if (remainingTime === 0 && isHost) {
-					processOnlineTimeout();
-				}
-
-				return;
-			}
-
-			setTimeLeft((previousTime) => {
-				if (previousTime <= 0) {
-					return 0;
-				}
-
-				return previousTime - 1;
-			});
-		}, 1000);
-
-		return () => clearInterval(timer);
-	}, [gamePhase, roomCode, turnDeadline, isHost, currentPlayerIndex]);
 
 
 	useEffect(() => {
