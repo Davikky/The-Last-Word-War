@@ -29,7 +29,7 @@ import PlayerListPanel from './components/PlayerListPanel';
 import GameStatusPanel from './components/GameStatusPanel';
 import RoomSetupPanel from './components/RoomSetupPanel';
 import LobbyPanel from './components/LobbyPanel';
-
+import GameOverPanel from './components/GameOverPanel';
 
 
 import {
@@ -926,73 +926,17 @@ startRoomGame={startRoomGame}
 
 
 
-		{gamePhase === GAME_PHASES.GAME_OVER && (
-			<div className="winner-panel">
-			<h2>🏆 Game Over</h2>
-
-
-			{winner ? (
-				<p className="winner-name">
-				<strong>Winner:</strong> {winner.name}
-				</p>
-			) : (
-				<div className="winner-name">
-				<strong>No winner declared.</strong>
-				<br />
-				{gameOverReason === 'INACTIVITY' && 'Match ended due to inactivity.'}
-				{gameOverReason === 'SUDDEN_DEATH_DRAW' && 'Sudden Death ended in a draw.'}
-
-				{drawPlayers.length > 0 && (
-					<>
-					<h3>Draw Players</h3>
-					<ul>
-					{drawPlayers.map((player, index) => (
-						<li key={index}>{player.name}</li>
-					))}
-					</ul>
-					</>
-				)}
-				</div>
-			)}
-
-			<h3>Final Standings</h3>
-
-			<ol className="standings-list">
-			{finalStandings.map((player, index) => (
-				<li key={index}>
-				<span>
-				{player.rank}
-				{player.isTied ? 'T' : ''}. {player.name}
-				</span>
-
-				<span>{player.score} points</span>
-				</li>
-			))}
-			</ol>
-
-			<button className="start-button" onClick={resetMatch}>
-			{roomCode ? 'Start Rematch' : 'Play Again'}
-			</button>
-
-			<button
-			className="start-button"
-			onClick={startNewPlayFromActiveSession}
-			>
-			Start New Play
-			</button>
-
-			<a
-			className="feedback-button"
-			href="https://forms.gle/XBmDWmfaSz9M8dZn8"
-			target="_blank"
-			rel="noreferrer"
-			>
-			Leave Feedback
-			</a>
-
-
-			</div>
-		)}
+{gamePhase === GAME_PHASES.GAME_OVER && (
+	<GameOverPanel
+		winner={winner}
+		gameOverReason={gameOverReason}
+		drawPlayers={drawPlayers}
+		finalStandings={finalStandings}
+		roomCode={roomCode}
+		resetMatch={resetMatch}
+		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+	/>
+)}
 
 
 		<PlayerListPanel
