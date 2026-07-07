@@ -33,7 +33,7 @@ import GameOverPanel from './components/GameOverPanel';
 
 import useSessionRecovery from './hooks/useSessionRecovery';
 import useCountdown from './hooks/useCountdown';
-
+import useRoom from './hooks/useRoom';
 
 
 import {
@@ -297,8 +297,6 @@ function App() {
 			alert('Could not load room.');
 			return;
 		}
-
-		const gameState = data.game_state;
 
 		applyRoomSnapshot(data);
 	
