@@ -31,6 +31,8 @@ import RoomSetupPanel from './components/RoomSetupPanel';
 import LobbyPanel from './components/LobbyPanel';
 import GameOverPanel from './components/GameOverPanel';
 
+import useSessionRecovery from './hooks/useSessionRecovery';
+
 
 import {
 	TURN_DURATION_MS,
@@ -241,6 +243,33 @@ function App() {
 	}
 
 
+	
+
+	function applyRoomSnapshot(roomSnapshot) {
+		const gameState = roomSnapshot.game_state;
+
+		setRoomData(roomSnapshot);
+		setPlayers(gameState.players || []);
+		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
+		setHostName(gameState.hostName || '');
+		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
+		setCurrentWord(gameState.currentWord || 'START');
+		setSentenceHistory(gameState.sentenceHistory || []);
+		setWinner(gameState.winner || null);
+		setFinalStandings(gameState.finalStandings || []);
+		setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
+		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
+		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
+		setTurnDeadline(gameState.turnDeadline || null);
+		setNotification(gameState.notification || '');
+		setGameOverReason(gameState.gameOverReason || '');
+		setDrawPlayers(gameState.drawPlayers || []);
+		setSuddenDeathRoundCount(gameState.suddenDeathRoundCount || 0);
+	}
+
+
+
+
 	async function loadRoom(targetRoomCode = roomCode) {
 		if (!targetRoomCode) {
 			return;
@@ -259,21 +288,8 @@ function App() {
 
 		const gameState = data.game_state;
 
-		setRoomData(data);
-		setPlayers(gameState.players || []);
-		setHostName(gameState.hostName || '');
-		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
-		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
-		setCurrentWord(gameState.currentWord || 'START');
-		setSentenceHistory(gameState.sentenceHistory || []);
-		setWinner(gameState.winner || null);
-		setFinalStandings(gameState.finalStandings || []);
-		setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
-		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
-		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
-		setTurnDeadline(gameState.turnDeadline || null);
-		setNotification(gameState.notification || '');
-		setGameOverReason(gameState.gameOverReason || '');
+		applyRoomSnapshot(data);
+	
 	}
 
 
@@ -358,27 +374,8 @@ function App() {
 					filter: `room_code=eq.${roomCode}`,
 				},
 				(payload) => {
-					const updatedRoom = payload.new;
-					const updatedGameState = updatedRoom.game_state;
 
-					setRoomData(updatedRoom);
-					setPlayers(updatedGameState.players || []);
-					setGamePhase(updatedGameState.gamePhase || GAME_PHASES.SETUP);
-					setHostName(updatedGameState.hostName || '');
-					setCurrentPlayerIndex(updatedGameState.currentPlayerIndex || 0);
-					setCurrentWord(updatedGameState.currentWord || 'START');
-					setSentenceHistory(updatedGameState.sentenceHistory || []);
-					setWinner(updatedGameState.winner || null);
-					setFinalStandings(updatedGameState.finalStandings || []);
-					setSuddenDeathPlayerNames(updatedGameState.suddenDeathPlayerNames || []);
-					setFinalRoundStarterIndex(updatedGameState.finalRoundStarterIndex ?? null);
-					setMatchStarterIndex(updatedGameState.matchStarterIndex ?? 0);
-					setTurnDeadline(updatedGameState.turnDeadline || null);
-					setNotification(updatedGameState.notification || '');
-					setGameOverReason(updatedGameState.gameOverReason || '');
-					setDrawPlayers(updatedGameState.drawPlayers || []);
-					setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
-
+					applyRoomSnapshot(payload.new);
 				}
 
 			)
