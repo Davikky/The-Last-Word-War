@@ -17,7 +17,33 @@
  * ------------------------------------------------------------------------
  */
 
-function useRoom() {
+import { fetchRoomByCode } from '../services/roomService';
+
+function useRoom({
+	roomCode,
+	applyRoomSnapshot,
+}) {
+	async function load(targetRoomCode = roomCode) {
+		if (!targetRoomCode) {
+			return;
+		}
+
+		let data;
+
+		try {
+			data = await fetchRoomByCode(targetRoomCode);
+		} catch (error) {
+			console.error(error);
+			alert('Could not load room.');
+			return;
+		}
+
+		applyRoomSnapshot(data);
+	}
+
+	return {
+		load,
+	};
 }
 
 export default useRoom;

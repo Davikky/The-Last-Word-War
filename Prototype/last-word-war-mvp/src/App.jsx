@@ -70,6 +70,12 @@ function App() {
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 	const hasRestoredSessionRef = useRef(false);
+
+	const room = useRoom({
+	roomCode,
+	applyRoomSnapshot,
+});
+
 	const { timeLeft, setTimeLeft } = useCountdown({
 	gamePhase,
 	roomCode,
@@ -134,9 +140,7 @@ function App() {
 		setLocalPlayerName(savedSession.localPlayerName);
 		setIsHost(savedSession.isHost);
 		setHasJoinedLobby(savedSession.hasJoinedLobby);
-
-		loadRoom(savedSession.roomCode);
-
+room.load(savedSession.roomCode);
 		hasRestoredSessionRef.current = true;
 	}, []);
 
@@ -168,7 +172,7 @@ function App() {
 		setRoomCode(newRoomCode);
 		setIsHost(true);
 
-		await loadRoom(newRoomCode);
+		await room.load(newRoomCode);
 
 		alert(`Room created: ${newRoomCode}`);
 	}
@@ -194,7 +198,7 @@ function App() {
 		setRoomCode(normalizedRoomCode);
 		setIsHost(false);
 
-		await loadRoom(normalizedRoomCode);
+		await room.load(normalizedRoomCode);
 
 		alert(`Joined room: ${normalizedRoomCode}`);
 	}
@@ -251,7 +255,7 @@ function App() {
 		setPlayers(updatedPlayers);
 		setHasJoinedLobby(true);
 
-		await loadRoom(roomCode);
+		await room.load(roomCode);
 	}
 
 
@@ -277,29 +281,6 @@ function App() {
 		setGameOverReason(gameState.gameOverReason || '');
 		setDrawPlayers(gameState.drawPlayers || []);
 		setSuddenDeathRoundCount(gameState.suddenDeathRoundCount || 0);
-	}
-
-
-
-
-	async function loadRoom(targetRoomCode = roomCode) {
-		if (!targetRoomCode) {
-			return;
-		}
-
-
-		let data;
-
-		try {
-			data = await fetchRoomByCode(targetRoomCode);
-		} catch (error) {
-			console.error(error);
-			alert('Could not load room.');
-			return;
-		}
-
-		applyRoomSnapshot(data);
-	
 	}
 
 
