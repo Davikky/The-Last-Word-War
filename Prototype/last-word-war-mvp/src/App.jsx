@@ -11,7 +11,6 @@ import {
 
 import {
 	fetchRoomByCode,
-	createRoomRecord,
 	updateRoomGameState,
 } from './services/roomService';
 
@@ -21,8 +20,6 @@ import {
 	clearSavedSession,
 } from './services/sessionService';
 
-import { generateRoomCode } from './utils/roomCode';
-
 import  WelcomeScreen  from './components/WelcomeScreen';
 import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 import PlayerListPanel from './components/PlayerListPanel';
@@ -30,7 +27,6 @@ import GameStatusPanel from './components/GameStatusPanel';
 import RoomSetupPanel from './components/RoomSetupPanel';
 import LobbyPanel from './components/LobbyPanel';
 import GameOverPanel from './components/GameOverPanel';
-
 import useSessionRecovery from './hooks/useSessionRecovery';
 import useCountdown from './hooks/useCountdown';
 import useRoom from './hooks/useRoom';
@@ -146,36 +142,16 @@ room.load(savedSession.roomCode);
 
 
 
-	async function createRoom() {
-		const newRoomCode = generateRoomCode();
+async function createRoom() {
+	const newRoomCode = await room.create();
 
-		const initialGameState = {
-			roomCode: newRoomCode,
-			players: [],
-			gamePhase: GAME_PHASES.SETUP,
-			currentPlayerIndex: 0,
-			currentWord: 'START',
-			sentenceHistory: [],
-			winner: null,
-			turnNumber: 0,
-		};
-
-
-		try {
-			await createRoomRecord(newRoomCode, initialGameState);
-		} catch (error) {
-			console.error(error);
-			alert('Room creation failed');
-			return;
-		}
-
-		setRoomCode(newRoomCode);
-		setIsHost(true);
-
-		await room.load(newRoomCode);
-
-		alert(`Room created: ${newRoomCode}`);
+	if (!newRoomCode) {
+		return;
 	}
+
+	setRoomCode(newRoomCode);
+	setIsHost(true);
+}
 
 
 	async function joinRoom() {

@@ -17,7 +17,14 @@
  * ------------------------------------------------------------------------
  */
 
-import { fetchRoomByCode } from '../services/roomService';
+import {
+	fetchRoomByCode,
+	createRoomRecord,
+} from '../services/roomService';
+
+import { GAME_PHASES } from '../constants/gamePhases';
+import { generateRoomCode } from '../utils/roomCode';
+
 
 function useRoom({
 	roomCode,
@@ -41,7 +48,38 @@ function useRoom({
 		applyRoomSnapshot(data);
 	}
 
+
+	async function create() {
+		const newRoomCode = generateRoomCode();
+
+		const initialGameState = {
+			roomCode: newRoomCode,
+			players: [],
+			gamePhase: GAME_PHASES.SETUP,
+			currentPlayerIndex: 0,
+			currentWord: 'START',
+			sentenceHistory: [],
+			winner: null,
+			turnNumber: 0,
+		};
+
+		try {
+			await createRoomRecord(newRoomCode, initialGameState);
+		} catch (error) {
+			console.error(error);
+			alert('Room creation failed');
+			return;
+		}
+
+		await load(newRoomCode);
+
+		alert(`Room created: ${newRoomCode}`);
+
+		return newRoomCode;
+
+	}
 	return {
+		create,
 		load,
 	};
 }
