@@ -907,53 +907,23 @@ startRoomGame={startRoomGame}
 		)}
 
 
-		{(gamePhase === GAME_PHASES.ACTIVE ||
-			gamePhase === GAME_PHASES.FINAL_ROUND ||
-			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
-				<div className="game-panel">
+{(gamePhase === GAME_PHASES.ACTIVE ||
+	gamePhase === GAME_PHASES.FINAL_ROUND ||
+	gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
+	<GameStatusPanel
+		gamePhase={gamePhase}
+		players={players}
+		currentPlayerIndex={currentPlayerIndex}
+		currentWord={currentWord}
+		timeLeft={timeLeft}
+		sentence={sentence}
+		setSentence={setSentence}
+		submitSentence={submitSentence}
+		lastSubmittedPlayerIndex={lastSubmittedPlayerIndex}
+		updateScore={updateScore}
+	/>
+)}
 
-
-				<h2>
-				{gamePhase === GAME_PHASES.SUDDEN_DEATH
-					? 'Sudden Death'
-					: gamePhase === GAME_PHASES.FINAL_ROUND
-					? 'Final Round'
-					: 'Game Started'}
-				</h2>
-
-				<p><strong>Current Player:</strong> {players[currentPlayerIndex].name}</p>
-				<p><strong>Current Word:</strong> {currentWord}</p>
-				<p><strong>Time Remaining:</strong> {timeLeft} seconds</p>
-
-				<form onSubmit={submitSentence}>
-				<input
-				type="text"
-				value={sentence}
-				onChange={(event) => setSentence(event.target.value)}
-				placeholder="Enter a sentence"
-				/>
-
-				<button type="submit">
-				Submit Sentence
-				</button>
-				</form>
-
-				{lastSubmittedPlayerIndex !== null && (
-					<div className="referee-buttons">
-					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -1)}>
-					Undo Point -1
-					</button>
-
-					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
-					Penalty -2
-					</button>
-					</div>
-				)}
-
-
-
-				</div>
-			)}
 
 
 		{gamePhase === GAME_PHASES.GAME_OVER && (
