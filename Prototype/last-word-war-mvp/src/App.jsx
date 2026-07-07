@@ -842,6 +842,14 @@ function App() {
 		createRoom={createRoom}
 		joinRoom={joinRoom}
 		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+
+	gamePhase={gamePhase}
+GAME_PHASES={GAME_PHASES}
+hasJoinedLobby={hasJoinedLobby}
+isHost={isHost}
+players={players}
+startRoomGame={startRoomGame}
+
 	/>
 )}
 
@@ -864,19 +872,6 @@ function App() {
 			</div>
 		)}
 
-
-		{roomCode &&
-				hasJoinedLobby &&
-				isHost &&
-				players.length >= 2 &&
-				gamePhase === GAME_PHASES.SETUP && (
-					<button
-					className="start-button"
-					onClick={startRoomGame}
-					>
-					Start Online Game
-					</button>
-				)}
 
 
 		{false && (

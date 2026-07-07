@@ -22,6 +22,13 @@ function RoomSetupPanel({
 	createRoom,
 	joinRoomi,
 	startNewPlayFromActiveSession,
+	hasJoinedLobby,
+isHost,
+players,
+startRoomGame,
+GAME_PHASES,
+gamePhase,
+
 }) {
 	return (
 		<>
@@ -90,6 +97,21 @@ function RoomSetupPanel({
 		</button>
 	</div>
 )}
+
+{roomCode &&
+	hasJoinedLobby &&
+	isHost &&
+	players.length >= 2 &&
+	gamePhase === GAME_PHASES.SETUP && (
+		<button
+			className="start-button"
+			onClick={startRoomGame}
+		>
+			Start Online Game
+		</button>
+)}
+
+
 
 
 			</div>
