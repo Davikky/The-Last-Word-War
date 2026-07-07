@@ -20,7 +20,7 @@ function RoomSetupPanel({
 	joinRoomCode,
 	setJoinRoomCode,
 	createRoom,
-	joinRoomi,
+	joinRoom,
 	startNewPlayFromActiveSession,
 	hasJoinedLobby,
 isHost,
@@ -97,6 +97,7 @@ gamePhase,
 		</button>
 	</div>
 )}
+
 
 {roomCode &&
 	hasJoinedLobby &&
