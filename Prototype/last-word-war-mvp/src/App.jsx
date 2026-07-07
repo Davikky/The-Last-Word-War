@@ -841,25 +841,12 @@ function App() {
 		setJoinRoomCode={setJoinRoomCode}
 		createRoom={createRoom}
 		joinRoom={joinRoom}
+		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
 	/>
 )}
 
 
 
-
-		{roomCode && gamePhase === GAME_PHASES.SETUP && (
-			<div className="status-box">
-			<p><strong>Room Code:</strong> {roomCode}</p>
-			<p>Share ROOM CODE with another player.</p>
-
-			<button
-			className="start-button"
-			onClick={startNewPlayFromActiveSession}
-			>
-			Reset 
-			</button>
-			</div>
-		)}
 
 
 		{roomCode && !hasJoinedLobby && (

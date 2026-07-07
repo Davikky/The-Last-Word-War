@@ -20,7 +20,8 @@ function RoomSetupPanel({
 	joinRoomCode,
 	setJoinRoomCode,
 	createRoom,
-	joinRoom,
+	joinRoomi,
+	startNewPlayFromActiveSession,
 }) {
 	return (
 		<>
@@ -75,6 +76,22 @@ function RoomSetupPanel({
 						</button>
 					</div>
 				)}
+
+		{roomCode && gamePhase === GAME_PHASES.SETUP && (
+	<div className="status-box">
+		<p><strong>Room Code:</strong> {roomCode}</p>
+		<p>Share ROOM CODE with another player.</p>
+
+		<button
+			className="start-button"
+			onClick={startNewPlayFromActiveSession}
+		>
+			Reset
+		</button>
+	</div>
+)}
+
+
 			</div>
 		</>
 	);
