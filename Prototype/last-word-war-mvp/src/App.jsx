@@ -28,6 +28,7 @@ import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 import PlayerListPanel from './components/PlayerListPanel';
 import GameStatusPanel from './components/GameStatusPanel';
 import RoomSetupPanel from './components/RoomSetupPanel';
+import LobbyPanel from './components/LobbyPanel';
 
 
 
@@ -851,27 +852,17 @@ players={players}
 startRoomGame={startRoomGame}
 
 	/>
+
 )}
 
 
-
-
-
-		{roomCode && !hasJoinedLobby && (
-			<div className="join-room-panel">
-			<input
-			type="text"
-			value={localPlayerName}
-			onChange={(event) => setLocalPlayerName(event.target.value)}
-			placeholder="Enter your player name"
-			/>
-
-			<button className="start-button" onClick={joinLobby}>
-			Enter Lobby to continue...
-			</button>
-			</div>
-		)}
-
+<LobbyPanel
+	roomCode={roomCode}
+	hasJoinedLobby={hasJoinedLobby}
+	localPlayerName={localPlayerName}
+	setLocalPlayerName={setLocalPlayerName}
+	joinLobby={joinLobby}
+/>
 
 
 		{false && (
