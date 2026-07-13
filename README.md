@@ -2,52 +2,81 @@
 
 # The Last Word War™
 
-*A human-centered multiplayer experiment in conversation, learning, and collaborative creativity.*
+*A human-governed multiplayer language game built to promote conversation, creativity, learning, and meaningful Human ↔ Human interaction.*
 
 ---
 
 ## Overview
 
-The Last Word War™ is a multiplayer conversational game in which players collaboratively build a shared dialogue by beginning each sentence with the **last word** of the previous sentence.
+**The Last Word War™** is a turn-based multiplayer language game in which players collaboratively build an evolving chain of ideas by beginning each new sentence with the **last word** of the previous player's sentence.
 
-The project is intentionally designed around:
+Unlike traditional word games that focus primarily on vocabulary or automated rule enforcement, The Last Word War™ transforms ordinary conversation into a shared challenge of language, creativity, reasoning, and social interaction.
 
-> **Human ↔ Human Interaction**
-
-Technology provides the computational framework for interaction while preserving human judgment throughout gameplay.
-
-Unlike many modern digital systems that prioritize Human ↔ AI interaction, The Last Word War™ places authentic human conversation at the center of the experience.
+The project adopts the principle of **Computational Facilitation**, where software coordinates gameplay while intentionally preserving human judgment. Rather than replacing interpretation with artificial intelligence, the game empowers players to negotiate meaning, creativity, and the culture of play themselves.
 
 ---
 
-## Philosophy
+## Foundational Philosophy
 
-> War is not the goal of this GAME at all.  
-> All it seeks is to promote HUMAN interactions;  
-> interactions built firmly upon the previous LAST WORD.
+The project is founded upon three simple statements:
 
-Artificial intelligence assists the project's development, documentation, and research.
+> **War is not the goal of this GAME at all.**  
+> **All it seeks is to promote HUMAN interactions;**  
+> **interactions built firmly upon the previous LAST WORD.**
 
-Gameplay itself remains intentionally Human ↔ Human. Interpretation, creativity, and the culture of play belong to the players rather than the software.
+Every aspect of the project—from gameplay to software architecture and research—is guided by these principles.
+
+The software provides the computational framework.
+
+The players create the experience.
 
 ---
 
-## Quick Rules
+## Human-Governed Gameplay
 
-1. Create or join a room.
+The Last Word War™ intentionally preserves human responsibility throughout gameplay.
+
+The software coordinates objective computational tasks such as:
+
+- multiplayer synchronization;
+- turn management;
+- score tracking;
+- timeout management;
+- automatic last-word extraction;
+- session persistence;
+- multiplayer integrity.
+
+Players remain responsible for:
+
+- interpreting meaning;
+- evaluating creativity;
+- resolving disagreements;
+- establishing local gameplay culture;
+- determining acceptable play.
+
+> **The software defines the framework of play.**  
+> **The players define the culture of play.**
+
+---
+
+# Quick Rules
+
+1. Create or join a multiplayer room.
 2. Once a match begins, no new players may join.
 3. Players take turns submitting sentences.
-4. Each sentence must begin with the **last word** of the previous sentence.
-5. Each submitted turn scores **+1 point**.
-6. A timeout incurs a **−1 point** penalty.
-7. Players who accumulate **three consecutive timeouts** are automatically removed from the match.
+4. Every sentence must begin with the **last word** of the previous accepted sentence.
+5. Every successful turn awards **1 point**.
+6. A timeout awards no point and counts as one consecutive timeout.
+7. A player who accumulates **three consecutive timeout penalties** is automatically removed from the current match.
 8. The first player to reach **10 points** triggers the **Final Round**.
-9. Tied leaders enter **Sudden Death**.
-10. The match ends when only one active player remains or when all remaining players become inactive.
+9. Every remaining active player receives one final turn.
+10. If the highest score remains tied, tied players enter **Sudden Death**.
+11. Sudden Death ends when one player leads by **two points**, or after **five complete Sudden Death rounds**, resulting in an official draw.
+12. If normal gameplay becomes impossible because of player inactivity, the match concludes according to the **Exceptional Match Completion Rules**.
 
 ---
 
-## Example
+# Example Gameplay
 
 **Player 1**
 
@@ -61,87 +90,118 @@ Gameplay itself remains intentionally Human ↔ Human. Interpretation, creativit
 
 > Innovation drives economic growth.
 
----
-
-## Features
-
-### Gameplay
-
-* Sentence-chain mechanics
-* Automatic last-word extraction
-* Automatic score tracking
-* Final Round
-* Sudden Death
-* Tie-aware standings
-* Multiplayer integrity rules
-* Inactivity management
-
-### Multiplayer
-
-* Online room creation and joining
-* Host-authoritative synchronization
-* Realtime game synchronization
-* Shared countdown timers
-* Closed-match enforcement
-* Automatic inactive-player removal
-* Online rematch support
-* Session persistence and recovery
-
-### User Experience
-
-* Welcome screen onboarding
-* Quick Rules guide
-* Timeout notifications
-* Feedback collection
-* Browser session recovery
+The conversation continues by repeatedly beginning each sentence with the previous sentence's final word.
 
 ---
 
-## Gameplay Philosophy
+# Features
 
-The Last Word War™ intentionally preserves human judgment.
+## Gameplay
 
-The software coordinates multiplayer interaction by managing rooms, turns, timing, synchronization, scoring, and session state.
-
-Players remain responsible for interpreting meaning, evaluating creativity, resolving disagreements, and defining the culture of play.
-
-> **The software defines the framework of play.**  
-> **The players define the culture of play.**
-
----
-
-## Current Status
-
-**Version:** v0.1.2
-
-**Stage:** Feature Complete Alpha
-
-### Current Focus
-
-* Codebase refactoring
-* Component extraction
-* UX refinement
-* Playtest #2
-* Feedback analysis
-* Human-centered gameplay research
-* Computational facilitation
-* Publication preparation
+- Human-governed multiplayer gameplay
+- Sentence-chain mechanics
+- Automatic last-word extraction
+- Automatic score tracking
+- Shared sentence history
+- Final Round
+- Sudden Death
+- Official draw resolution
+- Exceptional Match Completion
+- Multiplayer integrity rules
+- Automatic inactive-player removal
+- Starter rotation for rematches
 
 ---
 
-## Technology Stack
+## Multiplayer
+
+- Online room creation
+- Room joining by code
+- Server-authoritative game state
+- Shared countdown timer
+- Closed-match enforcement
+- Session persistence
+- Automatic session recovery
+- Online rematches
+- Realtime synchronization
+
+---
+
+## User Experience
+
+- Welcome screen onboarding
+- Quick Rules guide
+- Match status indicators
+- Timeout notifications
+- Browser session recovery
+- Responsive multiplayer interface
+
+---
+
+## Optional AI Gameplay Analysis
+
+Artificial intelligence is intentionally **not** part of gameplay.
+
+Instead, after an official match concludes, players may optionally request an **AI Gameplay Analysis**.
+
+The analysis may provide educational observations regarding:
+
+- grammar;
+- sentence continuity;
+- logical consistency;
+- factual correctness;
+- scientific accuracy;
+- communication quality.
+
+The analysis never changes:
+
+- the official winner;
+- the official scoreboard;
+- the official sentence history;
+- the official match outcome.
+
+Gameplay belongs to the players.
+
+Reflection may optionally involve artificial intelligence.
+
+---
+
+# Current Development Status
+
+**Current Version**
+
+> **v0.1.2**
+
+**Project Stage**
+
+> **Feature-Complete Alpha (Architecture Stabilization Phase)**
+
+Current development priorities include:
+
+- architecture refactoring;
+- component modularization;
+- UX refinement;
+- Playtest #2;
+- gameplay observation;
+- documentation synchronization;
+- research preparation;
+- publication development.
+
+---
+
+# Technology Stack
 
 | Layer | Technology |
 |--------|------------|
-| Frontend | React, Vite |
-| Backend | Supabase, PostgreSQL |
+| Frontend | React + Vite |
+| Backend | Supabase + PostgreSQL |
 | Realtime | Supabase Realtime |
 | Deployment | Vercel |
-| Version Control | Git, GitHub |
+| Version Control | Git + GitHub |
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```text
 Artwork/
@@ -155,66 +215,104 @@ Releases/
 Research/
 Rulebook/
 Website/
+
+README.md
+PROJECT_ROADMAP.md
 ```
 
 ---
 
-## Documentation
+# Documentation
 
-Project documentation is organized into dedicated directories.
+The repository is organized around a layered documentation architecture.
 
-* `Design_Documents/` — Philosophy, architecture, gameplay specifications, and technical design.
-* `Research/` — Development journal, playtesting, publications, and project state.
-* `Releases/` — Version history and release notes.
-* `Rulebook/` — Official game rules and gameplay specification.
-* `Papers/` — Research manuscripts and academic publications.
-
----
-
-## Research Themes
-
-The Last Word War™ also serves as a research initiative exploring:
-
-* Human-centered computing
-* Human ↔ Human interaction systems
-* Computational facilitation
-* Educational gaming
-* Multiplayer interaction systems
-* Responsible AI-assisted development
+| Directory | Purpose |
+|------------|---------|
+| `Design_Documents/` | Philosophy, architecture, gameplay specifications, and software design |
+| `Rulebook/` | Official gameplay rules |
+| `Research/` | Development journals, playtesting, observations, and research materials |
+| `Papers/` | Academic manuscripts and publications |
+| `Releases/` | Release notes and version history |
+| `Prototype/` | Source code for the playable implementation |
 
 ---
 
-## Roadmap
+# Research Themes
 
-### Current Phase
+The Last Word War™ also serves as a long-term research initiative investigating:
 
-* Component refactoring
-* App.jsx simplification
-* Continued codebase modularization
-* Playtest #2
-* Publication preparation
-
-### Planned
-
-* Classroom Edition
-* Tournament support
-* Educational modes
-* Spectator mode
-* Analytics dashboard
-* Mobile application
+- Human-Centered Computing
+- Human ↔ Human Interaction
+- Computational Facilitation
+- Educational Gaming
+- Multiplayer Collaboration
+- Language-Based Interaction
+- Responsible AI-Assisted Development
+- Human-Centered Digital Systems
 
 ---
 
-## Stewardship
+# Roadmap
 
-**Project Steward:** Victor A. Adeyemi
+## Current Phase
 
-**Organization:** Da-aim Services
-
-**Contact:** [daaim4you@gmail.com](mailto:daaim4you@gmail.com)
+- Complete architecture refactoring
+- Continue Playtest #2
+- Improve onboarding
+- Improve maintainability
+- Collect gameplay evidence
+- Prepare the first research publication
 
 ---
 
-## License
+## Future Development
+
+Planned future initiatives include:
+
+- Classroom Edition
+- Educational Themes
+- Tournament Platform
+- Spectator Mode
+- Analytics Dashboard
+- Mobile Application
+- Research Collaborations
+
+Future features will be guided by evidence collected through development and playtesting rather than by feature accumulation.
+
+---
+
+# Design Principles
+
+Every future feature is evaluated according to five guiding questions:
+
+1. Does it strengthen Human ↔ Human interaction?
+2. Does it preserve human responsibility?
+3. Does it improve usability?
+4. Does it encourage learning or creativity?
+5. Is it supported by evidence from playtesting?
+
+---
+
+# Stewardship
+
+**Project Steward**
+
+Victor A. Adeyemi
+
+**Organization**
+
+Da-aim Services
+
+**Contact**
+
+<daaim4you@gmail.com>
+
+---
+
+# License
 
 License to be determined.
+
+---
+
+*"The software coordinates interaction. Humans determine meaning."*
