@@ -11,7 +11,6 @@ import {
 
 import {
 	fetchRoomByCode,
-	createRoomRecord,
 	updateRoomGameState,
 } from './services/roomService';
 
@@ -21,11 +20,17 @@ import {
 	clearSavedSession,
 } from './services/sessionService';
 
-import { generateRoomCode } from './utils/roomCode';
-
 import  WelcomeScreen  from './components/WelcomeScreen';
 import SentenceHistoryPanel from './components/SentenceHistoryPanel';
 import PlayerListPanel from './components/PlayerListPanel';
+import GameStatusPanel from './components/GameStatusPanel';
+import RoomSetupPanel from './components/RoomSetupPanel';
+import LobbyPanel from './components/LobbyPanel';
+import GameOverPanel from './components/GameOverPanel';
+import useSessionRecovery from './hooks/useSessionRecovery';
+import useCountdown from './hooks/useCountdown';
+import useRoom from './hooks/useRoom';
+
 
 import {
 	TURN_DURATION_MS,
@@ -42,7 +47,6 @@ function App() {
 	const [sentence, setSentence] = useState('');
 	const [sentenceHistory, setSentenceHistory] = useState([]);
 	const [lastSubmittedPlayerIndex, setLastSubmittedPlayerIndex] = useState(null);
-	const [timeLeft, setTimeLeft] = useState(INITIAL_TIME_LEFT);
 	const [turnDeadline, setTurnDeadline] = useState(null);
 	const [winner, setWinner] = useState(null);
 	const [finalStandings, setFinalStandings] = useState([]);
@@ -62,6 +66,23 @@ function App() {
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 	const hasRestoredSessionRef = useRef(false);
+
+	const room = useRoom({
+	roomCode,
+	applyRoomSnapshot,
+});
+
+	const { timeLeft, setTimeLeft } = useCountdown({
+	gamePhase,
+	roomCode,
+	turnDeadline,
+	isHost,
+	currentPlayerIndex,
+	onTimeout: processOnlineTimeout,
+	GAME_PHASES,
+});
+
+
 
 
 	useEffect(() => {
@@ -115,44 +136,22 @@ function App() {
 		setLocalPlayerName(savedSession.localPlayerName);
 		setIsHost(savedSession.isHost);
 		setHasJoinedLobby(savedSession.hasJoinedLobby);
-
-		loadRoom(savedSession.roomCode);
-
+room.load(savedSession.roomCode);
 		hasRestoredSessionRef.current = true;
 	}, []);
 
 
 
-	async function createRoom() {
-		const newRoomCode = generateRoomCode();
+async function createRoom() {
+	const newRoomCode = await room.create();
 
-		const initialGameState = {
-			roomCode: newRoomCode,
-			players: [],
-			gamePhase: GAME_PHASES.SETUP,
-			currentPlayerIndex: 0,
-			currentWord: 'START',
-			sentenceHistory: [],
-			winner: null,
-			turnNumber: 0,
-		};
-
-
-		try {
-			await createRoomRecord(newRoomCode, initialGameState);
-		} catch (error) {
-			console.error(error);
-			alert('Room creation failed');
-			return;
-		}
-
-		setRoomCode(newRoomCode);
-		setIsHost(true);
-
-		await loadRoom(newRoomCode);
-
-		alert(`Room created: ${newRoomCode}`);
+	if (!newRoomCode) {
+		return;
 	}
+
+	setRoomCode(newRoomCode);
+	setIsHost(true);
+}
 
 
 	async function joinRoom() {
@@ -175,7 +174,7 @@ function App() {
 		setRoomCode(normalizedRoomCode);
 		setIsHost(false);
 
-		await loadRoom(normalizedRoomCode);
+		await room.load(normalizedRoomCode);
 
 		alert(`Joined room: ${normalizedRoomCode}`);
 	}
@@ -232,32 +231,19 @@ function App() {
 		setPlayers(updatedPlayers);
 		setHasJoinedLobby(true);
 
-		await loadRoom(roomCode);
+		await room.load(roomCode);
 	}
 
 
-	async function loadRoom(targetRoomCode = roomCode) {
-		if (!targetRoomCode) {
-			return;
-		}
+	
 
+	function applyRoomSnapshot(roomSnapshot) {
+		const gameState = roomSnapshot.game_state;
 
-		let data;
-
-		try {
-			data = await fetchRoomByCode(targetRoomCode);
-		} catch (error) {
-			console.error(error);
-			alert('Could not load room.');
-			return;
-		}
-
-		const gameState = data.game_state;
-
-		setRoomData(data);
+		setRoomData(roomSnapshot);
 		setPlayers(gameState.players || []);
-		setHostName(gameState.hostName || '');
 		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
+		setHostName(gameState.hostName || '');
 		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
 		setCurrentWord(gameState.currentWord || 'START');
 		setSentenceHistory(gameState.sentenceHistory || []);
@@ -269,6 +255,8 @@ function App() {
 		setTurnDeadline(gameState.turnDeadline || null);
 		setNotification(gameState.notification || '');
 		setGameOverReason(gameState.gameOverReason || '');
+		setDrawPlayers(gameState.drawPlayers || []);
+		setSuddenDeathRoundCount(gameState.suddenDeathRoundCount || 0);
 	}
 
 
@@ -299,43 +287,6 @@ function App() {
 
 	}
 
-	useEffect(() => {
-		if (
-			gamePhase !== GAME_PHASES.ACTIVE &&
-			gamePhase !== GAME_PHASES.FINAL_ROUND &&
-			gamePhase !== GAME_PHASES.SUDDEN_DEATH
-		) {
-			return;
-		}
-
-		const timer = setInterval(() => {
-			if (roomCode && turnDeadline) {
-				const remainingTime = Math.max(
-					0,
-					Math.ceil((turnDeadline - Date.now()) / 1000)
-				);
-
-				setTimeLeft(remainingTime);
-
-				if (remainingTime === 0 && isHost) {
-					processOnlineTimeout();
-				}
-
-				return;
-			}
-
-			setTimeLeft((previousTime) => {
-				if (previousTime <= 0) {
-					return 0;
-				}
-
-				return previousTime - 1;
-			});
-		}, 1000);
-
-		return () => clearInterval(timer);
-	}, [gamePhase, roomCode, turnDeadline, isHost, currentPlayerIndex]);
-
 
 	useEffect(() => {
 		if (!roomCode) {
@@ -353,27 +304,8 @@ function App() {
 					filter: `room_code=eq.${roomCode}`,
 				},
 				(payload) => {
-					const updatedRoom = payload.new;
-					const updatedGameState = updatedRoom.game_state;
 
-					setRoomData(updatedRoom);
-					setPlayers(updatedGameState.players || []);
-					setGamePhase(updatedGameState.gamePhase || GAME_PHASES.SETUP);
-					setHostName(updatedGameState.hostName || '');
-					setCurrentPlayerIndex(updatedGameState.currentPlayerIndex || 0);
-					setCurrentWord(updatedGameState.currentWord || 'START');
-					setSentenceHistory(updatedGameState.sentenceHistory || []);
-					setWinner(updatedGameState.winner || null);
-					setFinalStandings(updatedGameState.finalStandings || []);
-					setSuddenDeathPlayerNames(updatedGameState.suddenDeathPlayerNames || []);
-					setFinalRoundStarterIndex(updatedGameState.finalRoundStarterIndex ?? null);
-					setMatchStarterIndex(updatedGameState.matchStarterIndex ?? 0);
-					setTurnDeadline(updatedGameState.turnDeadline || null);
-					setNotification(updatedGameState.notification || '');
-					setGameOverReason(updatedGameState.gameOverReason || '');
-					setDrawPlayers(updatedGameState.drawPlayers || []);
-					setSuddenDeathRoundCount(updatedGameState.suddenDeathRoundCount || 0);
-
+					applyRoomSnapshot(payload.new);
 				}
 
 			)
@@ -830,108 +762,34 @@ function App() {
 		</div>
 
 
-		{gamePhase === GAME_PHASES.SETUP && (
+{gamePhase === GAME_PHASES.SETUP && (
+	<RoomSetupPanel
+		roomCode={roomCode}
+		joinRoomCode={joinRoomCode}
+		setJoinRoomCode={setJoinRoomCode}
+		createRoom={createRoom}
+		joinRoom={joinRoom}
+		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
 
-			<div className="quick-rules">
-			<h3>📜 Quick Rules</h3>
+	gamePhase={gamePhase}
+GAME_PHASES={GAME_PHASES}
+hasJoinedLobby={hasJoinedLobby}
+isHost={isHost}
+players={players}
+startRoomGame={startRoomGame}
 
-			<p>🎯 Create or Join a Room.</p>
+	/>
 
-			<p>🔄 Players take turns creating sentences.</p>
-
-			<p>
-			📝 Your sentence must begin with the LAST WORD of the previous sentence.
-			</p>
-
-			<p>✅ Valid play = +1 point.</p>
-
-			<p>⏰ Timeout = -1 point.</p>
-
-			<p>🏁 First player to 10 points triggers the Final Round.</p>
-
-			<p>⚔️ Tied leaders enter Sudden Death.</p>
-
-			<p>🤝 Interact meaningfully and have fun.</p>
-			</div>
-
-		)}
-
-		{gamePhase === GAME_PHASES.SETUP && (
-			<div className="online-room-panel">
-
-			<p>CREATE a room or JOIN one REMOTELY:</p>
+)}
 
 
-
-			{!roomCode && (
-				<button className="start-button" onClick={createRoom}>
-				Create Room
-				</button>
-			)}
-
-			{!roomCode && (
-				<div className="join-room-panel">
-				<input
-				type="text"
-				value={joinRoomCode}
-				onChange={(event) => setJoinRoomCode(event.target.value)}
-				placeholder="Enter room code"
-				/>
-
-				<button className="start-button" onClick={joinRoom}>
-				Join Room
-				</button>
-				</div>
-			)}
-
-			</div>
-		)}
-
-
-
-		{roomCode && gamePhase === GAME_PHASES.SETUP && (
-			<div className="status-box">
-			<p><strong>Room Code:</strong> {roomCode}</p>
-			<p>Share ROOM CODE with another player.</p>
-
-			<button
-			className="start-button"
-			onClick={startNewPlayFromActiveSession}
-			>
-			Reset 
-			</button>
-			</div>
-		)}
-
-
-		{roomCode && !hasJoinedLobby && (
-			<div className="join-room-panel">
-			<input
-			type="text"
-			value={localPlayerName}
-			onChange={(event) => setLocalPlayerName(event.target.value)}
-			placeholder="Enter your player name"
-			/>
-
-			<button className="start-button" onClick={joinLobby}>
-			Enter Lobby to continue...
-			</button>
-			</div>
-		)}
-
-
-		{roomCode &&
-				hasJoinedLobby &&
-				isHost &&
-				players.length >= 2 &&
-				gamePhase === GAME_PHASES.SETUP && (
-					<button
-					className="start-button"
-					onClick={startRoomGame}
-					>
-					Start Online Game
-					</button>
-				)}
+<LobbyPanel
+	roomCode={roomCode}
+	hasJoinedLobby={hasJoinedLobby}
+	localPlayerName={localPlayerName}
+	setLocalPlayerName={setLocalPlayerName}
+	joinLobby={joinLobby}
+/>
 
 
 		{false && (
@@ -976,122 +834,36 @@ function App() {
 		)}
 
 
-		{(gamePhase === GAME_PHASES.ACTIVE ||
-			gamePhase === GAME_PHASES.FINAL_ROUND ||
-			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
-				<div className="game-panel">
-
-
-				<h2>
-				{gamePhase === GAME_PHASES.SUDDEN_DEATH
-					? 'Sudden Death'
-					: gamePhase === GAME_PHASES.FINAL_ROUND
-					? 'Final Round'
-					: 'Game Started'}
-				</h2>
-
-				<p><strong>Current Player:</strong> {players[currentPlayerIndex].name}</p>
-				<p><strong>Current Word:</strong> {currentWord}</p>
-				<p><strong>Time Remaining:</strong> {timeLeft} seconds</p>
-
-				<form onSubmit={submitSentence}>
-				<input
-				type="text"
-				value={sentence}
-				onChange={(event) => setSentence(event.target.value)}
-				placeholder="Enter a sentence"
-				/>
-
-				<button type="submit">
-				Submit Sentence
-				</button>
-				</form>
-
-				{lastSubmittedPlayerIndex !== null && (
-					<div className="referee-buttons">
-					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -1)}>
-					Undo Point -1
-					</button>
-
-					<button onClick={() => updateScore(lastSubmittedPlayerIndex, -2)}>
-					Penalty -2
-					</button>
-					</div>
-				)}
+{(gamePhase === GAME_PHASES.ACTIVE ||
+	gamePhase === GAME_PHASES.FINAL_ROUND ||
+	gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
+	<GameStatusPanel
+		gamePhase={gamePhase}
+		players={players}
+		currentPlayerIndex={currentPlayerIndex}
+		currentWord={currentWord}
+		timeLeft={timeLeft}
+		sentence={sentence}
+		setSentence={setSentence}
+		submitSentence={submitSentence}
+		lastSubmittedPlayerIndex={lastSubmittedPlayerIndex}
+		updateScore={updateScore}
+	/>
+)}
 
 
 
-				</div>
-			)}
-
-
-		{gamePhase === GAME_PHASES.GAME_OVER && (
-			<div className="winner-panel">
-			<h2>🏆 Game Over</h2>
-
-
-			{winner ? (
-				<p className="winner-name">
-				<strong>Winner:</strong> {winner.name}
-				</p>
-			) : (
-				<div className="winner-name">
-				<strong>No winner declared.</strong>
-				<br />
-				{gameOverReason === 'INACTIVITY' && 'Match ended due to inactivity.'}
-				{gameOverReason === 'SUDDEN_DEATH_DRAW' && 'Sudden Death ended in a draw.'}
-
-				{drawPlayers.length > 0 && (
-					<>
-					<h3>Draw Players</h3>
-					<ul>
-					{drawPlayers.map((player, index) => (
-						<li key={index}>{player.name}</li>
-					))}
-					</ul>
-					</>
-				)}
-				</div>
-			)}
-
-			<h3>Final Standings</h3>
-
-			<ol className="standings-list">
-			{finalStandings.map((player, index) => (
-				<li key={index}>
-				<span>
-				{player.rank}
-				{player.isTied ? 'T' : ''}. {player.name}
-				</span>
-
-				<span>{player.score} points</span>
-				</li>
-			))}
-			</ol>
-
-			<button className="start-button" onClick={resetMatch}>
-			{roomCode ? 'Start Rematch' : 'Play Again'}
-			</button>
-
-			<button
-			className="start-button"
-			onClick={startNewPlayFromActiveSession}
-			>
-			Start New Play
-			</button>
-
-			<a
-			className="feedback-button"
-			href="https://forms.gle/XBmDWmfaSz9M8dZn8"
-			target="_blank"
-			rel="noreferrer"
-			>
-			Leave Feedback
-			</a>
-
-
-			</div>
-		)}
+{gamePhase === GAME_PHASES.GAME_OVER && (
+	<GameOverPanel
+		winner={winner}
+		gameOverReason={gameOverReason}
+		drawPlayers={drawPlayers}
+		finalStandings={finalStandings}
+		roomCode={roomCode}
+		resetMatch={resetMatch}
+		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+	/>
+)}
 
 
 		<PlayerListPanel
