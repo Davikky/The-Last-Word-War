@@ -1,269 +1,778 @@
-# Feedback Collection Plan
+# PLAYER FEEDBACK COLLECTION PLAN
 
-Project: The Last Word War
+Project: **The Last Word War™**
 
-Version: v0.1.0-alpha
+Project Steward:
 
-Date: 2026-06-18
+Victor A. Adeyemi
 
-Author: Victor A. Adeyemi
+Organization:
+
+Da-aim Services
+
+Status:
+
+Active
+
+Document Version:
+
+2026.07
 
 ---
 
 # Purpose
 
-The purpose of this document is to define a structured process for collecting, evaluating, and acting upon feedback from external testers.
+This document defines the structured process for collecting, evaluating, and acting upon player feedback during the development of **The Last Word War™**.
 
-The project has reached the first public deployment milestone and is now ready for limited public playtesting.
+Unlike the Playtest Protocol, Playtest Verification Checklist, and Playtest Notes, which focus primarily on engineering validation and observer-recorded behaviour, this document records the experiences and perceptions of the players themselves.
 
----
+Player feedback provides an essential complement to engineering observations.
 
-# Objectives
-
-The primary goals of feedback collection are:
-
-1. Identify usability issues.
-2. Identify gameplay confusion.
-3. Identify technical bugs.
-4. Evaluate player enjoyment.
-5. Evaluate replay value.
-6. Prioritize future development.
+Together, objective observations and subjective player experiences guide evidence-driven development throughout the project.
 
 ---
 
-# Target Testers
+# Feedback Philosophy
 
-Initial testing should focus on:
+The objective of feedback collection is not to persuade players that the game is successful.
 
-* Friends
-* Family members
-* Students
-* Colleagues
-* Casual gamers
+Instead, feedback seeks to understand how real people experience the gameplay.
 
-Target:
+Every opinion—positive or negative—provides valuable information.
 
-3–5 testers
+Players should therefore feel free to:
 
-Minimum:
+- praise enjoyable aspects of the game;
+- identify confusing behaviour;
+- report unexpected problems;
+- suggest improvements;
+- describe their overall experience honestly.
 
-3 completed matches
-
-Preferred:
-
-10 completed matches
+Feedback should never be filtered simply because it conflicts with the expectations of the development team.
 
 ---
 
-# Testing Environment
+# Collection Objectives
 
-Public URL:
+The primary objectives of player feedback collection are to evaluate:
 
-https://the-last-word-war.vercel.app/
+- onboarding;
+- usability;
+- gameplay clarity;
+- multiplayer experience;
+- enjoyment;
+- replay value;
+- educational value;
+- overall player satisfaction.
 
-Supported Devices:
-
-* Desktop browsers
-* Mobile browsers
-
-Supported Modes:
-
-* Remote multiplayer
-* Two-player matches
-
----
-
-# Feedback Collection Method
-
-Primary Method:
-
-Google Form
-
-Secondary Method:
-
-Direct observations during live play sessions
+Feedback also helps identify priorities for future engineering work and user experience improvements.
 
 ---
 
-# Feedback Questions
+# Participants
 
-## General
+Early feedback should primarily involve first-time players.
 
-1. Was the game easy to understand?
+Preferred participant groups include:
 
-* Very Easy
-* Easy
-* Neutral
-* Difficult
-* Very Difficult
+- friends;
+- family members;
+- students;
+- colleagues;
+- casual gamers.
 
----
+Whenever possible, participants should have no previous exposure to The Last Word War™.
 
-2. Was joining a room straightforward?
-
-* Yes
-* No
+Fresh perspectives provide the most useful usability observations.
 
 ---
 
-3. Was it clear whose turn it was?
+# Feedback Timing
 
-* Yes
-* No
+Feedback should normally be collected immediately after completion of a multiplayer match.
 
----
+Collecting feedback while the experience remains fresh generally produces more accurate observations.
 
-4. Was the Current Word easy to identify?
-
-* Yes
-* No
+Where appropriate, additional follow-up feedback may be collected after players have completed multiple matches.
 
 ---
 
-5. Was the Sentence History useful?
+# Feedback Methods
 
-* Yes
-* No
+The preferred collection methods are:
+
+## Structured Questionnaire
+
+A standardized questionnaire completed after gameplay.
+
+---
+
+## Observer Interviews
+
+Short discussions immediately following the session.
+
+These interviews may clarify observations that cannot easily be captured using predefined questions.
+
+---
+
+## Direct Observation
+
+Behaviour observed during gameplay should complement player-reported experiences.
+
+Observer notes should remain separate from player feedback.
+
+---
+
+## Engineering Correlation
+
+Technical issues reported by players should later be compared with:
+
+- Playtest Notes;
+- Engineering Issue Register;
+- Development Journal.
+
+This correlation helps distinguish genuine software defects from isolated user misunderstandings.
+
+---
+
+---
+# Player Feedback Questionnaire
+
+The following questionnaire should normally be completed immediately after the conclusion of a playtest session.
+
+Participants should be encouraged to answer honestly.
+
+There are no correct or incorrect answers.
+
+---
+
+# Section 1 — First Impressions
+
+## 1.
+
+How easy was it to understand the purpose of the game?
+
+☐ Very Easy
+
+☐ Easy
+
+☐ Neutral
+
+☐ Difficult
+
+☐ Very Difficult
+
+---
+
+## 2.
+
+Before receiving any explanation, how well did you understand what you were expected to do?
+
+☐ Completely
+
+☐ Mostly
+
+☐ Partially
+
+☐ Very Little
+
+☐ Not at All
+
+---
+
+## 3.
+
+Which part of the game was initially the most confusing?
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+# Section 2 — User Experience
+
+## 4.
+
+How easy was it to create or join a multiplayer room?
+
+☐ Very Easy
+
+☐ Easy
+
+☐ Neutral
+
+☐ Difficult
+
+☐ Very Difficult
+
+---
+
+## 5.
+
+Was it always clear whose turn it was?
+
+☐ Always
+
+☐ Usually
+
+☐ Sometimes
+
+☐ Rarely
+
+☐ Never
+
+---
+
+## 6.
+
+How easy was it to identify the Current Word?
+
+☐ Very Easy
+
+☐ Easy
+
+☐ Neutral
+
+☐ Difficult
+
+☐ Very Difficult
+
+---
+
+## 7.
+
+How useful was the Sentence History?
+
+☐ Extremely Useful
+
+☐ Useful
+
+☐ Neutral
+
+☐ Slightly Useful
+
+☐ Not Useful
+
+---
+
+## 8.
+
+Did the countdown timer feel appropriate?
+
+☐ Much Too Short
+
+☐ Slightly Too Short
+
+☐ About Right
+
+☐ Slightly Too Long
+
+☐ Much Too Long
+
+---
+
+# Section 3 — Gameplay Experience
+
+## 9.
+
+How enjoyable was the gameplay?
+
+Rate from:
+
+**1 (Not Enjoyable)**
+
+to
+
+**5 (Extremely Enjoyable)**
+
+Rating:
+
+☐ 1
+
+☐ 2
+
+☐ 3
+
+☐ 4
+
+☐ 5
+
+---
+
+## 10.
+
+Did the sentence-chain mechanic encourage meaningful conversation?
+
+☐ Strongly Agree
+
+☐ Agree
+
+☐ Neutral
+
+☐ Disagree
+
+☐ Strongly Disagree
+
+---
+
+## 11.
+
+Did you enjoy building your sentence from another player's last word?
+
+☐ Strongly Agree
+
+☐ Agree
+
+☐ Neutral
+
+☐ Disagree
+
+☐ Strongly Disagree
+
+---
+
+## 12.
+
+Did gameplay become easier as the match progressed?
+
+☐ Yes
+
+☐ Somewhat
+
+☐ No Difference
+
+☐ No
+
+---
+
+# Section 4 — Human Interaction
+
+One of the goals of **The Last Word War™** is to encourage meaningful Human ↔ Human interaction.
+
+Please answer the following questions based on your experience.
+
+---
+
+## 13.
+
+Did the game encourage players to pay attention to one another?
+
+☐ Strongly Agree
+
+☐ Agree
+
+☐ Neutral
+
+☐ Disagree
+
+☐ Strongly Disagree
+
+---
+
+## 14.
+
+Did the gameplay encourage conversation rather than isolated play?
+
+☐ Strongly Agree
+
+☐ Agree
+
+☐ Neutral
+
+☐ Disagree
+
+☐ Strongly Disagree
+
+---
+
+## 15.
+
+Did you find yourself thinking about previous sentences before creating your own?
+
+☐ Always
+
+☐ Usually
+
+☐ Sometimes
+
+☐ Rarely
+
+☐ Never
+
+---
+
+## 16.
+
+Did the game encourage creativity?
+
+☐ Strongly Agree
+
+☐ Agree
+
+☐ Neutral
+
+☐ Disagree
+
+☐ Strongly Disagree
+
+---
+
+# Section 5 — Technical Experience
+
+## 17.
+
+Did you experience any technical problems?
+
+☐ No
+
+☐ Yes
+
+If yes, please describe:
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+## 18.
+
+Which device did you use?
+
+☐ Desktop
+
+☐ Laptop
+
+☐ Tablet
+
+☐ Mobile Phone
+
+---
+
+## 19.
+
+Which browser did you use?
+
+☐ Chrome
+
+☐ Edge
+
+☐ Firefox
+
+☐ Safari
+
+☐ Other
+
+---
+
+## 20.
+
+Did anything behave differently from what you expected?
+
+____________________________________________________
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+# Section 6 — Overall Experience
+
+## 21.
+
+Would you play The Last Word War™ again?
+
+☐ Definitely
+
+☐ Probably
+
+☐ Maybe
+
+☐ Probably Not
+
+☐ Definitely Not
+
+---
+
+## 22.
+
+Would you recommend the game to someone else?
+
+☐ Definitely
+
+☐ Probably
+
+☐ Maybe
+
+☐ Probably Not
+
+☐ Definitely Not
+
+---
+
+## 23.
+
+Overall, how would you rate your experience?
+
+☐ Excellent
+
+☐ Good
+
+☐ Fair
+
+☐ Poor
+
+☐ Very Poor
+
+---
+
+# Open Feedback
+
+## 24.
+
+What did you enjoy most?
+
+____________________________________________________
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+## 25.
+
+What confused you the most?
+
+____________________________________________________
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+## 26.
+
+If you could improve one aspect of the game, what would it be?
+
+____________________________________________________
+
+____________________________________________________
+
+____________________________________________________
+
+---
+
+## 27.
+
+Do you have any additional comments or suggestions?
+
+____________________________________________________
+
+____________________________________________________
+
+____________________________________________________
+
+---
+# Feedback Analysis
+
+Player feedback should be reviewed alongside engineering observations rather than in isolation.
+
+The objective is to identify recurring patterns rather than react to individual comments.
+
+Whenever possible, responses should be grouped into the following categories.
 
 ---
 
 ## Gameplay
 
-6. Did the game feel engaging?
+Examples include:
 
-Rating:
+- understanding of the sentence rule;
+- enjoyment of gameplay;
+- Final Round clarity;
+- Sudden Death understanding;
+- overall match flow.
 
-1–5
-
----
-
-7. Did the game encourage conversation?
-
-Rating:
-
-1–5
+These observations help determine whether the approved gameplay specification is being communicated effectively to players.
 
 ---
 
-8. Did you enjoy building from another player's last word?
+## User Experience
 
-Rating:
+Examples include:
 
-1–5
+- onboarding;
+- room creation;
+- room joining;
+- interface clarity;
+- navigation;
+- visual design;
+- notification visibility.
+
+Usability concerns should inform future user experience improvements.
 
 ---
 
-9. Would you play again?
+## Human Interaction
 
-* Yes
-* No
-* Maybe
+Examples include:
 
----
+- quality of conversation;
+- collaboration;
+- competition;
+- creativity;
+- player engagement.
 
-10. Would you recommend the game to a friend?
-
-* Yes
-* No
-* Maybe
+These observations directly support the project's research programme on Human ↔ Human interaction and Computational Facilitation.
 
 ---
 
 ## Technical Issues
 
-11. Did you encounter any bugs?
+Technical feedback includes:
 
-* Yes
-* No
+- synchronization problems;
+- browser compatibility;
+- unexpected behaviour;
+- performance concerns;
+- software defects.
 
-If yes:
-
-Describe the issue.
-
----
-
-12. What device did you use?
-
-* Desktop
-* Mobile
-* Tablet
+Technical issues should be cross-referenced with the Engineering Issue Register before implementation begins.
 
 ---
 
-13. Which browser did you use?
+# Data Management
 
-* Chrome
-* Firefox
-* Safari
-* Edge
-* Other
+Player feedback should be preserved throughout the lifetime of the project.
 
----
+Responses may be collected using:
 
-## Open Feedback
+- Google Forms;
+- structured interviews;
+- written questionnaires;
+- supervised playtesting sessions.
 
-14. What did you enjoy most?
+Where appropriate, responses should be anonymized before being used for research or publication.
 
----
-
-15. What confused you most?
+Raw responses should be retained separately from summarized findings to preserve traceability.
 
 ---
 
-16. What would you improve first?
+# Engineering Workflow
+
+Player feedback should inform engineering work through the following process.
+
+```text
+Player Feedback
+        ↓
+Categorization
+        ↓
+Engineering Review
+        ↓
+Engineering Issue Register
+        ↓
+Implementation
+        ↓
+Verification
+        ↓
+Future Playtesting
+```
+
+Not every suggestion should result in implementation.
+
+Engineering decisions should remain consistent with the approved gameplay philosophy and long-term project strategy.
 
 ---
 
-17. Additional comments.
+# Research Workflow
 
----
+Player feedback also contributes to the project's broader research programme.
 
-# Feedback Review Process
+Responses may be used to evaluate:
 
-After each testing round:
+- Human ↔ Human interaction;
+- Computational Facilitation;
+- conversational behaviour;
+- educational potential;
+- usability;
+- player engagement.
 
-1. Review all responses.
-2. Categorize findings.
-3. Update PLAYTEST_NOTES.md.
-4. Create new BUG_TRACKER entries where necessary.
-5. Update UX_FEEDBACK documents.
-6. Prioritize implementation.
+Research conclusions should always be supported by multiple independent observations rather than isolated comments.
 
 ---
 
 # Success Metrics
 
-The first playtesting round will be considered successful if:
+Feedback collection is considered successful when it produces actionable evidence for both engineering and research.
 
-* At least 3 testers complete matches.
-* No critical gameplay bugs are found.
-* At least 70% of testers understand the rules without assistance.
-* At least 70% of testers would play again.
+Typical indicators include:
 
----
+## Engineering
 
-# Expected Outcomes
-
-The first feedback round should provide:
-
-* UI improvements
-* Gameplay improvements
-* Bug reports
-* Validation of core game concept
-
-The results will guide development of:
-
-v0.1.0-beta
-
-and
-
-v0.1.1 Refactor
+- recurring usability concerns identified;
+- implementation issues confirmed;
+- priorities established for future development.
 
 ---
 
-# Guiding Principle
+## User Experience
 
-The purpose of testing is not to prove that the game works.
+- most players understand the gameplay without significant assistance;
+- confusion decreases as gameplay progresses;
+- players complete matches successfully.
 
-The purpose of testing is to discover how real humans experience the game.
+---
 
+## Engagement
+
+- players report enjoyable gameplay;
+- players express willingness to play again;
+- players indicate they would recommend the game to others.
+
+---
+
+## Research
+
+- evidence supports meaningful Human ↔ Human interaction;
+- participants naturally build upon one another's ideas;
+- gameplay encourages conversation rather than isolated play.
+
+---
+
+# Relationship to Other Documents
+
+This document should be used together with:
+
+- Playtest #2 Protocol
+- Playtest Verification Checklist
+- Playtest Notes
+- Engineering Issue Register
+- Development Journal
+- Project State
+- Publication Roadmap
+
+Together, these documents establish a complete workflow for collecting, analysing, and acting upon player feedback.
+
+---
+
+# Closing Remarks
+
+Player feedback represents one of the most valuable sources of evidence available during the development of **The Last Word War™**.
+
+Engineering verification confirms whether the software behaves according to specification.
+
+Player feedback reveals whether the implemented system successfully delivers the intended gameplay experience.
+
+By combining objective engineering observations with subjective player experiences, the project adopts an evidence-driven approach to continuous improvement.
+
+This approach supports not only software quality, but also the project's long-term research into human-centered multiplayer interaction and the principle of **Computational Facilitation**.
+
+As development progresses beyond the Architecture Stabilization Phase, player feedback will continue to guide gameplay refinement, user experience improvements, and future academic publications.
+
+---
+
+**End of Player Feedback Collection Plan**
