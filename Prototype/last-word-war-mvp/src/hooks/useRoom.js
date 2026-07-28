@@ -20,6 +20,7 @@
 import {
 	fetchRoomByCode,
 	createRoomRecord,
+	updateRoomGameState,
 } from '../services/roomService';
 
 import { GAME_PHASES } from '../constants/gamePhases';
@@ -186,12 +187,51 @@ async function start() {
 	}
 }
 
+async function removePlayer({
+	playerIndex,
+	players,
+	roomData,
+	hasJoinedLobby,
+	isHost,
+	setPlayers,
+}) {
+	if (roomCode && hasJoinedLobby && !isHost) {
+		alert('Only the host can remove players.');
+		return;
+	}
+
+	const updatedPlayers = players.filter(
+		(_, index) => index !== playerIndex
+	);
+
+	if (roomCode && hasJoinedLobby) {
+		const updatedGameState = {
+			...roomData.game_state,
+			players: updatedPlayers,
+		};
+
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
+			alert('Could not remove player.');
+			return;
+		}
+
+		return;
+	}
+
+	setPlayers(updatedPlayers);
+}
+
+
 	return {
 		create,
 		join,
 		load,
 		enterLobby,
 		start,
+		removePlayer,
 	};
 }
 

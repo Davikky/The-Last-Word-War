@@ -245,36 +245,16 @@ function App() {
 
 
 
-	async function removePlayer(playerIndex) {
-		if (roomCode && hasJoinedLobby && !isHost) {
-			alert('Only the host can remove players.');
-			return;
-		}
-
-		const updatedPlayers = players.filter(
-			(_, index) => index !== playerIndex
-		);
-
-		if (roomCode && hasJoinedLobby) {
-			const updatedGameState = {
-				...roomData.game_state,
-				players: updatedPlayers,
-			};
-
-			try {
-				await updateRoomGameState(roomCode, updatedGameState);
-			} catch (error) {
-				console.error(error);
-				alert('Could not remove player.');
-				return;
-			}
-
-			return;
-		}
-
-		setPlayers(updatedPlayers);
-	}
-
+async function removePlayer(playerIndex) {
+	await room.removePlayer({
+		playerIndex,
+		players,
+		roomData,
+		hasJoinedLobby,
+		isHost,
+		setPlayers,
+	});
+}
 
 	async function submitSentence(event) {
 		event.preventDefault();
