@@ -78,8 +78,33 @@ function useRoom({
 		return newRoomCode;
 
 	}
+
+	async function join(joinRoomCode) {
+		const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
+
+		if (normalizedRoomCode === '') {
+			alert('Please enter a room code.');
+			return;
+		}
+
+		try {
+			await fetchRoomByCode(normalizedRoomCode);
+		} catch (error) {
+			console.error(error);
+			alert('Room not found.');
+			return;
+		}
+
+		await load(normalizedRoomCode);
+
+		alert(`Joined room: ${normalizedRoomCode}`);
+
+		return normalizedRoomCode;
+	}
+
 	return {
 		create,
+		join,
 		load,
 	};
 }

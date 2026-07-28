@@ -154,39 +154,24 @@ async function createRoom() {
 }
 
 
-	async function joinRoom() {
-		const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
+async function joinRoom() {
+	const normalizedRoomCode = await room.join(joinRoomCode);
 
-		if (normalizedRoomCode === '') {
-			alert('Please enter a room code.');
-			return;
-		}
-
-
-		try {
-			await fetchRoomByCode(normalizedRoomCode);
-		} catch (error) {
-			console.error(error);
-			alert('Room not found.');
-			return;
-		}
-
-		setRoomCode(normalizedRoomCode);
-		setIsHost(false);
-
-		await room.load(normalizedRoomCode);
-
-		alert(`Joined room: ${normalizedRoomCode}`);
+	if (!normalizedRoomCode) {
+		return;
 	}
 
+	setRoomCode(normalizedRoomCode);
+	setIsHost(false);
+}
 
-	async function joinLobby() {
-		const trimmedName = localPlayerName.trim();
+async function joinLobby() {
+	const trimmedName = localPlayerName.trim();
 
-		if (trimmedName === '') {
-			alert('Please enter your name.');
-			return;
-		}
+	if (trimmedName === '') {
+		alert('Please enter your name.');
+		return;
+	}
 
 
 		let data;
