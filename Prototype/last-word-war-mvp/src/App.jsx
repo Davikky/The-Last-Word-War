@@ -26,7 +26,6 @@ import GameStatusPanel from './components/GameStatusPanel';
 import RoomSetupPanel from './components/RoomSetupPanel';
 import LobbyPanel from './components/LobbyPanel';
 import GameOverPanel from './components/GameOverPanel';
-import useSessionRecovery from './hooks/useSessionRecovery';
 import useCountdown from './hooks/useCountdown';
 import useRoom from './hooks/useRoom';
 import useRealtimeGame from './hooks/useRealtimeGame';
