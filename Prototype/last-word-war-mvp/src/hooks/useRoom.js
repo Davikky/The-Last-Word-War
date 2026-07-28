@@ -102,10 +102,69 @@ function useRoom({
 		return normalizedRoomCode;
 	}
 
+
+async function enterLobby({
+	localPlayerName,
+	isHost,
+	setPlayers,
+	setHasJoinedLobby,
+}) {
+	const trimmedName = localPlayerName.trim();
+
+	if (trimmedName === '') {
+		alert('Please enter your name.');
+		return;
+	}
+
+	let data;
+
+	try {
+		data = await fetchRoomByCode(roomCode);
+	} catch (error) {
+		console.error(error);
+		alert('Room not found.');
+		return;
+	}
+
+	const existingGameState = data.game_state;
+	const existingPlayers = existingGameState.players || [];
+
+	const updatedPlayers = [
+		...existingPlayers,
+		{
+			name: trimmedName,
+			score: 0,
+		},
+	];
+
+	const updatedGameState = {
+		...existingGameState,
+		players: updatedPlayers,
+		hostName: isHost
+			? trimmedName
+			: existingGameState.hostName,
+	};
+
+	try {
+		await updateRoomGameState(roomCode, updatedGameState);
+	} catch (error) {
+		console.error(error);
+		alert('Could not join lobby.');
+		return;
+	}
+
+	setPlayers(updatedPlayers);
+	setHasJoinedLobby(true);
+
+	await load(roomCode);
+}
+
+
 	return {
 		create,
 		join,
 		load,
+		enterLobby,
 	};
 }
 
