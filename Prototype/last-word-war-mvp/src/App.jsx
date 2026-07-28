@@ -1,5 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
-import { supabase } from './lib/supabase';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import './App.css';
 
 import { GAME_PHASES } from './constants/gamePhases';
@@ -30,7 +29,7 @@ import GameOverPanel from './components/GameOverPanel';
 import useSessionRecovery from './hooks/useSessionRecovery';
 import useCountdown from './hooks/useCountdown';
 import useRoom from './hooks/useRoom';
-
+import useRealtimeGame from './hooks/useRealtimeGame';
 
 import {
 	INITIAL_TIME_LEFT,
@@ -66,6 +65,31 @@ function App() {
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 	const hasRestoredSessionRef = useRef(false);
 
+
+const applyRoomSnapshot = useCallback((roomSnapshot) => {
+	const gameState = roomSnapshot.game_state;
+
+	setRoomData(roomSnapshot);
+	setPlayers(gameState.players || []);
+	setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
+	setHostName(gameState.hostName || '');
+	setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
+	setCurrentWord(gameState.currentWord || 'START');
+	setSentenceHistory(gameState.sentenceHistory || []);
+	setWinner(gameState.winner || null);
+	setFinalStandings(gameState.finalStandings || []);
+	setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
+	setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
+	setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
+	setTurnDeadline(gameState.turnDeadline || null);
+	setNotification(gameState.notification || '');
+	setGameOverReason(gameState.gameOverReason || '');
+	setDrawPlayers(gameState.drawPlayers || []);
+	setSuddenDeathRoundCount(gameState.suddenDeathRoundCount || 0);
+}, []);
+
+
+
 	const room = useRoom({
 		roomCode,
 		applyRoomSnapshot,
@@ -81,8 +105,10 @@ function App() {
 		GAME_PHASES,
 	});
 
-
-
+useRealtimeGame({
+        roomCode,
+        applyRoomSnapshot,
+});
 
 	useEffect(() => {
 		if (!hasRestoredSessionRef.current) {
@@ -174,60 +200,9 @@ function App() {
 	}
 
 
-	function applyRoomSnapshot(roomSnapshot) {
-		const gameState = roomSnapshot.game_state;
-
-		setRoomData(roomSnapshot);
-		setPlayers(gameState.players || []);
-		setGamePhase(gameState.gamePhase || GAME_PHASES.SETUP);
-		setHostName(gameState.hostName || '');
-		setCurrentPlayerIndex(gameState.currentPlayerIndex || 0);
-		setCurrentWord(gameState.currentWord || 'START');
-		setSentenceHistory(gameState.sentenceHistory || []);
-		setWinner(gameState.winner || null);
-		setFinalStandings(gameState.finalStandings || []);
-		setSuddenDeathPlayerNames(gameState.suddenDeathPlayerNames || []);
-		setFinalRoundStarterIndex(gameState.finalRoundStarterIndex ?? null);
-		setMatchStarterIndex(gameState.matchStarterIndex ?? 0);
-		setTurnDeadline(gameState.turnDeadline || null);
-		setNotification(gameState.notification || '');
-		setGameOverReason(gameState.gameOverReason || '');
-		setDrawPlayers(gameState.drawPlayers || []);
-		setSuddenDeathRoundCount(gameState.suddenDeathRoundCount || 0);
-	}
-
-
 	async function startRoomGame() {
 		await room.start();
 	}
-
-	useEffect(() => {
-		if (!roomCode) {
-			return;
-		}
-
-		const channel = supabase
-			.channel(`room-${roomCode}`)
-			.on(
-				'postgres_changes',
-				{
-					event: 'UPDATE',
-					schema: 'public',
-					table: 'rooms',
-					filter: `room_code=eq.${roomCode}`,
-				},
-				(payload) => {
-
-					applyRoomSnapshot(payload.new);
-				}
-
-			)
-			.subscribe();
-
-		return () => {
-			supabase.removeChannel(channel);
-		};
-	}, [roomCode]);
 
 
 	function addPlayer(event) {
