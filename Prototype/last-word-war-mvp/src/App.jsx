@@ -33,7 +33,6 @@ import useRoom from './hooks/useRoom';
 
 
 import {
-	TURN_DURATION_MS,
 	INITIAL_TIME_LEFT,
 } from './constants/gameConfig';
 
@@ -68,19 +67,19 @@ function App() {
 	const hasRestoredSessionRef = useRef(false);
 
 	const room = useRoom({
-	roomCode,
-	applyRoomSnapshot,
-});
+		roomCode,
+		applyRoomSnapshot,
+	});
 
 	const { timeLeft, setTimeLeft } = useCountdown({
-	gamePhase,
-	roomCode,
-	turnDeadline,
-	isHost,
-	currentPlayerIndex,
-	onTimeout: processOnlineTimeout,
-	GAME_PHASES,
-});
+		gamePhase,
+		roomCode,
+		turnDeadline,
+		isHost,
+		currentPlayerIndex,
+		onTimeout: processOnlineTimeout,
+		GAME_PHASES,
+	});
 
 
 
@@ -136,44 +135,44 @@ function App() {
 		setLocalPlayerName(savedSession.localPlayerName);
 		setIsHost(savedSession.isHost);
 		setHasJoinedLobby(savedSession.hasJoinedLobby);
-room.load(savedSession.roomCode);
+		room.load(savedSession.roomCode);
 		hasRestoredSessionRef.current = true;
 	}, []);
 
 
 
-async function createRoom() {
-	const newRoomCode = await room.create();
+	async function createRoom() {
+		const newRoomCode = await room.create();
 
-	if (!newRoomCode) {
-		return;
+		if (!newRoomCode) {
+			return;
+		}
+
+		setRoomCode(newRoomCode);
+		setIsHost(true);
 	}
 
-	setRoomCode(newRoomCode);
-	setIsHost(true);
-}
 
+	async function joinRoom() {
+		const normalizedRoomCode = await room.join(joinRoomCode);
 
-async function joinRoom() {
-	const normalizedRoomCode = await room.join(joinRoomCode);
+		if (!normalizedRoomCode) {
+			return;
+		}
 
-	if (!normalizedRoomCode) {
-		return;
+		setRoomCode(normalizedRoomCode);
+		setIsHost(false);
 	}
 
-	setRoomCode(normalizedRoomCode);
-	setIsHost(false);
-}
+	async function joinLobby() {
+		await room.enterLobby({
+			localPlayerName,
+			isHost,
+			setPlayers,
+			setHasJoinedLobby,
+		});
+	}
 
-async function joinLobby() {
-	await room.enterLobby({
-		localPlayerName,
-		isHost,
-		setPlayers,
-		setHasJoinedLobby,
-	});
-}
-	
 
 	function applyRoomSnapshot(roomSnapshot) {
 		const gameState = roomSnapshot.game_state;
@@ -199,32 +198,8 @@ async function joinLobby() {
 
 
 	async function startRoomGame() {
-
-		let data;
-
-		try {
-			data = await fetchRoomByCode(roomCode);
-		} catch (error) {
-			console.error(error);
-			alert('Could not load room.');
-			return;
-		}
-		const updatedGameState = {
-			...data.game_state,
-			gamePhase: GAME_PHASES.ACTIVE,
-			turnDeadline: Date.now() + TURN_DURATION_MS,
-		};
-
-		try {
-			await updateRoomGameState(roomCode, updatedGameState);
-		} catch (error) {
-			console.error(error);
-			alert('Could not start game.');
-
-		}
-
+		await room.start();
 	}
-
 
 	useEffect(() => {
 		if (!roomCode) {
@@ -700,34 +675,34 @@ async function joinLobby() {
 		</div>
 
 
-{gamePhase === GAME_PHASES.SETUP && (
-	<RoomSetupPanel
+		{gamePhase === GAME_PHASES.SETUP && (
+			<RoomSetupPanel
+			roomCode={roomCode}
+			joinRoomCode={joinRoomCode}
+			setJoinRoomCode={setJoinRoomCode}
+			createRoom={createRoom}
+			joinRoom={joinRoom}
+			startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+
+			gamePhase={gamePhase}
+			GAME_PHASES={GAME_PHASES}
+			hasJoinedLobby={hasJoinedLobby}
+			isHost={isHost}
+			players={players}
+			startRoomGame={startRoomGame}
+
+			/>
+
+		)}
+
+
+		<LobbyPanel
 		roomCode={roomCode}
-		joinRoomCode={joinRoomCode}
-		setJoinRoomCode={setJoinRoomCode}
-		createRoom={createRoom}
-		joinRoom={joinRoom}
-		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
-
-	gamePhase={gamePhase}
-GAME_PHASES={GAME_PHASES}
-hasJoinedLobby={hasJoinedLobby}
-isHost={isHost}
-players={players}
-startRoomGame={startRoomGame}
-
-	/>
-
-)}
-
-
-<LobbyPanel
-	roomCode={roomCode}
-	hasJoinedLobby={hasJoinedLobby}
-	localPlayerName={localPlayerName}
-	setLocalPlayerName={setLocalPlayerName}
-	joinLobby={joinLobby}
-/>
+		hasJoinedLobby={hasJoinedLobby}
+		localPlayerName={localPlayerName}
+		setLocalPlayerName={setLocalPlayerName}
+		joinLobby={joinLobby}
+		/>
 
 
 		{false && (
@@ -772,36 +747,36 @@ startRoomGame={startRoomGame}
 		)}
 
 
-{(gamePhase === GAME_PHASES.ACTIVE ||
-	gamePhase === GAME_PHASES.FINAL_ROUND ||
-	gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
-	<GameStatusPanel
-		gamePhase={gamePhase}
-		players={players}
-		currentPlayerIndex={currentPlayerIndex}
-		currentWord={currentWord}
-		timeLeft={timeLeft}
-		sentence={sentence}
-		setSentence={setSentence}
-		submitSentence={submitSentence}
-		lastSubmittedPlayerIndex={lastSubmittedPlayerIndex}
-		updateScore={updateScore}
-	/>
-)}
+		{(gamePhase === GAME_PHASES.ACTIVE ||
+			gamePhase === GAME_PHASES.FINAL_ROUND ||
+			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
+				<GameStatusPanel
+				gamePhase={gamePhase}
+				players={players}
+				currentPlayerIndex={currentPlayerIndex}
+				currentWord={currentWord}
+				timeLeft={timeLeft}
+				sentence={sentence}
+				setSentence={setSentence}
+				submitSentence={submitSentence}
+				lastSubmittedPlayerIndex={lastSubmittedPlayerIndex}
+				updateScore={updateScore}
+				/>
+			)}
 
 
 
-{gamePhase === GAME_PHASES.GAME_OVER && (
-	<GameOverPanel
-		winner={winner}
-		gameOverReason={gameOverReason}
-		drawPlayers={drawPlayers}
-		finalStandings={finalStandings}
-		roomCode={roomCode}
-		resetMatch={resetMatch}
-		startNewPlayFromActiveSession={startNewPlayFromActiveSession}
-	/>
-)}
+		{gamePhase === GAME_PHASES.GAME_OVER && (
+			<GameOverPanel
+			winner={winner}
+			gameOverReason={gameOverReason}
+			drawPlayers={drawPlayers}
+			finalStandings={finalStandings}
+			roomCode={roomCode}
+			resetMatch={resetMatch}
+			startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+			/>
+		)}
 
 
 		<PlayerListPanel

@@ -160,11 +160,38 @@ async function enterLobby({
 }
 
 
+async function start() {
+	let data;
+
+	try {
+		data = await fetchRoomByCode(roomCode);
+	} catch (error) {
+		console.error(error);
+		alert('Could not load room.');
+		return;
+	}
+
+	const updatedGameState = {
+		...data.game_state,
+		gamePhase: GAME_PHASES.ACTIVE,
+		turnDeadline: Date.now() + TURN_DURATION_MS,
+	};
+
+	try {
+		await updateRoomGameState(roomCode, updatedGameState);
+	} catch (error) {
+		console.error(error);
+		alert('Could not start game.');
+		return;
+	}
+}
+
 	return {
 		create,
 		join,
 		load,
 		enterLobby,
+		start,
 	};
 }
 
