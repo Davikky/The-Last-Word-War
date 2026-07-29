@@ -68,6 +68,7 @@ function App() {
 	const [suddenDeathRoundCount, setSuddenDeathRoundCount] = useState(0);
 	const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 	const hasRestoredSessionRef = useRef(true);
+	const timeoutProcessingRef = useRef(false);
 
 	const applyRoomSnapshot = useCallback((roomSnapshot) => {
 		const gameState = roomSnapshot.game_state;
@@ -304,6 +305,10 @@ function App() {
 
 
 	async function processOnlineTimeout() {
+		if (timeoutProcessingRef.current) {
+			return;
+		}
+
 		if (!roomCode || !isHost || !turnDeadline) {
 			return;
 		}
@@ -312,125 +317,131 @@ function App() {
 			return;
 		}
 
-		let data;
+		timeoutProcessingRef.current = true;
 
 		try {
-			data = await fetchRoomByCode(roomCode);
-		} catch (error) {
-			console.error(error);
-			return;
-		}
+			const data = await fetchRoomByCode(roomCode);
+			const gameState = data.game_state;
+			const authoritativeTurnDeadline = gameState.turnDeadline;
 
-		const gameState = data.game_state;
-		const observedTurnNumber = gameState.turnNumber || 0;
-
-		const currentPlayers = gameState.players || [];
-		const activePlayerIndex = gameState.currentPlayerIndex ?? 0;
-		const activePlayer = currentPlayers[activePlayerIndex];
-
-		if (!activePlayer || currentPlayers.length === 0) {
-			return;
-		}
-
-		const updatedPlayers = applyScoreChange(
-			currentPlayers,
-			activePlayerIndex,
-			-1
-		);
-
-		const nextPlayer = determineNextPlayerIndex({
-			currentPlayerIndex: activePlayerIndex,
-			playerList: currentPlayers,
-			gamePhase: gameState.gamePhase,
-			suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
-			GAME_PHASES,
-		});
-
-		const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
-
-		const nextConsecutiveTimeouts = (gameState.consecutiveTimeouts || 0) + 1;
-
-		if (nextConsecutiveTimeouts >= 5) {
-			const inactivityGameState = buildInactivityGameState({
-				gameState,
-				updatedPlayers,
-				nextPlayer,
-				nextConsecutiveTimeouts,
-				GAME_PHASES,
-			});
-
-			const latestRoom = await fetchRoomByCode(roomCode);
-			const latestTurnNumber = latestRoom.game_state.turnNumber || 0;
-
-			if (latestTurnNumber !== observedTurnNumber) {
+			if (
+				!authoritativeTurnDeadline ||
+				Date.now() < authoritativeTurnDeadline
+			) {
 				return;
 			}
 
-			try {
-				await updateRoomGameState(roomCode, inactivityGameState);
-			} catch (error) {
-				console.error(error);
+			const observedTurnNumber = gameState.turnNumber || 0;
+
+			const currentPlayers = gameState.players || [];
+			const activePlayerIndex = gameState.currentPlayerIndex ?? 0;
+			const activePlayer = currentPlayers[activePlayerIndex];
+
+			if (!activePlayer || currentPlayers.length === 0) {
+				return;
 			}
 
-			return;
-		}
+			const updatedPlayers = applyScoreChange(
+				currentPlayers,
+				activePlayerIndex,
+				-1
+			);
 
-		const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
-
-		const evaluatedState = evaluateOnlineGameState({
-			currentState: {
-				roomCode,
+			const nextPlayer = determineNextPlayerIndex({
+				currentPlayerIndex: activePlayerIndex,
+				playerList: currentPlayers,
 				gamePhase: gameState.gamePhase,
-				winner: gameState.winner || null,
-				finalStandings: gameState.finalStandings || [],
-				suddenDeathPlayerNames:
-				gameState.suddenDeathPlayerNames || [],
-				finalRoundStarterIndex:
-				gameState.finalRoundStarterIndex ?? null,
-				drawPlayers: gameState.drawPlayers || [],
-				suddenDeathRoundCount:
-				gameState.suddenDeathRoundCount || 0,
-				gameOverReason: gameState.gameOverReason || '',
-				turnNumber: gameState.turnNumber || 0,
-			},
-			updatedPlayers,
-			updatedSentenceHistory: gameState.sentenceHistory || [],
-			lastWord: gameState.currentWord || 'START',
-			nextPlayer,
-			GAME_PHASES,
-		});
+				suddenDeathPlayerNames: gameState.suddenDeathPlayerNames || [],
+				GAME_PHASES,
+			});
 
-		const evaluatedGameState = buildTimeoutGameState({
-			gameState,
-			evaluatedGameState: evaluatedState,
-			updatedPlayers,
-			nextPlayer,
-			timeoutNotification,
-			nextConsecutiveTimeouts,
-			now: Date.now(),
-		});
+			const nextPlayerName = currentPlayers[nextPlayer]?.name || 'next player';
 
-		const latestRoomBeforeTimeoutUpdate =
-			await fetchRoomByCode(roomCode);
+			const nextConsecutiveTimeouts = (gameState.consecutiveTimeouts || 0) + 1;
 
-		const latestTurnNumberBeforeTimeoutUpdate =
-			latestRoomBeforeTimeoutUpdate.game_state.turnNumber || 0;
+			if (nextConsecutiveTimeouts >= 5) {
+				const inactivityGameState = buildInactivityGameState({
+					gameState,
+					updatedPlayers,
+					nextPlayer,
+					nextConsecutiveTimeouts,
+					GAME_PHASES,
+				});
 
-		if (
-			latestTurnNumberBeforeTimeoutUpdate !==
-			observedTurnNumber
-		) {
+				const latestRoom = await fetchRoomByCode(roomCode);
+				const latestTurnNumber = latestRoom.game_state.turnNumber || 0;
 
-			return;
-		}
-		try {
-			await updateRoomGameState(roomCode, evaluatedGameState);
+				if (latestTurnNumber !== observedTurnNumber) {
+					return;
+				}
+
+				try {
+					await updateRoomGameState(roomCode, inactivityGameState);
+				} catch (error) {
+					console.error(error);
+				}
+
+				return;
+			}
+
+			const timeoutNotification = `⏰ ${activePlayer.name} timed out. Penalty applied. Turn passes to ${nextPlayerName}.`;
+
+			const evaluatedState = evaluateOnlineGameState({
+				currentState: {
+					roomCode,
+					gamePhase: gameState.gamePhase,
+					winner: gameState.winner || null,
+					finalStandings: gameState.finalStandings || [],
+					suddenDeathPlayerNames:
+					gameState.suddenDeathPlayerNames || [],
+					finalRoundStarterIndex:
+					gameState.finalRoundStarterIndex ?? null,
+					drawPlayers: gameState.drawPlayers || [],
+					suddenDeathRoundCount:
+					gameState.suddenDeathRoundCount || 0,
+					gameOverReason: gameState.gameOverReason || '',
+					turnNumber: gameState.turnNumber || 0,
+				},
+				updatedPlayers,
+				updatedSentenceHistory: gameState.sentenceHistory || [],
+				lastWord: gameState.currentWord || 'START',
+				nextPlayer,
+				GAME_PHASES,
+			});
+
+			const evaluatedGameState = buildTimeoutGameState({
+				gameState,
+				evaluatedGameState: evaluatedState,
+				updatedPlayers,
+				nextPlayer,
+				timeoutNotification,
+				nextConsecutiveTimeouts,
+				now: Date.now(),
+			});
+
+			const latestRoomBeforeTimeoutUpdate =
+				await fetchRoomByCode(roomCode);
+
+			const latestTurnNumberBeforeTimeoutUpdate =
+				latestRoomBeforeTimeoutUpdate.game_state.turnNumber || 0;
+
+			if (
+				latestTurnNumberBeforeTimeoutUpdate !==
+				observedTurnNumber
+			) {
+				return;
+			}
+
+			await updateRoomGameState(
+				roomCode,
+				evaluatedGameState
+			);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			timeoutProcessingRef.current = false;
 		}
-
 	}
-
 
 
 	async function startRematch() {
