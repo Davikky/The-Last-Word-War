@@ -152,17 +152,17 @@ function App() {
 	}, [hasJoinedLobby]);
 
 
-useEffect(() => {
-	if (!savedSession.roomCode) {
+	useEffect(() => {
+		if (!savedSession.roomCode) {
+			hasRestoredSessionRef.current = true;
+			return;
+		}
+
+		room.load(savedSession.roomCode);
 		hasRestoredSessionRef.current = true;
-		return;
-	}
 
-	room.load(savedSession.roomCode);
-	hasRestoredSessionRef.current = true;
-
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	async function createRoom() {
 		const newRoomCode = await room.create();
@@ -281,7 +281,7 @@ useEffect(() => {
 	}
 
 
-	function startNewPlayFromActiveSession() {
+	function exitRoom() {
 		clearSavedSession();
 
 		setRoomCode('');
@@ -433,7 +433,7 @@ useEffect(() => {
 
 
 
-	async function resetMatch() {
+	async function startRematch() {
 		const nextStarterIndex = (matchStarterIndex + 1) % players.length;
 
 		if (roomCode && hasJoinedLobby) {
@@ -494,7 +494,7 @@ useEffect(() => {
 			setJoinRoomCode={setJoinRoomCode}
 			createRoom={createRoom}
 			joinRoom={joinRoom}
-			startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+			exitRoom={exitRoom}
 
 			gamePhase={gamePhase}
 			GAME_PHASES={GAME_PHASES}
@@ -508,17 +508,42 @@ useEffect(() => {
 		)}
 
 
-		<LobbyPanel
-		roomCode={roomCode}
-		hasJoinedLobby={hasJoinedLobby}
-		localPlayerName={localPlayerName}
-		setLocalPlayerName={setLocalPlayerName}
-		joinLobby={joinLobby}
-		/>
+		{gamePhase === GAME_PHASES.SETUP && (
+			<LobbyPanel
+			roomCode={roomCode}
+			hasJoinedLobby={hasJoinedLobby}
+			localPlayerName={localPlayerName}
+			setLocalPlayerName={setLocalPlayerName}
+			joinLobby={joinLobby}
+			/>
+		)}
 
 
+		{!hasJoinedLobby && gamePhase !== GAME_PHASES.SETUP && (
+			<div className="room-closed-message">
+			<h3>Game Already in Progress</h3>
 
-		<SentenceHistoryPanel sentenceHistory={sentenceHistory} />
+			<p>
+			Only players who joined the lobby before the game started may participate.
+			</p>
+
+			<p>
+			Exit Room to create or join a new room.
+			</p>
+
+			<button
+			type="button"
+			className="start-button"
+			onClick={exitRoom}
+			>
+			Exit Room
+			</button>
+			</div>
+		)}
+
+		{hasJoinedLobby && (
+			<SentenceHistoryPanel sentenceHistory={sentenceHistory} />
+		)}
 
 		{notification && (
 			<div className="notification-banner">
@@ -527,32 +552,33 @@ useEffect(() => {
 		)}
 
 
-		{(gamePhase === GAME_PHASES.ACTIVE ||
-			gamePhase === GAME_PHASES.FINAL_ROUND ||
-			gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
-				<GameStatusPanel
-				gamePhase={gamePhase}
-				players={players}
-				currentPlayerIndex={currentPlayerIndex}
-				currentWord={currentWord}
-				timeLeft={timeLeft}
-				sentence={sentence}
-				setSentence={setSentence}
-				submitSentence={submitSentence}
-				/>
-			)}
+		{hasJoinedLobby &&
+				(gamePhase === GAME_PHASES.ACTIVE ||
+					gamePhase === GAME_PHASES.FINAL_ROUND ||
+					gamePhase === GAME_PHASES.SUDDEN_DEATH) && (
+						<GameStatusPanel
+						gamePhase={gamePhase}
+						players={players}
+						currentPlayerIndex={currentPlayerIndex}
+						currentWord={currentWord}
+						timeLeft={timeLeft}
+						sentence={sentence}
+						setSentence={setSentence}
+						submitSentence={submitSentence}
+						/>
+					)}
 
 
 
-		{gamePhase === GAME_PHASES.GAME_OVER && (
+		{hasJoinedLobby && gamePhase === GAME_PHASES.GAME_OVER && (
 			<GameOverPanel
 			winner={winner}
 			gameOverReason={gameOverReason}
 			drawPlayers={drawPlayers}
 			finalStandings={finalStandings}
 			roomCode={roomCode}
-			resetMatch={resetMatch}
-			startNewPlayFromActiveSession={startNewPlayFromActiveSession}
+			startRematch={startRematch}
+			exitRoom={exitRoom}
 			/>
 		)}
 

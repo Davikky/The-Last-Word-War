@@ -82,29 +82,35 @@ function useRoom({
 
 	}
 
-	async function join(joinRoomCode) {
-		const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
+async function join(joinRoomCode) {
+	const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
 
-		if (normalizedRoomCode === '') {
-			alert('Please enter a room code.');
-			return;
-		}
-
-		try {
-			await fetchRoomByCode(normalizedRoomCode);
-		} catch (error) {
-			console.error(error);
-			alert('Room not found.');
-			return;
-		}
-
-		await load(normalizedRoomCode);
-
-		alert(`Joined room: ${normalizedRoomCode}`);
-
-		return normalizedRoomCode;
+	if (normalizedRoomCode === '') {
+		alert('Please enter a room code.');
+		return;
 	}
 
+	let data;
+
+	try {
+		data = await fetchRoomByCode(normalizedRoomCode);
+	} catch (error) {
+		console.error(error);
+		alert('Room not found.');
+		return;
+	}
+
+	if (data.game_state?.gamePhase !== GAME_PHASES.SETUP) {
+		alert('This game has already started. New players cannot join.');
+		return;
+	}
+
+	await load(normalizedRoomCode);
+
+	alert(`Joined room: ${normalizedRoomCode}`);
+
+	return normalizedRoomCode;
+}
 
 async function enterLobby({
 	localPlayerName,
@@ -132,6 +138,33 @@ async function enterLobby({
 	const existingGameState = data.game_state;
 	const existingPlayers = existingGameState.players || [];
 
+	const existingPlayer = existingPlayers.find(
+		(player) =>
+		player.name.trim().toLowerCase() ===
+		trimmedName.toLowerCase()
+	);
+
+	/*
+	 * Permit an existing player to reconnect without adding
+	 * a duplicate player record.
+	 */
+	if (existingPlayer) {
+		setPlayers(existingPlayers);
+		setHasJoinedLobby(true);
+
+		await load(roomCode);
+		return;
+	}
+
+	/*
+	 * New players may join only while the room is still
+	 * in the setup phase.
+	 */
+	if (existingGameState.gamePhase !== GAME_PHASES.SETUP) {
+		alert('This game has already started. New players cannot join.');
+		return;
+	}
+
 	const updatedPlayers = [
 		...existingPlayers,
 		{
@@ -144,8 +177,8 @@ async function enterLobby({
 		...existingGameState,
 		players: updatedPlayers,
 		hostName: isHost
-			? trimmedName
-			: existingGameState.hostName,
+		? trimmedName
+		: existingGameState.hostName,
 	};
 
 	try {
