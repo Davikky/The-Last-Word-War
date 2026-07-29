@@ -20,11 +20,14 @@
 import {
 	fetchRoomByCode,
 	createRoomRecord,
+	updateRoomGameState,
 } from '../services/roomService';
 
 import { GAME_PHASES } from '../constants/gamePhases';
 import { generateRoomCode } from '../utils/roomCode';
-
+import {
+	TURN_DURATION_MS,
+} from '../constants/gameConfig';
 
 function useRoom({
 	roomCode,
@@ -78,9 +81,159 @@ function useRoom({
 		return newRoomCode;
 
 	}
+
+	async function join(joinRoomCode) {
+		const normalizedRoomCode = joinRoomCode.trim().toUpperCase();
+
+		if (normalizedRoomCode === '') {
+			alert('Please enter a room code.');
+			return;
+		}
+
+		try {
+			await fetchRoomByCode(normalizedRoomCode);
+		} catch (error) {
+			console.error(error);
+			alert('Room not found.');
+			return;
+		}
+
+		await load(normalizedRoomCode);
+
+		alert(`Joined room: ${normalizedRoomCode}`);
+
+		return normalizedRoomCode;
+	}
+
+
+async function enterLobby({
+	localPlayerName,
+	isHost,
+	setPlayers,
+	setHasJoinedLobby,
+}) {
+	const trimmedName = localPlayerName.trim();
+
+	if (trimmedName === '') {
+		alert('Please enter your name.');
+		return;
+	}
+
+	let data;
+
+	try {
+		data = await fetchRoomByCode(roomCode);
+	} catch (error) {
+		console.error(error);
+		alert('Room not found.');
+		return;
+	}
+
+	const existingGameState = data.game_state;
+	const existingPlayers = existingGameState.players || [];
+
+	const updatedPlayers = [
+		...existingPlayers,
+		{
+			name: trimmedName,
+			score: 0,
+		},
+	];
+
+	const updatedGameState = {
+		...existingGameState,
+		players: updatedPlayers,
+		hostName: isHost
+			? trimmedName
+			: existingGameState.hostName,
+	};
+
+	try {
+		await updateRoomGameState(roomCode, updatedGameState);
+	} catch (error) {
+		console.error(error);
+		alert('Could not join lobby.');
+		return;
+	}
+
+	setPlayers(updatedPlayers);
+	setHasJoinedLobby(true);
+
+	await load(roomCode);
+}
+
+
+async function start() {
+	let data;
+
+	try {
+		data = await fetchRoomByCode(roomCode);
+	} catch (error) {
+		console.error(error);
+		alert('Could not load room.');
+		return;
+	}
+
+	const updatedGameState = {
+		...data.game_state,
+		gamePhase: GAME_PHASES.ACTIVE,
+		turnDeadline: Date.now() + TURN_DURATION_MS,
+	};
+
+	try {
+		await updateRoomGameState(roomCode, updatedGameState);
+	} catch (error) {
+		console.error(error);
+		alert('Could not start game.');
+		return;
+	}
+}
+
+async function removePlayer({
+	playerIndex,
+	players,
+	roomData,
+	hasJoinedLobby,
+	isHost,
+	setPlayers,
+}) {
+	if (roomCode && hasJoinedLobby && !isHost) {
+		alert('Only the host can remove players.');
+		return;
+	}
+
+	const updatedPlayers = players.filter(
+		(_, index) => index !== playerIndex
+	);
+
+	if (roomCode && hasJoinedLobby) {
+		const updatedGameState = {
+			...roomData.game_state,
+			players: updatedPlayers,
+		};
+
+		try {
+			await updateRoomGameState(roomCode, updatedGameState);
+		} catch (error) {
+			console.error(error);
+			alert('Could not remove player.');
+			return;
+		}
+
+		return;
+	}
+
+	setPlayers(updatedPlayers);
+}
+
+
 	return {
 		create,
+		join,
 		load,
+		enterLobby,
+		start,
+		removePlayer,
 	};
 }
 
