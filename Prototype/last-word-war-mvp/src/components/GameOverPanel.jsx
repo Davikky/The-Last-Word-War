@@ -20,8 +20,8 @@ function GameOverPanel({
 	drawPlayers,
 	finalStandings,
 	roomCode,
-	resetMatch,
-	startNewPlayFromActiveSession,
+	startRematch,
+	exitRoom,
 }) {
 	return (
 		<div className="winner-panel">
@@ -66,13 +66,13 @@ function GameOverPanel({
 				))}
 			</ol>
 
-			<button className="start-button" onClick={resetMatch}>
+			<button className="start-button" onClick={startRematch}>
 				{roomCode ? 'Start Rematch' : 'Play Again'}
 			</button>
 
 			<button
 				className="start-button"
-				onClick={startNewPlayFromActiveSession}
+				onClick={exitRoom}
 			>
 				Start New Play
 			</button>
